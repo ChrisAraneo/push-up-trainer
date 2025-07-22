@@ -2,7 +2,7 @@
 
 module.exports = function (environment) {
   const ENV = {
-    modulePrefix: 'push-up-trainer',
+    modulePrefix: 'push-up-helper',
     environment,
     rootURL: '/',
     locationType: 'history',
