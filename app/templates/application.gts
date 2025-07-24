@@ -2,12 +2,14 @@ import pageTitle from 'ember-page-title/helpers/page-title';
 import Route from 'ember-route-template';
 import { Title } from '../components/title';
 
+const TITLE = "Push Up Trainer";
+
 export default Route(
   <template>
-    {{pageTitle "Push Up Trainer"}}
+    {{pageTitle TITLE}}
 
     {{outlet}}
 
-    <Title>Push Up Trainer</Title>
+    <Title>{{TITLE}}</Title>
   </template>,
 );
