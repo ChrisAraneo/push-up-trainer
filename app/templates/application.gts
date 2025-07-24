@@ -4,10 +4,10 @@ import { Title } from '../components/title';
 
 export default Route(
   <template>
-    {{pageTitle "PushUpHelper"}}
+    {{pageTitle "Push Up Trainer"}}
 
     {{outlet}}
 
-    <Title />
+    <Title>Push Up Trainer</Title>
   </template>,
 );
