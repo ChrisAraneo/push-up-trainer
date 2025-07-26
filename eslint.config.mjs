@@ -90,6 +90,10 @@ export default ts.config(
       parserOptions: parserOptions.esm.ts,
     },
     extends: [...ts.configs.recommendedTypeChecked, ember.configs.gts],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+    },
   },
   {
     files: ['tests/**/*-test.{js,gjs,ts,gts}'],
