@@ -102,5 +102,8 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "lottie-web": "^5.13.0"
   }
 }
