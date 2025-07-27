@@ -1,6 +1,11 @@
 import { modifier } from 'ember-modifier';
 import lottie from 'lottie-web';
-import type { AnimationItem, RendererType, BMCompleteEvent, BMEnterFrameEvent } from 'lottie-web';
+import type {
+  AnimationItem,
+  RendererType,
+  BMCompleteEvent,
+  BMEnterFrameEvent,
+} from 'lottie-web';
 
 interface LottieAnimationArgs {
   path: string;
@@ -20,7 +25,7 @@ interface LottieAnimationArgs {
 export default modifier(function lottieAnimation(
   element: HTMLElement,
   _: unknown[],
-  named: LottieAnimationArgs
+  named: LottieAnimationArgs,
 ) {
   const {
     path,
@@ -39,7 +44,7 @@ export default modifier(function lottieAnimation(
     loop,
     autoplay,
     path,
-    ...otherOptions
+    ...otherOptions,
   });
 
   if (onComplete) {
