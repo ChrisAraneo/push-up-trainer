@@ -20,6 +20,7 @@ interface LottieAnimationArgs {
   rendererSettings?: object;
   progressiveLoad?: boolean;
   hideOnTransparent?: boolean;
+  speed?: number;
 }
 
 export default modifier(function lottieAnimation(
@@ -35,6 +36,7 @@ export default modifier(function lottieAnimation(
     onComplete,
     onEnterFrame,
     onError,
+    speed = 1.0,
     ...otherOptions
   } = named;
 
@@ -46,6 +48,8 @@ export default modifier(function lottieAnimation(
     path,
     ...otherOptions,
   });
+
+  animation.setSpeed(speed);
 
   if (onComplete) {
     animation.addEventListener('complete', onComplete);
