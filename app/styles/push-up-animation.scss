@@ -1,0 +1,14 @@
+.push-up-animation {
+  width: 400px;
+  height: 400px;
+  margin: 2rem auto;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
