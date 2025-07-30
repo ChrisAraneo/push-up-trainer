@@ -25,7 +25,7 @@ interface ButtonSignature {
 
 export default class ButtonComponent extends Component<ButtonSignature> {
   get classes() {
-    const baseClasses = 'timer-btn';
+    const baseClasses = 'btn';
     const variant = `${this.args.variant}-btn`;
 
     return [baseClasses, variant].join(' ');
