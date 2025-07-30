@@ -1,18 +1,42 @@
-import type { TOC } from '@ember/component/template-only';
+import Component from '@glimmer/component';
 import lottieAnimation from '../modifiers/lottie-animation';
 
-const PUSH_UP_ANIMATION_DURATION_MS = 2650;
+export const PUSH_UP_ANIMATION_DURATION_MS = 2650; // TODO To be fixed
 
-export const PushUpAnimation: TOC = <template>
-  <div
-    class="push-up-animation"
-    {{lottieAnimation
-      path="animations/push-ups.json"
-      renderer="svg"
-      loop=true
-      autoplay=true
-    }}
-  ></div>
-</template>;
+interface PushUpAnimationSignature {
+  Args: {
+    /**
+     * Duration of one complete animation cycle in milliseconds
+     *
+     * Examples:
+     * - @duration={{1500}} // Fast (1.5 seconds)
+     * - @duration={{4000}} // Slow (4 seconds)
+     */
+    duration?: number;
+  };
+}
 
-export default PushUpAnimation;
+export default class PushUpAnimationComponent extends Component<PushUpAnimationSignature> {
+  get speed() {
+    const { duration } = this.args;
+
+    if (duration && duration > 0) {
+      return PUSH_UP_ANIMATION_DURATION_MS / duration;
+    }
+
+    return 1.0;
+  }
+
+  <template>
+    <div
+      class="push-up-animation"
+      {{lottieAnimation
+        path='animations/push-ups.json'
+        renderer='svg'
+        loop=true
+        autoplay=true
+        speed=this.speed
+      }}
+    ></div>
+  </template>
+}
