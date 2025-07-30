@@ -15,6 +15,7 @@ interface LottieAnimationArgs {
   onComplete?: (event: BMCompleteEvent) => void;
   onEnterFrame?: (event: BMEnterFrameEvent) => void;
   onError?: () => void;
+  onReady?: (animation: AnimationItem) => void;
   animationData?: object;
   name?: string;
   rendererSettings?: object;
@@ -32,10 +33,11 @@ export default modifier(function lottieAnimation(
     path,
     renderer = 'svg',
     loop = true,
-    autoplay = true,
+    autoplay = false,
     onComplete,
     onEnterFrame,
     onError,
+    onReady,
     speed = 1.0,
     ...otherOptions
   } = named;
@@ -64,6 +66,10 @@ export default modifier(function lottieAnimation(
       onError();
     }
   });
+
+  if (onReady) {
+    onReady(animation);
+  }
 
   return () => {
     if (animation) {
