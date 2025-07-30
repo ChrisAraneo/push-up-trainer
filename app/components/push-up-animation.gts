@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import lottieAnimation from '../modifiers/lottie-animation';
+import { isNumber } from 'lodash';
 
 export const PUSH_UP_ANIMATION_DURATION_MS = 2650; // TODO To be fixed
 
@@ -20,7 +21,7 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
   get speed() {
     const { duration } = this.args;
 
-    if (duration && duration > 0) {
+    if (isNumber(duration) && duration > 0) {
       return PUSH_UP_ANIMATION_DURATION_MS / duration;
     }
 
@@ -31,8 +32,8 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
     <div
       class="push-up-animation"
       {{lottieAnimation
-        path='animations/push-ups.json'
-        renderer='svg'
+        path="animations/push-ups.json"
+        renderer="svg"
         loop=true
         autoplay=true
         speed=this.speed
