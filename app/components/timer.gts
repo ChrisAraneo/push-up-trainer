@@ -60,8 +60,7 @@ export default class TimerComponent extends Component<TimerSignature> {
   }
 
   get duration() {
-    return this.args.duration || DEFAULT_DURATION_MS
-  ;
+    return this.args.duration || DEFAULT_DURATION_MS;
   }
 
   get seconds() {
