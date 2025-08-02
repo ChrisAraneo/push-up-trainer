@@ -1,38 +1,22 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import type { TimerControls } from 'push-up-helper/interfaces/timer-controls';
+import type { AnimationControls } from 'push-up-helper/interfaces/animation-controls';
 
 export default class ApplicationController extends Controller {
-  @tracked timerControls: {
-    start: () => void;
-    pause: () => void;
-    reset: () => void;
-  } | undefined;
-
-  @tracked animationControls: {
-    play: () => void;
-    pause: () => void;
-    stop: () => void;
-  } | undefined;
-
+  @tracked timerControls: TimerControls | undefined;
+  @tracked animationControls: AnimationControls | undefined;
   @tracked isRunning = false;
   @tracked isPaused = false;
 
   @action
-  handleTimerReady(controls: {
-    start: () => void;
-    pause: () => void;
-    reset: () => void;
-  }) {
+  handleTimerReady(controls: TimerControls) {
     this.timerControls = controls;
   }
 
   @action
-  handleAnimationReady(controls: {
-    play: () => void;
-    pause: () => void;
-    stop: () => void;
-  }) {
+  handleAnimationReady(controls: AnimationControls) {
     this.animationControls = controls;
   }
 
