@@ -18,12 +18,14 @@ export default Route(
     <div class="app-container">
       <Title>{{TITLE}}</Title>
 
-      <Timer @duration={{10000}} @onReady={{@controller.handleTimerReady}} />
+      <div style="position: absolute; top: calc(50vh - 360px); z-index: -1;">
+        <PushUpAnimation
+          @duration={{1000}}
+          @onReady={{@controller.handleAnimationReady}}
+        />
+      </div>
 
-      <PushUpAnimation
-        @duration={{1000}}
-        @onReady={{@controller.handleAnimationReady}}
-      />
+      <Timer @duration={{10000}} @onReady={{@controller.handleTimerReady}} />
 
       <div class="main-controls">
         {{#if @controller.isRunning}}
@@ -46,7 +48,8 @@ export default Route(
         {{/if}}
 
         <Button @variant="reset" @onClick={{@controller.stop}}>
-          <FaIcon @icon={{faStop}} />Stop
+          <FaIcon @icon={{faStop}} />
+          Stop
         </Button>
       </div>
     </div>

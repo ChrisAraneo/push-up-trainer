@@ -6,12 +6,13 @@
 }
 
 .push-up-animation {
-  width: 250px;
-  height: 250px;
+  width: 600px;
+  height: 600px;
   background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0.35;
 
   svg {
     max-width: 100%;
