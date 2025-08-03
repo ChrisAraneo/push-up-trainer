@@ -22,7 +22,7 @@ export class SoundPlayer {
       const promise = this.audio.play();
 
       if (promise !== undefined) {
-        promise.catch(error => {
+        promise.catch((error) => {
           console.warn('Unable to play sound', error);
         });
       }
