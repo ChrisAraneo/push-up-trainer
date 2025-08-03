@@ -16,7 +16,7 @@ export default Route(
     <div class="app-container">
       <Title>{{TITLE}}</Title>
 
-      <Timer @duration={{30000}} @onReady={{@controller.handleTimerReady}} />
+      <Timer @duration={{10000}} @onReady={{@controller.handleTimerReady}} />
 
       <PushUpAnimation
         @duration={{1000}}
