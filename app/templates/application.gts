@@ -4,6 +4,8 @@ import { Title } from '../components/title';
 import PushUpAnimation from '../components/push-up-animation';
 import Timer from '../components/timer';
 import Button from '../components/button';
+import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
+import { faPause, faStop, faPlay } from '@fortawesome/free-solid-svg-icons';
 
 const TITLE = 'Push Up Trainer';
 
@@ -27,21 +29,24 @@ export default Route(
         {{#if @controller.isRunning}}
           {{#if @controller.isPaused}}
             <Button @variant="start" @onClick={{@controller.start}}>
+              <FaIcon @icon={{faPlay}} />
               Resume
             </Button>
           {{else}}
             <Button @variant="pause" @onClick={{@controller.pause}}>
+              <FaIcon @icon={{faPause}} />
               Pause
             </Button>
           {{/if}}
         {{else}}
           <Button @variant="start" @onClick={{@controller.start}}>
+            <FaIcon @icon={{faPlay}} />
             Start
           </Button>
         {{/if}}
 
         <Button @variant="reset" @onClick={{@controller.stop}}>
-          Stop
+          <FaIcon @icon={{faStop}} />Stop
         </Button>
       </div>
     </div>
