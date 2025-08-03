@@ -13,17 +13,15 @@ export default Route(
 
     {{outlet}}
 
-    <Title>{{TITLE}}</Title>
-
     <div class="app-container">
-      <div class="components-section">
-        <Timer @duration={{30000}} @onReady={{@controller.handleTimerReady}} />
+      <Title>{{TITLE}}</Title>
 
-        <PushUpAnimation
-          @duration={{1000}}
-          @onReady={{@controller.handleAnimationReady}}
-        />
-      </div>
+      <Timer @duration={{30000}} @onReady={{@controller.handleTimerReady}} />
+
+      <PushUpAnimation
+        @duration={{1000}}
+        @onReady={{@controller.handleAnimationReady}}
+      />
 
       <div class="main-controls">
         {{#if @controller.isRunning}}
