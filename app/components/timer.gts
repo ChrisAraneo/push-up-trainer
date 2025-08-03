@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import Button from './button';
+import { soundPlayer } from '../utils/sound-player';
 
 interface TimerSignature {
   Args: {
@@ -33,8 +34,9 @@ interface TimerSignature {
 }
 
 const DEFAULT_DURATION_MS = 30000;
-const INTERVAL_UPDATE_MS = 10;
+const INTERVAL_UPDATE_MS = 5;
 const SECOND_MS = 1000;
+const SOUND_PATH = '/sounds/sound.wav';
 
 export default class TimerComponent extends Component<TimerSignature> {
   @tracked private remainingTime: number;
@@ -57,6 +59,8 @@ export default class TimerComponent extends Component<TimerSignature> {
         reset: this.reset.bind(this),
       });
     }
+
+    soundPlayer.load(SOUND_PATH);
   }
 
   get duration() {
@@ -150,6 +154,8 @@ export default class TimerComponent extends Component<TimerSignature> {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
+
+    soundPlayer.play(SOUND_PATH);
 
     this.args.onComplete?.();
   }
