@@ -7,15 +7,16 @@ $button-color: #333;
   font-optical-sizing: auto;
   font-weight: 400 !important;
   font-style: normal;
-  letter-spacing: 0.7px;
+  font-size: 14px;
+  letter-spacing: 0.65px;
   white-space: nowrap;
-  padding: 0.75rem 1.5rem;
+  padding: 11.5px;
   border: none;
   border-radius: 0.5rem;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  min-width: 140px;
+  min-width: 132px;
   color: $button-color;
 
   svg {
