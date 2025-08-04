@@ -30,24 +30,24 @@ export default Route(
       <div class="main-controls">
         {{#if @controller.isRunning}}
           {{#if @controller.isPaused}}
-            <Button @variant="start" @onClick={{@controller.start}}>
+            <Button @onClick={{@controller.start}}>
               <FaIcon @icon={{faPlay}} />
               Resume
             </Button>
           {{else}}
-            <Button @variant="pause" @onClick={{@controller.pause}}>
+            <Button @onClick={{@controller.pause}}>
               <FaIcon @icon={{faPause}} />
               Pause
             </Button>
           {{/if}}
         {{else}}
-          <Button @variant="start" @onClick={{@controller.start}}>
+          <Button @onClick={{@controller.start}}>
             <FaIcon @icon={{faPlay}} />
             Start
           </Button>
         {{/if}}
 
-        <Button @variant="reset" @onClick={{@controller.stop}}>
+        <Button @onClick={{@controller.stop}}>
           <FaIcon @icon={{faStop}} />
           Stop
         </Button>
