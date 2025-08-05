@@ -19,19 +19,60 @@ interface PushUpAnimationSignature {
      */
     duration?: number;
     /**
+     * Number of iterations/repetitions of the animation
+     * When set, animation will stop after this many cycles
+     *
+     * Examples:
+     * - @iterations={{10}} // Repeat 10 times
+     * - @iterations={{undefined}} // Loop infinitely
+     */
+    iterations?: number;
+    /**
      * Callback function called when animation component is ready
      */
     onReady?: (controls: {
       play: () => void;
       pause: () => void;
       stop: () => void;
+      reset: () => void;
     }) => void;
+    /**
+     * Callback function called when all iterations are complete
+     */
+    onComplete?: () => void;
+    /**
+     * Callback function called when reset is triggered
+     */
+    onReset?: () => void;
   };
 }
 
 export default class PushUpAnimationComponent extends Component<PushUpAnimationSignature> {
   @tracked private animation: AnimationItem | null = null;
   @tracked private isPlaying = false;
+  @tracked private remainingIterations: number | null = null;
+  @tracked private initialIterations: number | null = null;
+  @tracked private isComplete = false;
+
+  private iterationTimeoutId: number | null = null;
+
+  constructor(owner: unknown, args: PushUpAnimationSignature['Args']) {
+    super(owner, args);
+
+    this.initializeIterations();
+  }
+
+  private initializeIterations() {
+    if (isNumber(this.args.iterations) && this.args.iterations > 0) {
+      this.initialIterations = this.args.iterations;
+      this.remainingIterations = this.args.iterations;
+      this.isComplete = false;
+    } else {
+      this.initialIterations = null;
+      this.remainingIterations = null;
+      this.isComplete = false;
+    }
+  }
 
   get speed() {
     const { duration } = this.args;
@@ -43,24 +84,80 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
     return 1.0;
   }
 
+  get duration() {
+    return this.args.duration || PUSH_UP_ANIMATION_DURATION_MS;
+  }
+
+  get shouldLoop() {
+    return true;
+  }
+
+  private startIterationTimer() {
+    if (this.remainingIterations !== null && this.remainingIterations > 0) {
+      this.iterationTimeoutId = window.setTimeout(() => {
+        this.handleIterationComplete();
+      }, this.duration);
+    }
+  }
+
+  private clearIterationTimer() {
+    if (this.iterationTimeoutId) {
+      clearTimeout(this.iterationTimeoutId);
+      this.iterationTimeoutId = null;
+    }
+  }
+
+  @action
+  handleIterationComplete() {
+    if (this.remainingIterations !== null && this.remainingIterations > 0) {
+      this.remainingIterations--;
+
+      if (this.remainingIterations === 0) {
+        this.isPlaying = false;
+        this.isComplete = true;
+        if (this.animation) {
+          this.animation.stop();
+        }
+        this.args.onComplete?.();
+      } else {
+        this.startIterationTimer();
+      }
+    }
+  }
+
   @action
   handleAnimationReady(animation: AnimationItem) {
     this.animation = animation;
+
+    animation.addEventListener('loopComplete', () => {
+      if (this.isComplete) {
+        animation.stop();
+      }
+    });
 
     if (isFunction(this.args.onReady)) {
       this.args.onReady({
         play: this.play.bind(this),
         pause: this.pause.bind(this),
         stop: this.stop.bind(this),
+        reset: this.reset.bind(this),
       });
     }
   }
 
   @action
   play() {
+    if (this.isComplete) {
+      return;
+    }
+
     if (this.animation && !this.isPlaying) {
       this.animation.play();
       this.isPlaying = true;
+
+      if (this.remainingIterations !== null) {
+        this.startIterationTimer();
+      }
     }
   }
 
@@ -69,6 +166,8 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
     if (this.animation && this.isPlaying) {
       this.animation.pause();
       this.isPlaying = false;
+
+      this.clearIterationTimer();
     }
   }
 
@@ -78,6 +177,27 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
       this.animation.stop();
       this.isPlaying = false;
     }
+
+    this.clearIterationTimer();
+  }
+
+  @action
+  reset() {
+    this.clearIterationTimer();
+
+    this.initializeIterations();
+
+    if (this.animation) {
+      this.animation.stop();
+      this.isPlaying = false;
+    }
+
+    this.args.onReset?.();
+  }
+
+  willDestroy() {
+    super.willDestroy();
+    this.clearIterationTimer();
   }
 
   <template>
@@ -86,7 +206,7 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
       {{lottieAnimation
         path="animations/push-ups.json"
         renderer="svg"
-        loop=true
+        loop=this.shouldLoop
         autoplay=false
         speed=this.speed
         onReady=this.handleAnimationReady
