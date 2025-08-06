@@ -21,11 +21,16 @@ export default Route(
       <div style="position: absolute; top: calc(50vh - 360px); z-index: -1;">
         <PushUpAnimation
           @duration={{1000}}
+          @iterations={{5}}
           @onReady={{@controller.handleAnimationReady}}
         />
       </div>
 
-      <Timer @duration={{10000}} @onReady={{@controller.handleTimerReady}} />
+      <Timer
+        @duration={{10000}}
+        @onReady={{@controller.handleTimerReady}}
+        @onComplete={{@controller.handleTimerComplete}}
+      />
 
       <div class="main-controls">
         {{#if @controller.isRunning}}

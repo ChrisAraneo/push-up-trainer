@@ -1,8 +1,8 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import type { TimerControls } from 'push-up-helper/interfaces/timer-controls';
 import type { AnimationControls } from 'push-up-helper/interfaces/animation-controls';
+import type { TimerControls } from 'push-up-helper/interfaces/timer-controls';
 
 export default class ApplicationController extends Controller {
   @tracked timerControls: TimerControls | undefined;
@@ -55,6 +55,16 @@ export default class ApplicationController extends Controller {
 
     this.timerControls.reset();
     this.animationControls.stop();
+    this.isRunning = false;
+    this.isPaused = false;
+  }
+
+  @action
+  handleTimerComplete() {
+    if (this.animationControls) {
+      this.animationControls.reset();
+    }
+
     this.isRunning = false;
     this.isPaused = false;
   }
