@@ -55,6 +55,8 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
   @tracked private isComplete = false;
 
   private iterationTimeoutId: number | null = null;
+  private iterationStartTime: number | null = null;
+  private iterationRemainingTime: number | null = null;
 
   constructor(owner: unknown, args: PushUpAnimationSignature['Args']) {
     super(owner, args);
@@ -88,15 +90,27 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
     return this.args.duration || PUSH_UP_ANIMATION_DURATION_MS;
   }
 
-  get shouldLoop() {
-    return true;
-  }
-
   private startIterationTimer() {
     if (this.remainingIterations !== null && this.remainingIterations > 0) {
+      const timeToWait = this.iterationRemainingTime || this.duration;
+      this.iterationStartTime = Date.now();
+      this.iterationRemainingTime = null;
+
       this.iterationTimeoutId = window.setTimeout(() => {
         this.handleIterationComplete();
-      }, this.duration);
+      }, timeToWait);
+    }
+  }
+
+  private pauseIterationTimer() {
+    if (this.iterationTimeoutId && this.iterationStartTime) {
+      const elapsed = Date.now() - this.iterationStartTime;
+      const totalTime = this.iterationRemainingTime || this.duration;
+      this.iterationRemainingTime = Math.max(0, totalTime - elapsed);
+
+      clearTimeout(this.iterationTimeoutId);
+      this.iterationTimeoutId = null;
+      this.iterationStartTime = null;
     }
   }
 
@@ -105,6 +119,8 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
       clearTimeout(this.iterationTimeoutId);
       this.iterationTimeoutId = null;
     }
+    this.iterationStartTime = null;
+    this.iterationRemainingTime = null;
   }
 
   @action
@@ -167,7 +183,7 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
       this.animation.pause();
       this.isPlaying = false;
 
-      this.clearIterationTimer();
+      this.pauseIterationTimer();
     }
   }
 
@@ -206,7 +222,7 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
       {{lottieAnimation
         path="animations/push-ups.json"
         renderer="svg"
-        loop=this.shouldLoop
+        loop=true
         autoplay=false
         speed=this.speed
         onReady=this.handleAnimationReady
