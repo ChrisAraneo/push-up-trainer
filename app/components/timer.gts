@@ -15,7 +15,15 @@ interface TimerSignature {
      */
     duration?: number;
     /**
-     * Callback function called when timer completes
+     * Number of series/rounds to complete
+     *
+     * Examples:
+     * - @series={{5}} // 5 rounds
+     * - @series={{undefined}} // Single timer (no series)
+     */
+    series?: number;
+    /**
+     * Callback function called when timer completes (each round and when all series complete)
      */
     onComplete?: () => void;
     /**
@@ -42,6 +50,8 @@ export default class TimerComponent extends Component<TimerSignature> {
   @tracked private remainingTime: number;
   @tracked private isRunning = false;
   @tracked private isPaused = false;
+  @tracked private currentSeries = 0;
+  @tracked private totalSeries: number;
 
   private intervalId: number | null = null;
   private startTime = 0;
@@ -51,6 +61,8 @@ export default class TimerComponent extends Component<TimerSignature> {
     super(owner, args);
 
     this.remainingTime = this.duration;
+    this.totalSeries = this.args.series || 1;
+    this.currentSeries = 0;
 
     if (this.args.onReady) {
       this.args.onReady({
@@ -98,6 +110,14 @@ export default class TimerComponent extends Component<TimerSignature> {
     return { seconds: secs, milliseconds: ms };
   }
 
+  get seriesDisplay() {
+    return `${this.currentSeries}/${this.totalSeries}`;
+  }
+
+  get showSeries() {
+    return this.totalSeries > 1;
+  }
+
   @action
   start() {
     if (this.isRunning && !this.isPaused) {
@@ -137,6 +157,7 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.isRunning = false;
     this.isPaused = false;
     this.remainingTime = this.duration;
+    this.currentSeries = 0;
 
     if (this.intervalId) {
       clearInterval(this.intervalId);
@@ -146,10 +167,6 @@ export default class TimerComponent extends Component<TimerSignature> {
 
   @action
   complete() {
-    this.isRunning = false;
-    this.isPaused = false;
-    this.remainingTime = 0;
-
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
@@ -157,7 +174,29 @@ export default class TimerComponent extends Component<TimerSignature> {
 
     soundPlayer.play(SOUND_PATH);
 
+    this.currentSeries++;
+
     this.args.onComplete?.();
+
+    if (this.currentSeries < this.totalSeries) {
+      this.remainingTime = this.duration;
+      this.startTime = Date.now();
+
+      this.intervalId = window.setInterval(() => {
+        const elapsed = Date.now() - this.startTime;
+        this.remainingTime = Math.max(0, this.duration - elapsed);
+
+        this.args.onTick?.(this.remainingTime);
+
+        if (this.remainingTime <= 0) {
+          this.complete();
+        }
+      }, INTERVAL_UPDATE_MS);
+    } else {
+      this.isRunning = false;
+      this.isPaused = false;
+      this.remainingTime = 0;
+    }
   }
 
   willDestroy() {
@@ -196,12 +235,13 @@ export default class TimerComponent extends Component<TimerSignature> {
         </svg>
 
         <div class="timer-display">
+          {{#if this.showSeries}}
+            <div class="series-counter">{{this.seriesDisplay}}</div>
+          {{/if}}
           <div class="time-container">
-            <span class="seconds">{{this.formattedTime.seconds}}</span>
-            <span class="separator">.</span>
             <span
-              class="milliseconds"
-            >{{this.formattedTime.milliseconds}}</span>
+              class="seconds"
+            >{{this.formattedTime.seconds}}:{{this.formattedTime.milliseconds}}</span>
           </div>
         </div>
       </div>
