@@ -68,7 +68,7 @@ export default class TimerComponent extends Component<TimerSignature> {
 
     soundPlayer.load(SOUND_PATH);
 
-    if (this.args.onReady) {
+    if (!this.args.onReady) {
       return;
     }
 
