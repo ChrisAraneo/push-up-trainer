@@ -45,6 +45,8 @@ const DEFAULT_DURATION_MS = 30000;
 const INTERVAL_UPDATE_MS = 5;
 const SECOND_MS = 1000;
 const SOUND_PATH = '/sounds/sound.wav';
+const CIRCLE_RADIUS = 90;
+const CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
 
 export default class TimerComponent extends Component<TimerSignature> {
   @tracked private remainingTime: number;
@@ -64,15 +66,17 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.totalSeries = this.args.series || 1;
     this.currentSeries = 0;
 
+        soundPlayer.load(SOUND_PATH);
+
     if (this.args.onReady) {
+      return;
+    }
+
       this.args.onReady({
         start: this.start.bind(this),
         pause: this.pause.bind(this),
         reset: this.reset.bind(this),
       });
-    }
-
-    soundPlayer.load(SOUND_PATH);
   }
 
   get duration() {
@@ -91,23 +95,14 @@ export default class TimerComponent extends Component<TimerSignature> {
     return ((this.duration - this.remainingTime) / this.duration) * 100;
   }
 
-  get circumference() {
-    const circleRadius = 90;
-
-    return 2 * Math.PI * circleRadius;
-  }
-
   get strokeDashoffset() {
     return (
-      this.circumference - (this.progressPercentage / 100) * this.circumference
+      CIRCUMFERENCE - (this.progressPercentage / 100) * CIRCUMFERENCE
     );
   }
 
   get formattedTime() {
-    const secs = this.seconds.toString().padStart(2, '0');
-    const ms = this.milliseconds.toString().padStart(2, '0');
-
-    return { seconds: secs, milliseconds: ms };
+    return { seconds: this.seconds.toString().padStart(2, '0'), milliseconds: this.milliseconds.toString().padStart(2, '0') };
   }
 
   get seriesDisplay() {
@@ -229,7 +224,7 @@ export default class TimerComponent extends Component<TimerSignature> {
             stroke="#3b82f6"
             stroke-width="8"
             stroke-linecap="round"
-            stroke-dasharray={{this.circumference}}
+            stroke-dasharray={{CIRCUMFERENCE}}
             stroke-dashoffset={{this.strokeDashoffset}}
             transform="rotate(-90 100 100)"
             class="progress-circle"
