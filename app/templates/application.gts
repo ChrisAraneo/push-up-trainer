@@ -18,7 +18,7 @@ export default Route(
     <div class="app-container">
       <Title>{{TITLE}}</Title>
 
-      <div style="position: absolute; top: calc(50vh - 360px); z-index: -1;">
+      <div class="background-animation">
         <PushUpAnimation
           @duration={{1000}}
           @iterations={{5}}

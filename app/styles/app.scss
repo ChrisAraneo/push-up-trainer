@@ -27,6 +27,12 @@ body {
   margin: 0 auto;
 }
 
+.background-animation {
+  position: absolute;
+  top: calc(50vh - 360px);
+  z-index: -1;
+}
+
 @media (max-width: 640px) {
   .app-container {
     gap: 2rem;
