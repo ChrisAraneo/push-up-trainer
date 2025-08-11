@@ -25,7 +25,7 @@ interface TimerSignature {
     /**
      * Callback function called when timer completes (each round and when all series complete)
      */
-    onComplete?: () => void;
+    onComplete?: (areAllSeriesComplete: boolean) => void;
     /**
      * Callback function called on each tick with remaining time
      */
@@ -176,7 +176,9 @@ export default class TimerComponent extends Component<TimerSignature> {
 
     this.currentSeries++;
 
-    this.args.onComplete?.();
+    const areAllSeriesComplete = this.currentSeries >= this.totalSeries;
+
+    this.args.onComplete?.(areAllSeriesComplete);
 
     if (this.currentSeries < this.totalSeries) {
       this.remainingTime = this.duration;

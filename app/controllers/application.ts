@@ -60,12 +60,15 @@ export default class ApplicationController extends Controller {
   }
 
   @action
-  handleTimerComplete() {
+  handleTimerComplete(areAllSeriesComplete: boolean) {
     if (this.animationControls) {
       this.animationControls.reset();
+      this.animationControls.play();
     }
 
-    this.isRunning = false;
-    this.isPaused = false;
+    if (areAllSeriesComplete) {
+      this.isRunning = false;
+      this.isPaused = false;
+    }
   }
 }
