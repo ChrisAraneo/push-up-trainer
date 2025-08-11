@@ -28,6 +28,7 @@ export default Route(
 
       <Timer
         @duration={{10000}}
+        @series={{5}}
         @onReady={{@controller.handleTimerReady}}
         @onComplete={{@controller.handleTimerComplete}}
       />
