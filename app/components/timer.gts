@@ -66,17 +66,17 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.totalSeries = this.args.series || 1;
     this.currentSeries = 0;
 
-        soundPlayer.load(SOUND_PATH);
+    soundPlayer.load(SOUND_PATH);
 
     if (this.args.onReady) {
       return;
     }
 
-      this.args.onReady({
-        start: this.start.bind(this),
-        pause: this.pause.bind(this),
-        reset: this.reset.bind(this),
-      });
+    this.args.onReady({
+      start: this.start.bind(this),
+      pause: this.pause.bind(this),
+      reset: this.reset.bind(this),
+    });
   }
 
   get duration() {
@@ -96,13 +96,14 @@ export default class TimerComponent extends Component<TimerSignature> {
   }
 
   get strokeDashoffset() {
-    return (
-      CIRCUMFERENCE - (this.progressPercentage / 100) * CIRCUMFERENCE
-    );
+    return CIRCUMFERENCE - (this.progressPercentage / 100) * CIRCUMFERENCE;
   }
 
   get formattedTime() {
-    return { seconds: this.seconds.toString().padStart(2, '0'), milliseconds: this.milliseconds.toString().padStart(2, '0') };
+    return {
+      seconds: this.seconds.toString().padStart(2, '0'),
+      milliseconds: this.milliseconds.toString().padStart(2, '0'),
+    };
   }
 
   get seriesDisplay() {
