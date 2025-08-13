@@ -53,7 +53,6 @@ export default class TimerComponent extends Component<TimerSignature> {
   @tracked private isRunning = false;
   @tracked private isPaused = false;
   @tracked private currentSeries = 0;
-  @tracked private totalSeries: number;
 
   private intervalId: number | null = null;
   private startTime = 0;
@@ -63,7 +62,6 @@ export default class TimerComponent extends Component<TimerSignature> {
     super(owner, args);
 
     this.remainingTime = this.duration;
-    this.totalSeries = this.args.series || 1;
     this.currentSeries = 0;
 
     soundPlayer.load(SOUND_PATH);
@@ -81,6 +79,10 @@ export default class TimerComponent extends Component<TimerSignature> {
 
   get duration() {
     return this.args.duration || DEFAULT_DURATION_MS;
+  }
+
+  get totalSeries() {
+    return this.args.series || 1;
   }
 
   get seconds() {
