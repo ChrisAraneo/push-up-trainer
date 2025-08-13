@@ -9,6 +9,7 @@ export default class ApplicationController extends Controller {
   @tracked animationControls: AnimationControls | undefined;
   @tracked isRunning = false;
   @tracked isPaused = false;
+  @tracked currentLevel = 1;
 
   @action
   handleTimerReady(controls: TimerControls) {
@@ -70,5 +71,10 @@ export default class ApplicationController extends Controller {
       this.isRunning = false;
       this.isPaused = false;
     }
+  }
+
+  @action
+  handleLevelChange(level: number) {
+    this.currentLevel = level;
   }
 }

@@ -4,6 +4,7 @@ import { Title } from '../components/title';
 import PushUpAnimation from '../components/push-up-animation';
 import Timer from '../components/timer';
 import Button from '../components/button';
+import DifficultySelector from '../components/difficulty-selector';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import { faPause, faStop, faPlay } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,6 +19,11 @@ export default Route(
     <div class="app-container">
       <Title>{{TITLE}}</Title>
 
+      <DifficultySelector
+        @initialLevel={{1}}
+        @onLevelChange={{@controller.handleLevelChange}}
+      />
+
       <div class="background-animation">
         <PushUpAnimation
           @duration={{1000}}
@@ -28,7 +34,7 @@ export default Route(
 
       <Timer
         @duration={{10000}}
-        @series={{5}}
+        @series={{@controller.currentLevel}}
         @onReady={{@controller.handleTimerReady}}
         @onComplete={{@controller.handleTimerComplete}}
       />
