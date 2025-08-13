@@ -66,8 +66,7 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
       <div class="level-display">
         <div class="level-text">Level
           {{this.currentLevel}}:
-          {{this.currentLevel}}
-          × 5</div>
+          {{this.currentLevel}} × 5</div>
       </div>
       <div class="level-controls">
         <Button
