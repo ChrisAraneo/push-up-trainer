@@ -216,7 +216,7 @@ export default class TimerComponent extends Component<TimerSignature> {
             cy="100"
             r="90"
             fill="transparent"
-            stroke="#e5e7eb"
+            stroke="rgba(210,210,210,0.7)"
             stroke-width="8"
           />
           <circle
@@ -224,7 +224,7 @@ export default class TimerComponent extends Component<TimerSignature> {
             cy="100"
             r="90"
             fill="transparent"
-            stroke="#3b82f6"
+            stroke="#00A3EF"
             stroke-width="8"
             stroke-linecap="round"
             stroke-dasharray={{CIRCUMFERENCE}}
