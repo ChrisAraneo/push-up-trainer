@@ -63,26 +63,16 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
 
   <template>
     <div class="difficulty-selector">
-      <div class="level-display">
-        <div class="level-text">Level
-          {{this.currentLevel}}:
-          {{this.currentLevel}} × 5</div>
+      <Button @onClick={{this.decreaseLevel}} @disabled={{this.cannotDecrease}}>
+        -
+      </Button>
+      <div class="level-text">
+        <span class="label mr-16">Level {{this.currentLevel}}</span><span
+        >{{this.currentLevel}} × 5</span>
       </div>
-      <div class="level-controls">
-        <Button
-          @onClick={{this.decreaseLevel}}
-          @disabled={{this.cannotDecrease}}
-        >
-          -
-        </Button>
-
-        <Button
-          @onClick={{this.increaseLevel}}
-          @disabled={{this.cannotIncrease}}
-        >
-          +
-        </Button>
-      </div>
+      <Button @onClick={{this.increaseLevel}} @disabled={{this.cannotIncrease}}>
+        +
+      </Button>
     </div>
   </template>
 }
