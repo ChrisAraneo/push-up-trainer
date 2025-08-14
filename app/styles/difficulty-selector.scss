@@ -1,3 +1,5 @@
+@use './variables.scss' as *;
+
 .difficulty-selector {
   display: flex;
   flex-direction: column;
@@ -10,7 +12,7 @@
 }
 
 .level-text {
-  font-family: 'Roboto', sans-serif;
+  font-family: $font-family;
   font-weight: 600;
   font-size: 1.25rem;
   color: #333;

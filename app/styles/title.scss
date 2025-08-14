@@ -1,5 +1,7 @@
+@use './variables.scss' as *;
+
 .title {
-  font-family: 'Roboto', sans-serif;
+  font-family: $font-family;
   font-optical-sizing: auto;
   font-weight: 500 !important;
   font-style: normal;
