@@ -64,7 +64,10 @@ export default class ApplicationController extends Controller {
   handleTimerComplete(areAllSeriesComplete: boolean) {
     if (this.animationControls) {
       this.animationControls.reset();
-      this.animationControls.play();
+
+      if (!areAllSeriesComplete) {
+        this.animationControls.play();
+      }
     }
 
     if (areAllSeriesComplete) {
@@ -76,5 +79,15 @@ export default class ApplicationController extends Controller {
   @action
   handleLevelChange(level: number) {
     this.currentLevel = level;
+
+    if (this.timerControls && this.animationControls) {
+      this.timerControls.reset();
+
+      this.animationControls.stop();
+      this.animationControls.reset();
+
+      this.isRunning = false;
+      this.isPaused = false;
+    }
   }
 }
