@@ -122,6 +122,10 @@ export default class TimerComponent extends Component<TimerSignature> {
       return;
     }
 
+    if (this.currentSeries >= this.totalSeries) {
+      this.reset();
+    }
+
     this.isRunning = true;
     this.isPaused = false;
     this.startTime = Date.now() - (this.duration - this.remainingTime);
