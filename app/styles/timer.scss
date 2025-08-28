@@ -7,27 +7,7 @@
   gap: 2rem;
 }
 
-.timer-circle {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.timer-circle svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: rotate(-90deg);
-}
-
 .timer-display {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   text-align: center;
   pointer-events: none;
 }
@@ -61,16 +41,6 @@
 }
 
 @media (max-width: 640px) {
-  .timer-circle {
-    width: 150px;
-    height: 150px;
-  }
-
-  .timer-circle svg {
-    width: 150px;
-    height: 150px;
-  }
-
   .seconds {
     font-size: 2rem;
   }
