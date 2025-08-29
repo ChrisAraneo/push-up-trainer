@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import Button from './button';
+import CircularProgress from './circular-progress';
 import { soundPlayer } from '../utils/sound-player';
 
 interface TimerSignature {
@@ -45,8 +46,6 @@ const DEFAULT_DURATION_MS = 30000;
 const INTERVAL_UPDATE_MS = 5;
 const SECOND_MS = 1000;
 const SOUND_PATH = '/sounds/sound.wav';
-const CIRCLE_RADIUS = 90;
-const CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
 
 export default class TimerComponent extends Component<TimerSignature> {
   @tracked private remainingTime: number;
@@ -95,10 +94,6 @@ export default class TimerComponent extends Component<TimerSignature> {
 
   get progressPercentage() {
     return ((this.duration - this.remainingTime) / this.duration) * 100;
-  }
-
-  get strokeDashoffset() {
-    return CIRCUMFERENCE - (this.progressPercentage / 100) * CIRCUMFERENCE;
   }
 
   get formattedTime() {
@@ -213,31 +208,7 @@ export default class TimerComponent extends Component<TimerSignature> {
 
   <template>
     <div class="timer-component">
-      <div class="timer-circle">
-        <svg width="200" height="200" viewBox="0 0 200 200">
-          <circle
-            cx="100"
-            cy="100"
-            r="90"
-            fill="transparent"
-            stroke="rgba(210,210,210,0.7)"
-            stroke-width="8"
-          />
-          <circle
-            cx="100"
-            cy="100"
-            r="90"
-            fill="transparent"
-            stroke="#00A3EF"
-            stroke-width="8"
-            stroke-linecap="round"
-            stroke-dasharray={{CIRCUMFERENCE}}
-            stroke-dashoffset={{this.strokeDashoffset}}
-            transform="rotate(-90 100 100)"
-            class="progress-circle"
-          />
-        </svg>
-
+      <CircularProgress @progress={{this.progressPercentage}}>
         <div class="timer-display">
           {{#if this.showSeries}}
             <div class="series-counter">{{this.seriesDisplay}}</div>
@@ -248,7 +219,7 @@ export default class TimerComponent extends Component<TimerSignature> {
             >{{this.formattedTime.seconds}}:{{this.formattedTime.milliseconds}}</span>
           </div>
         </div>
-      </div>
+      </CircularProgress>
     </div>
   </template>
 }
