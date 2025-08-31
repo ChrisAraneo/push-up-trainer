@@ -1,0 +1,15 @@
+@use './variables.scss' as *;
+
+.text {
+  font-family: $font-family;
+  font-optical-sizing: auto;
+  font-weight: 400 !important;
+  font-style: normal;
+  font-size: 16px;
+  letter-spacing: 0.85px;
+  white-space: nowrap;
+  text-align: left;
+  color: $text-color;
+  margin: 0;
+  padding: 0;
+}
