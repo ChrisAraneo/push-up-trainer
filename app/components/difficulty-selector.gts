@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import Text from './text';
 import Button from './button';
 
 interface DifficultySelectorSignature {
@@ -66,10 +67,8 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
       <Button @onClick={{this.decreaseLevel}} @disabled={{this.cannotDecrease}}>
         -
       </Button>
-      <div class="level-text">
-        <span class="label mr-16">Level {{this.currentLevel}}</span><span
-        >{{this.currentLevel}} × 5</span>
-      </div>
+      <Text>Level {{this.currentLevel}}</Text>
+      <Text>{{this.currentLevel}} × 5</Text>
       <Button @onClick={{this.increaseLevel}} @disabled={{this.cannotIncrease}}>
         +
       </Button>
