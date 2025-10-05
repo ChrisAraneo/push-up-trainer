@@ -9,7 +9,18 @@
   letter-spacing: 0.85px;
   white-space: nowrap;
   text-align: left;
-  color: $text-color;
   margin: 0;
   padding: 0;
+}
+
+.text--light {
+  color: $text-light-color;
+}
+
+.text--normal {
+  color: $text-color;
+}
+
+.text--monospace {
+  font-family: $font-family-monospace !important;
 }

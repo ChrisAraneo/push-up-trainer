@@ -1,7 +1,43 @@
-import type { TOC } from '@ember/component/template-only';
+import Component from '@glimmer/component';
 
-export const Text: TOC = <template>
-  <span class="text">{{yield}}</span>
-</template>;
+interface TextSignature {
+  Args: {
+    /**
+     * Apply monospace font family
+     * @default false
+     */
+    monospace?: boolean;
+    /**
+     * Apply light color
+     * @default false
+     */
+    light?: boolean;
+  };
+  Blocks: {
+    default: [];
+  };
+}
 
-export default Text;
+export default class TextComponent extends Component<TextSignature> {
+  get cssClasses() {
+    const classes = ['text'];
+
+    if (this.args.light) {
+      classes.push('text--light');
+    } else {
+      classes.push('text--normal');
+    }
+
+    if (this.args.monospace) {
+      classes.push('text--monospace');
+    }
+
+    return classes.join(' ');
+  }
+
+  <template>
+    <span class={{this.cssClasses}}>{{yield}}</span>
+  </template>
+}
+
+export { TextComponent as Text };
