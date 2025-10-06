@@ -1,6 +1,8 @@
 <h1 align="center">Push-Up Trainer</h1>
 
 <p align="center">
+  <img src="https://raw.githubusercontent.com/ChrisAraneo/push-up-trainer/refs/heads/master/screenshot.png" alt="Push-Up Trainer screenshot" width="830px" height="435px"/>
+  <br>
   <a href="https://github.com/ChrisAraneo/push-up-trainer/blob/master/package.json"><img src="https://img.shields.io/badge/version-v0.0.0-blue" alt="version"></a>
   <a href="https://github.com/ChrisAraneo/push-up-trainer/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="Push-Up Trainer is released under the MIT license."></a>
   <br>
