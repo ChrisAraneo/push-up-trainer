@@ -18,8 +18,8 @@ interface DifficultySelectorSignature {
   };
 }
 
-const MIN_LEVEL = 1;
-const MAX_LEVEL = 99;
+export const MIN_LEVEL = 1;
+export const MAX_LEVEL = 99;
 
 export default class DifficultySelectorComponent extends Component<DifficultySelectorSignature> {
   @tracked private currentLevel: number;
