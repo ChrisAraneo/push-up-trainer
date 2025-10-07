@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import Text from './text';
 import Button from './button';
+import { MAX_LEVEL, MIN_LEVEL } from 'push-up-helper/consts';
 
 interface DifficultySelectorSignature {
   Args: {
@@ -17,9 +18,6 @@ interface DifficultySelectorSignature {
     onLevelChange?: (level: number) => void;
   };
 }
-
-export const MIN_LEVEL = 1;
-export const MAX_LEVEL = 99;
 
 export default class DifficultySelectorComponent extends Component<DifficultySelectorSignature> {
   @tracked private currentLevel: number;
