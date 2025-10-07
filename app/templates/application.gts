@@ -20,7 +20,7 @@ export default Route(
       <Title>{{TITLE}}</Title>
 
       <DifficultySelector
-        @initialLevel={{1}}
+        @initialLevel={{@controller.currentLevel}}
         @onLevelChange={{@controller.handleLevelChange}}
       />
 

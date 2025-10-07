@@ -4,12 +4,15 @@ import { action } from '@ember/object';
 import type { AnimationControls } from 'push-up-helper/interfaces/animation-controls';
 import type { TimerControls } from 'push-up-helper/interfaces/timer-controls';
 
+const STORAGE_KEY = 'push-up-trainer-level';
+const DEFAULT_LEVEL = 1;
+
 export default class ApplicationController extends Controller {
   @tracked timerControls: TimerControls | undefined;
   @tracked animationControls: AnimationControls | undefined;
   @tracked isRunning = false;
   @tracked isPaused = false;
-  @tracked currentLevel = 1;
+  @tracked currentLevel = this.loadLevelFromStorage();
 
   @action
   handleTimerReady(controls: TimerControls) {
@@ -80,6 +83,8 @@ export default class ApplicationController extends Controller {
   handleLevelChange(level: number) {
     this.currentLevel = level;
 
+    this.saveLevelToStorage(level);
+
     if (this.timerControls && this.animationControls) {
       this.timerControls.reset();
 
@@ -88,6 +93,30 @@ export default class ApplicationController extends Controller {
 
       this.isRunning = false;
       this.isPaused = false;
+    }
+  }
+
+  private loadLevelFromStorage(): number {
+    let level: number | null = null;
+
+    try {
+      const value = Number(localStorage.getItem(STORAGE_KEY));
+
+      if (isNaN(value) || value >= 1 || value > 99) {
+        level = value;
+      }
+    } catch (error) {
+      console.error('Failed to load level from local storage', error);
+    }
+
+    return level ?? DEFAULT_LEVEL;
+  }
+
+  private saveLevelToStorage(level: number): void {
+    try {
+      localStorage.setItem(STORAGE_KEY, level.toString());
+    } catch (error) {
+      console.error('Failed to save level to local storage', error);
     }
   }
 }
