@@ -3,9 +3,10 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import type { AnimationControls } from 'push-up-helper/interfaces/animation-controls';
 import type { TimerControls } from 'push-up-helper/interfaces/timer-controls';
+import { MAX_LEVEL, MIN_LEVEL } from 'push-up-helper/consts';
 
 const STORAGE_KEY = 'push-up-trainer-level';
-const DEFAULT_LEVEL = 1;
+const DEFAULT_LEVEL = MIN_LEVEL;
 
 export default class ApplicationController extends Controller {
   @tracked timerControls: TimerControls | undefined;
@@ -102,8 +103,8 @@ export default class ApplicationController extends Controller {
     try {
       const value = Number(localStorage.getItem(STORAGE_KEY));
 
-      if (isNaN(value) || value >= 1 || value > 99) {
-        level = value;
+      if (!isNaN(value) && value >= MIN_LEVEL && value <= MAX_LEVEL) {
+        level = Math.floor(value);
       }
     } catch (error) {
       console.error('Failed to load level from local storage', error);
