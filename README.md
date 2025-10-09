@@ -41,12 +41,14 @@
 ## Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/ChrisAraneo/push-up-trainer.git
 cd push-up-trainer
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
@@ -56,6 +58,7 @@ npm install
 ### Development
 
 Start the development server:
+
 ```bash
 npm start
 ```
@@ -73,21 +76,25 @@ Production-ready files will be generated in the `dist/` directory.
 ### Other commands
 
 Run linting:
+
 ```bash
 npm run lint
 ```
 
 Fix linting issues:
+
 ```bash
 npm run lint:fix
 ```
 
 Format code:
+
 ```bash
 npm run format
 ```
 
 Run tests:
+
 ```bash
 npm test
 ```
@@ -105,11 +112,13 @@ npm test
 ## Testing
 
 Run the test suite:
+
 ```bash
 npm test
 ```
 
 Run type checking:
+
 ```bash
 npm run lint:types
 ```
