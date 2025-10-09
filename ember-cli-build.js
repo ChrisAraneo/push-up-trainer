@@ -9,7 +9,6 @@ module.exports = function (defaults) {
     },
     fingerprint: {
       enabled: true,
-      prepend: 'https://chrisaraneo.github.io/push-up-trainer/',
     },
     'ember-cli-babel': { enableTypeScriptTransform: true },
   });
