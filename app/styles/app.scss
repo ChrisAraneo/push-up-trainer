@@ -35,22 +35,26 @@ body {
   margin: 0 auto;
 }
 
-.background-animation {
-  position: absolute;
-  top: calc(50vh - 360px);
-  z-index: -1;
-}
-
-@media (max-width: 640px) {
-  .app-container {
-    gap: 2rem;
-  }
-}
-
 .main-controls {
   display: flex;
   gap: 16px;
   align-items: center;
   justify-content: center;
   margin-top: 24px;
+}
+
+.background-animation {
+  position: absolute;
+  top: calc(50vh - 360px);
+  z-index: -1;
+  transform: scale(1);
+  transform-origin: center center;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .background-animation {
+    top: calc(50vh - 315px);
+    transform: scale(0.5);
+  }
 }
