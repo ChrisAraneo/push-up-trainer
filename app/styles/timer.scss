@@ -39,19 +39,3 @@
   gap: 1rem;
   align-items: center;
 }
-
-@media (max-width: 640px) {
-  .seconds {
-    font-size: 2rem;
-  }
-
-  .series-counter {
-    font-size: 0.875rem;
-    margin-bottom: 0.375rem;
-  }
-
-  .timer-controls {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-}
