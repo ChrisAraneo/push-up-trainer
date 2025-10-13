@@ -6,15 +6,26 @@
 @use './difficulty-selector.scss';
 @use './circular-progress.scss';
 
+html,
+body {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 640px) {
+  html,
+  body {
+    height: 100%;
+  }
+}
+
 body {
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
-  margin: 0;
-  padding: 0;
   display: flex;
-  width: 100%;
-  height: 100vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -31,8 +42,17 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   max-width: 1200px;
   margin: 0 auto;
+  height: fit-content;
+}
+
+@media (max-width: 640px) {
+  .app-container {
+    height: 100%;
+    justify-content: space-between;
+  }
 }
 
 .main-controls {

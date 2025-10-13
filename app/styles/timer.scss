@@ -7,6 +7,13 @@
   gap: 2rem;
 }
 
+@media (max-width: 640px) {
+  .timer-component {
+    position: absolute;
+    top: calc(50vh - 100px);
+  }
+}
+
 .timer-display {
   text-align: center;
   pointer-events: none;
