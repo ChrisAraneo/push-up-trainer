@@ -3,10 +3,8 @@ import Route from 'ember-route-template';
 import { Title } from '../components/title';
 import PushUpAnimation from '../components/push-up-animation';
 import Timer from '../components/timer';
-import Button from '../components/button';
 import DifficultySelector from '../components/difficulty-selector';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
-import { faPause, faStop, faPlay } from '@fortawesome/free-solid-svg-icons';
+import Controls from '../components/controls';
 
 const TITLE = 'Push Up Trainer';
 
@@ -39,31 +37,13 @@ export default Route(
         @onComplete={{@controller.handleTimerComplete}}
       />
 
-      <div class="main-controls">
-        {{#if @controller.isRunning}}
-          {{#if @controller.isPaused}}
-            <Button @onClick={{@controller.start}}>
-              <FaIcon @icon={{faPlay}} />
-              Resume
-            </Button>
-          {{else}}
-            <Button @onClick={{@controller.pause}}>
-              <FaIcon @icon={{faPause}} />
-              Pause
-            </Button>
-          {{/if}}
-        {{else}}
-          <Button @onClick={{@controller.start}}>
-            <FaIcon @icon={{faPlay}} />
-            Start
-          </Button>
-        {{/if}}
-
-        <Button @onClick={{@controller.stop}}>
-          <FaIcon @icon={{faStop}} />
-          Stop
-        </Button>
-      </div>
+      <Controls
+        @isRunning={{@controller.isRunning}}
+        @isPaused={{@controller.isPaused}}
+        @onStart={{@controller.start}}
+        @onPause={{@controller.pause}}
+        @onStop={{@controller.stop}}
+      />
     </div>
   </template>,
 );
