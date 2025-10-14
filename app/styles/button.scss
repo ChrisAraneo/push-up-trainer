@@ -1,9 +1,5 @@
 @use './variables.scss' as *;
 
-$button-bg-color: #f5f5f5;
-$button-bg-color-hover: #d3d3d3;
-$button-color: #333;
-
 .btn {
   font-family: $font-family;
   font-optical-sizing: auto;
@@ -23,9 +19,8 @@ $button-color: #333;
   display: inline-block;
   border: 0;
   text-decoration: none;
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 20px;
+  background-color: $button-background-color;
   backdrop-filter: blur(10px);
   color: #333;
   text-transform: uppercase;
@@ -36,7 +31,7 @@ $button-color: #333;
 }
 
 .btn:focus {
-  outline: 2px solid rgba(0, 0, 0, 0.24);
+  outline: 2px solid $button-background-color;
   outline-offset: 2px;
 }
 
