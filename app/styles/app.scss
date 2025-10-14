@@ -1,3 +1,4 @@
+@use './variables.scss' as *;
 @use './text.scss';
 @use './title.scss';
 @use './push-up-animation.scss';
@@ -5,6 +6,7 @@
 @use './button.scss';
 @use './difficulty-selector.scss';
 @use './circular-progress.scss';
+@use './controls.scss';
 
 html,
 body {
@@ -29,13 +31,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #ffffff;
-  background-image: linear-gradient(
-    179.1deg,
-    rgba(255, 255, 255, 1) -1.9%,
-    rgba(230, 230, 230, 1) 91.8%
-  );
-  backdrop-filter: blur(10px);
+  background-color: $background-color;
 }
 
 .app-container {
@@ -53,14 +49,6 @@ body {
     height: 100%;
     justify-content: space-between;
   }
-}
-
-.main-controls {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 24px;
 }
 
 .background-animation {
