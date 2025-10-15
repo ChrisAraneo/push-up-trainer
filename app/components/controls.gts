@@ -1,7 +1,12 @@
 import Component from '@glimmer/component';
 import Button from './button';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
-import { faPause, faStop, faPlay, faCog } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPause,
+  faStop,
+  faPlay,
+  faCog,
+} from '@fortawesome/free-solid-svg-icons';
 
 interface ControlsSignature {
   Args: {
@@ -30,7 +35,7 @@ interface ControlsSignature {
 
 export default class ControlsComponent extends Component<ControlsSignature> {
   <template>
-    <div class='controls'>
+    <div class="controls">
       {{#if @isRunning}}
         {{#if @isPaused}}
           <Button @onClick={{@onStart}}>
