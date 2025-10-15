@@ -10,17 +10,12 @@
   padding: 16px;
   border-radius: 20px;
   margin: 0;
-
-  .separator {
-    width: 2px;
-    height: 24px;
-    border-radius: 100%;
-    background-color: $controls-separator-color;
-  }
+  width: fit-content;
 }
 
 @media (max-width: 640px) {
   .controls {
     margin-bottom: 16px;
+    width: 100%;
   }
 }

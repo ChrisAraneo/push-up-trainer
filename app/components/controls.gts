@@ -25,11 +25,6 @@ interface ControlsSignature {
      * Callback function called when stop is clicked
      */
     onStop: () => void;
-
-    /**
-     * Callback function called when open settings button is clicked
-     */
-    onOpenSettings: () => void;
   };
 }
 
@@ -58,13 +53,6 @@ export default class ControlsComponent extends Component<ControlsSignature> {
       <Button @onClick={{@onStop}}>
         <FaIcon @icon={{faStop}} />
         Stop
-      </Button>
-
-      <div class="separator"></div>
-
-      <Button @onClick={{@onOpenSettings}}>
-        <FaIcon @icon={{faCog}} />
-        Settings
       </Button>
     </div>
   </template>
