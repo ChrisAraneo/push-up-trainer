@@ -18,21 +18,23 @@ export default Route(
       <Title>{{TITLE}}</Title>
 
       <DifficultySelector
-        @initialLevel={{@controller.currentLevel}}
-        @onLevelChange={{@controller.handleLevelChange}}
+        @series={{@controller.settings.series}}
+        @repetitions={{@controller.settings.repetitions}}
+        @time={{@controller.settings.time}}
+        @onSettingsChange={{@controller.handleSettingsChange}}
       />
 
       <div class="background-animation">
         <PushUpAnimation
-          @duration={{1000}}
-          @iterations={{5}}
+          @duration={{850}}
+          @iterations={{@controller.settings.repetitions}}
           @onReady={{@controller.handleAnimationReady}}
         />
       </div>
 
       <Timer
-        @duration={{10000}}
-        @series={{@controller.currentLevel}}
+        @duration={{@controller.timerDuration}}
+        @series={{@controller.settings.series}}
         @onReady={{@controller.handleTimerReady}}
         @onComplete={{@controller.handleTimerComplete}}
       />

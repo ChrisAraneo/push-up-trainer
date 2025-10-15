@@ -3,29 +3,32 @@
 .difficulty-selector {
   box-sizing: border-box;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
   text-align: center;
   justify-content: space-between;
   align-items: center;
-  width: 256px; // TODO Variable? or remove?
+  width: 100%; // TODO Variable? or remove?
   margin: 0;
-  margin-bottom: 16px;
-  padding: 0;
+  margin-bottom: 96px;
+  padding: 16px;
+  background-color: $controls-background-color;
+  border-radius: 20px;
+
+  .header {
+    margin-bottom: 16px;
+  }
+
+  .row {
+    width: 100%;
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   .btn {
-    min-width: 42px;
-    max-width: 42px;
+    min-width: 96px;
+    padding: 8px;
   }
-}
-
-.mr-16 {
-  margin-right: 16px;
-}
-
-.label {
-  color: #666;
-  text-transform: uppercase;
-  font-weight: 400 !important;
 }

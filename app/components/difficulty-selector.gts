@@ -3,73 +3,56 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import Text from './text';
 import Button from './button';
-import { MAX_LEVEL, MIN_LEVEL } from 'push-up-helper/consts';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 
 interface DifficultySelectorSignature {
   Args: {
     /**
-     * Initial difficulty level
-     * @default 1
+     * Total number of series in the training plan
      */
-    initialLevel?: number;
+    series?: number;
     /**
-     * Callback function called when level changes
+     * Number of repetitions in one series
      */
-    onLevelChange?: (level: number) => void;
+    repetitions?: number;
+    /**
+     * Time per one series
+     */
+    time?: number;
+    /**
+     * Callback function called when settings changes
+     */
+    onSettingsChange?: (settings: Settings) => void; // TODO
   };
 }
 
 export default class DifficultySelectorComponent extends Component<DifficultySelectorSignature> {
-  @tracked private currentLevel: number;
-
   constructor(owner: unknown, args: DifficultySelectorSignature['Args']) {
     super(owner, args);
-
-    this.currentLevel = this.args.initialLevel || MIN_LEVEL;
-  }
-
-  get canDecrease() {
-    return this.currentLevel > MIN_LEVEL;
-  }
-
-  get canIncrease() {
-    return this.currentLevel < MAX_LEVEL;
-  }
-
-  get cannotDecrease() {
-    return !this.canDecrease;
-  }
-
-  get cannotIncrease() {
-    return !this.canIncrease;
-  }
-
-  @action
-  decreaseLevel() {
-    if (this.canDecrease) {
-      this.currentLevel--;
-      this.args.onLevelChange?.(this.currentLevel);
-    }
-  }
-
-  @action
-  increaseLevel() {
-    if (this.canIncrease) {
-      this.currentLevel++;
-      this.args.onLevelChange?.(this.currentLevel);
-    }
   }
 
   <template>
     <div class="difficulty-selector">
-      <Button @onClick={{this.decreaseLevel}} @disabled={{this.cannotDecrease}}>
-        -
-      </Button>
-      <Text>Level {{this.currentLevel}}</Text>
-      <Text>{{this.currentLevel}} × 5</Text>
-      <Button @onClick={{this.increaseLevel}} @disabled={{this.cannotIncrease}}>
-        +
-      </Button>
+      <div class="row header">
+        <Text @light={{true}}>Training plan</Text>
+        <Button><FaIcon @icon={{faPen}} />Edit</Button>
+      </div>
+
+      <div class="row">
+        <Text @light={{true}}>Series</Text>
+        <Text>{{@series}}</Text>
+      </div>
+
+      <div class="row">
+        <Text @light={{true}}>Repetitions per series</Text>
+        <Text>{{@repetitions}}</Text>
+      </div>
+
+      <div class="row">
+        <Text @light={{true}}>Time per series</Text>
+        <Text>{{@time}}</Text>
+      </div>
     </div>
   </template>
 }

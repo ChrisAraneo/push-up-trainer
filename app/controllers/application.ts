@@ -3,17 +3,17 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import type { AnimationControls } from 'push-up-helper/interfaces/animation-controls';
 import type { TimerControls } from 'push-up-helper/interfaces/timer-controls';
-import { MAX_LEVEL, MIN_LEVEL } from 'push-up-helper/consts';
-
-const STORAGE_KEY = 'push-up-trainer-level';
-const DEFAULT_LEVEL = MIN_LEVEL;
+import type { Settings } from 'push-up-helper/interfaces/settings';
+import { DEFAULT_SETTINGS, STORAGE_KEY } from 'push-up-helper/consts';
+import { cloneDeep, isNumber } from 'lodash';
 
 export default class ApplicationController extends Controller {
-  @tracked timerControls: TimerControls | undefined;
   @tracked animationControls: AnimationControls | undefined;
+  @tracked settings = this.loadSettingsFromStorage();
+  @tracked timerControls: TimerControls | undefined;
+  @tracked timerDuration = 0;
   @tracked isRunning = false;
   @tracked isPaused = false;
-  @tracked currentLevel = this.loadLevelFromStorage();
 
   @action
   handleTimerReady(controls: TimerControls) {
@@ -81,10 +81,11 @@ export default class ApplicationController extends Controller {
   }
 
   @action
-  handleLevelChange(level: number) {
-    this.currentLevel = level;
+  handleSettingsChange(settings: Settings) {
+    this.settings = cloneDeep(settings);
+    this.timerDuration = settings.time * 1000;
 
-    this.saveLevelToStorage(level);
+    this.saveSettingsToStorage(settings);
 
     if (this.timerControls && this.animationControls) {
       this.timerControls.reset();
@@ -97,27 +98,38 @@ export default class ApplicationController extends Controller {
     }
   }
 
-  private loadLevelFromStorage(): number {
-    let level: number | null = null;
+  private loadSettingsFromStorage(): Settings {
+    let settings: Settings | null = null;
 
     try {
-      const value = Number(localStorage.getItem(STORAGE_KEY));
+      const value = JSON.parse(
+        localStorage.getItem(STORAGE_KEY) || 'null',
+      ) as Settings;
 
-      if (!isNaN(value) && value >= MIN_LEVEL && value <= MAX_LEVEL) {
-        level = Math.floor(value);
+      if (
+        value &&
+        isNumber(value.series) &&
+        isNumber(value.repetitions) &&
+        isNumber(value.time)
+      ) {
+        settings = {
+          series: Math.floor(value.series),
+          repetitions: Math.floor(value.repetitions),
+          time: Math.floor(value.time),
+        };
       }
     } catch (error) {
-      console.error('Failed to load level from local storage', error);
+      console.error('Failed to load settings from local storage', error);
     }
 
-    return level ?? DEFAULT_LEVEL;
+    return settings ?? DEFAULT_SETTINGS;
   }
 
-  private saveLevelToStorage(level: number): void {
+  private saveSettingsToStorage(settings: Settings): void {
     try {
-      localStorage.setItem(STORAGE_KEY, level.toString());
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
     } catch (error) {
-      console.error('Failed to save level to local storage', error);
+      console.error('Failed to save settings to local storage', error);
     }
   }
 }
