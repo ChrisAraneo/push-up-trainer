@@ -32,11 +32,17 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
     super(owner, args);
   }
 
+  @action
+  handleEdit() {
+    // TODO: Implement
+    console.log('Edit button clicked');
+  }
+
   <template>
     <div class="difficulty-selector">
       <div class="row header">
         <Text @light={{true}}>Training plan</Text>
-        <Button><FaIcon @icon={{faPen}} />Edit</Button>
+        <Button @onClick={{this.handleEdit}}><FaIcon @icon={{faPen}} />Edit</Button>
       </div>
 
       <div class="row">
