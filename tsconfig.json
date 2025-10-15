@@ -9,8 +9,8 @@
     // work with TypeScript.
     "baseUrl": ".",
     "paths": {
-      "push-up-helper/tests/*": ["tests/*"],
-      "push-up-helper/*": ["app/*"],
+      "push-up-trainer/tests/*": ["tests/*"],
+      "push-up-trainer/*": ["app/*"],
       "*": ["types/*"]
     },
     "types": [

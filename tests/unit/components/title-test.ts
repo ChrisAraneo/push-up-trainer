@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupTest } from 'push-up-helper/tests/helpers';
+import { setupTest } from 'push-up-trainer/tests/helpers';
 
 module('Unit | Component | title', function (hooks) {
   setupTest(hooks);

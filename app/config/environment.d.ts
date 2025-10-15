@@ -1,6 +1,6 @@
 /**
  * Type declarations for
- *    import config from 'push-up-helper/config/environment'
+ *    import config from 'push-up-trainer/config/environment'
  */
 declare const config: {
   environment: string;

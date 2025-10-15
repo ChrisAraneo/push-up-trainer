@@ -1,10 +1,10 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import type { AnimationControls } from 'push-up-helper/interfaces/animation-controls';
-import type { TimerControls } from 'push-up-helper/interfaces/timer-controls';
-import type { Settings } from 'push-up-helper/interfaces/settings';
-import { DEFAULT_SETTINGS, STORAGE_KEY } from 'push-up-helper/consts';
+import type { AnimationControls } from 'push-up-trainer/interfaces/animation-controls';
+import type { TimerControls } from 'push-up-trainer/interfaces/timer-controls';
+import type { Settings } from 'push-up-trainer/interfaces/settings';
+import { DEFAULT_SETTINGS, STORAGE_KEY } from 'push-up-trainer/consts';
 import { cloneDeep, isNumber } from 'lodash';
 
 export default class ApplicationController extends Controller {

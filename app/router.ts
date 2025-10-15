@@ -1,5 +1,5 @@
 import EmberRouter from '@ember/routing/router';
-import config from 'push-up-helper/config/environment';
+import config from 'push-up-trainer/config/environment';
 
 export default class Router extends EmberRouter {
   location = config.locationType;
