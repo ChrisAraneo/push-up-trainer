@@ -9,11 +9,19 @@ import { cloneDeep, isNumber } from 'lodash';
 
 export default class ApplicationController extends Controller {
   @tracked animationControls: AnimationControls | undefined;
-  @tracked settings = this.loadSettingsFromStorage();
+  @tracked settings: Settings;
   @tracked timerControls: TimerControls | undefined;
   @tracked timerDuration = 0;
   @tracked isRunning = false;
   @tracked isPaused = false;
+
+  constructor() {
+    // eslint-disable-next-line prefer-rest-params
+    super(...arguments);
+
+    this.settings = this.loadSettingsFromStorage();
+    this.handleSettingsChange(this.settings);
+  }
 
   @action
   handleTimerReady(controls: TimerControls) {
