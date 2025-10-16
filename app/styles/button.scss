@@ -1,6 +1,8 @@
 @use './variables.scss' as *;
 
-.btn {
+$button-width: 124px;
+
+.button {
   font-family: $font-family;
   font-optical-sizing: auto;
   font-weight: 400 !important;
@@ -14,7 +16,7 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  min-width: 128px;
+  width: $button-width;
   color: $button-color;
   display: inline-block;
   border: 0;
@@ -30,15 +32,14 @@
   }
 }
 
-.btn:focus {
+.button:focus {
   outline: 2px solid $button-background-color;
   outline-offset: 2px;
 }
 
 @media (max-width: 640px) {
-  .btn {
+  .button {
     width: 100%;
-    max-width: 120px;
-    min-width: 100px;
+    max-width: $button-width;
   }
 }

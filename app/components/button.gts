@@ -17,7 +17,7 @@ interface ButtonSignature {
 export const Button: TOC<ButtonSignature> = <template>
   <button
     type="button"
-    class="btn"
+    class="button"
     disabled={{@disabled}}
     {{on "click" @onClick}}
   >
