@@ -57,7 +57,7 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
 
       <div class="row">
         <Text @light={{true}}>Time per series</Text>
-        <Text>{{@time}}</Text>
+        <Text>{{@time}} sec</Text>
       </div>
     </div>
   </template>
