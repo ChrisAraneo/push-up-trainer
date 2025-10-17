@@ -4,8 +4,14 @@ import { action } from '@ember/object';
 import type { AnimationControls } from 'push-up-trainer/interfaces/animation-controls';
 import type { TimerControls } from 'push-up-trainer/interfaces/timer-controls';
 import type { Settings } from 'push-up-trainer/interfaces/settings';
-import { DEFAULT_SETTINGS, STORAGE_KEY } from 'push-up-trainer/consts';
 import { cloneDeep, isNumber } from 'lodash';
+
+const STORAGE_KEY = 'push-up-trainer';
+const DEFAULT_SETTINGS: Settings = Object.freeze({
+  series: 3,
+  repetitions: 5,
+  time: 10,
+});
 
 export default class ApplicationController extends Controller {
   @tracked animationControls: AnimationControls | undefined;
