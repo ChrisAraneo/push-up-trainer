@@ -1,8 +1,8 @@
 import Component from '@glimmer/component';
 
-const DEFAULT_SIZE = 200;
-const DEFAULT_STROKE_WIDTH = 8;
-const CIRCLE_RADIUS = 90;
+const DEFAULT_SIZE = 300;
+const DEFAULT_STROKE_WIDTH = 10;
+const CIRCLE_RADIUS = 135;
 const CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
 
 interface CircularProgressSignature {
