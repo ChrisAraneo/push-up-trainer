@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import Button from './button';
 import CircularProgress from './circular-progress';
 import { soundPlayer } from '../utils/sound-player';
+import Text from './text';
 
 interface TimerSignature {
   Args: {
@@ -211,12 +212,10 @@ export default class TimerComponent extends Component<TimerSignature> {
       <CircularProgress @progress={{this.progressPercentage}}>
         <div class="timer-display">
           {{#if this.showSeries}}
-            <div class="series-counter">{{this.seriesDisplay}}</div>
+            <Text @monospace={{true}}>{{this.seriesDisplay}}</Text>
           {{/if}}
           <div class="time-container">
-            <span
-              class="seconds"
-            >{{this.formattedTime.seconds}}:{{this.formattedTime.milliseconds}}</span>
+            <Text @monospace={{true}}>{{this.formattedTime.seconds}}:{{this.formattedTime.milliseconds}}</Text>
           </div>
         </div>
       </CircularProgress>
