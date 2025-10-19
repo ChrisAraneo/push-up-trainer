@@ -1,6 +1,6 @@
 @use './variables.scss' as *;
 
-.timer-component {
+.timer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,27 +8,43 @@
 }
 
 @media (max-width: 640px) {
-  .timer-component {
+  .timer {
     position: absolute;
     top: calc(50vh - 100px);
   }
 }
 
-.timer-display {
+.display {
   text-align: center;
   pointer-events: none;
 }
 
-.time-container {
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.series,
+.repetitions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+}
+
+.time {
   display: flex;
   align-items: baseline;
   justify-content: center;
-  font-family: $font-family-monospace;
-  font-weight: bold;
-}
+  margin-bottom: 52px;
 
-.timer-controls {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
+  .text {
+    font-size: 48px !important;
+    font-weight: 600 !important;
+  }
 }

@@ -18,6 +18,7 @@ export default class ApplicationController extends Controller {
   @tracked settings: Settings;
   @tracked timerControls: TimerControls | undefined;
   @tracked timerDuration = 0;
+  @tracked repetitionDuration = 900;
   @tracked isRunning = false;
   @tracked isPaused = false;
 

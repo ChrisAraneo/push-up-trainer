@@ -9,21 +9,16 @@ import Text from './text';
 interface TimerSignature {
   Args: {
     /**
-     * Total duration of the timer in milliseconds
-     *
-     * Examples:
-     * - @duration={{30000}}
-     * - @duration={{60000}}
+     * Settings for series and repetitions
      */
-    duration?: number;
+    settings?: Settings;
     /**
-     * Number of series/rounds to complete
+     * Duration of the single push-up repetition in milliseconds
      *
      * Examples:
-     * - @series={{5}} // 5 rounds
-     * - @series={{undefined}} // Single timer (no series)
+     * - @repetitionDuration={{900}}
      */
-    series?: number;
+    repetitionDuration?: number;
     /**
      * Callback function called when timer completes (each round and when all series complete)
      */
@@ -53,6 +48,7 @@ export default class TimerComponent extends Component<TimerSignature> {
   @tracked private isRunning = false;
   @tracked private isPaused = false;
   @tracked private currentSeries = 0;
+  @tracked private currentRepetitions = 0;
 
   private intervalId: number | null = null;
   private startTime = 0;
@@ -62,6 +58,7 @@ export default class TimerComponent extends Component<TimerSignature> {
     super(owner, args);
 
     this.remainingTime = this.duration;
+    this.currentRepetitions = 0;
     this.currentSeries = 0;
 
     soundPlayer.load(SOUND_PATH);
@@ -78,11 +75,15 @@ export default class TimerComponent extends Component<TimerSignature> {
   }
 
   get duration() {
-    return this.args.duration || DEFAULT_DURATION_MS;
+    return this.args.settings?.time * 1000 || DEFAULT_DURATION_MS;
   }
 
   get totalSeries() {
-    return this.args.series || 1;
+    return this.args.settings?.series || 1;
+  }
+
+  get totalRepetitions() {
+    return this.args.settings?.repetitions || 1;
   }
 
   get seconds() {
@@ -108,8 +109,8 @@ export default class TimerComponent extends Component<TimerSignature> {
     return `${this.currentSeries}/${this.totalSeries}`;
   }
 
-  get showSeries() {
-    return this.totalSeries > 1;
+  get repetitionsDisplay() {
+    return `${this.currentRepetitions}/${this.totalRepetitions}`;
   }
 
   @action
@@ -129,6 +130,13 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.intervalId = window.setInterval(() => {
       const elapsed = Date.now() - this.startTime;
       this.remainingTime = Math.max(0, this.duration - elapsed);
+
+      if (this.currentRepetitions < this.totalRepetitions) {
+        this.currentRepetitions = Math.floor(
+          (this.duration - this.remainingTime) /
+            (this.args.repetitionDuration || 900),
+        );
+      }
 
       this.args.onTick?.(this.remainingTime);
 
@@ -156,6 +164,7 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.isPaused = false;
     this.remainingTime = this.duration;
     this.currentSeries = 0;
+    this.currentRepetitions = 0;
 
     if (this.intervalId) {
       clearInterval(this.intervalId);
@@ -173,6 +182,7 @@ export default class TimerComponent extends Component<TimerSignature> {
     soundPlayer.play(SOUND_PATH);
 
     this.currentSeries++;
+    this.currentRepetitions = 0;
 
     const areAllSeriesComplete = this.currentSeries >= this.totalSeries;
 
@@ -208,14 +218,23 @@ export default class TimerComponent extends Component<TimerSignature> {
   }
 
   <template>
-    <div class="timer-component">
+    <div class="timer">
       <CircularProgress @progress={{this.progressPercentage}}>
-        <div class="timer-display">
-          {{#if this.showSeries}}
-            <Text @monospace={{true}}>{{this.seriesDisplay}}</Text>
-          {{/if}}
-          <div class="time-container">
-            <Text @monospace={{true}}>{{this.formattedTime.seconds}}:{{this.formattedTime.milliseconds}}</Text>
+        <div class="display">
+          <div class="status">
+            <div class="series">
+              <Text @monospace={{true}}>Series:</Text>
+              <Text @monospace={{true}}>{{this.seriesDisplay}}</Text>
+            </div>
+            <div class="repetitions">
+              <Text @monospace={{true}}>Repetitions:</Text>
+              <Text @monospace={{true}}>{{this.repetitionsDisplay}}</Text>
+            </div>
+          </div>
+          <div class="time">
+            <Text
+              @monospace={{true}}
+            >{{this.formattedTime.seconds}}:{{this.formattedTime.milliseconds}}</Text>
           </div>
         </div>
       </CircularProgress>
