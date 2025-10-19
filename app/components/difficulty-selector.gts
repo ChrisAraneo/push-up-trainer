@@ -42,7 +42,9 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
     <div class="difficulty-selector">
       <div class="row header">
         <Text @light={{true}}>Training plan</Text>
-        <Button @onClick={{this.handleEdit}}><FaIcon @icon={{faPen}} />Edit</Button>
+        <Button @onClick={{this.handleEdit}}><FaIcon
+            @icon={{faPen}}
+          />Edit</Button>
       </div>
 
       <div class="row">
