@@ -182,9 +182,12 @@ export default class TimerComponent extends Component<TimerSignature> {
     soundPlayer.play(SOUND_PATH);
 
     this.currentSeries++;
-    this.currentRepetitions = 0;
 
     const areAllSeriesComplete = this.currentSeries >= this.totalSeries;
+
+    if (!areAllSeriesComplete) {
+      this.currentRepetitions = 0;
+    }
 
     this.args.onComplete?.(areAllSeriesComplete);
 
