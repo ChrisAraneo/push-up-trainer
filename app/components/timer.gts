@@ -196,6 +196,13 @@ export default class TimerComponent extends Component<TimerSignature> {
         const elapsed = Date.now() - this.startTime;
         this.remainingTime = Math.max(0, this.duration - elapsed);
 
+        if (this.currentRepetitions < this.totalRepetitions) {
+          this.currentRepetitions = Math.floor(
+            (this.duration - this.remainingTime) /
+              (this.args.repetitionDuration || 900),
+          );
+        }
+
         this.args.onTick?.(this.remainingTime);
 
         if (this.remainingTime <= 0) {
