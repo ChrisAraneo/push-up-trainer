@@ -24,8 +24,8 @@ export default Route(
 
       <div class="background-animation">
         <PushUpAnimation
-          @duration={{@controller.repetitionDuration}}
-          @iterations={{@controller.settings.repetitions}}
+          @duration={{@controller.settings.repetitionDuration}}
+          @iterations={{@controller.settings.repetitionsPerSeries}}
           @onReady={{@controller.handleAnimationReady}}
         />
       </div>
