@@ -9,17 +9,9 @@ import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 interface DifficultySelectorSignature {
   Args: {
     /**
-     * Total number of series in the training plan
+     * Trainer application settings
      */
-    series?: number;
-    /**
-     * Number of repetitions in one series
-     */
-    repetitions?: number;
-    /**
-     * Time per one series
-     */
-    time?: number;
+    settings?: Settings;
     /**
      * Callback function called when settings changes
      */
@@ -30,6 +22,10 @@ interface DifficultySelectorSignature {
 export default class DifficultySelectorComponent extends Component<DifficultySelectorSignature> {
   constructor(owner: unknown, args: DifficultySelectorSignature['Args']) {
     super(owner, args);
+  }
+
+  get seriesDurationInSeconds() {
+    return Math.floor(this.args.settings.seriesDuration / 1000);
   }
 
   @action
@@ -49,17 +45,17 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
 
       <div class="row">
         <Text @light={{true}}>Series</Text>
-        <Text>{{@series}}</Text>
+        <Text>{{@settings.totalSeries}}</Text>
       </div>
 
       <div class="row">
         <Text @light={{true}}>Repetitions per series</Text>
-        <Text>{{@repetitions}}</Text>
+        <Text>{{@settings.repetitionsPerSeries}}</Text>
       </div>
 
       <div class="row">
         <Text @light={{true}}>Time per series</Text>
-        <Text>{{@time}} sec</Text>
+        <Text>{{this.seriesDurationInSeconds}} sec</Text>
       </div>
     </div>
   </template>

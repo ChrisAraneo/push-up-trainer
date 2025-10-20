@@ -18,9 +18,7 @@ export default Route(
       <Title>{{TITLE}}</Title>
 
       <DifficultySelector
-        @series={{@controller.settings.series}}
-        @repetitions={{@controller.settings.repetitions}}
-        @time={{@controller.settings.time}}
+        @settings={{@controller.settings}}
         @onSettingsChange={{@controller.handleSettingsChange}}
       />
 

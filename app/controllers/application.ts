@@ -8,17 +8,16 @@ import { cloneDeep, isNumber } from 'lodash';
 
 const STORAGE_KEY = 'push-up-trainer';
 const DEFAULT_SETTINGS: Settings = Object.freeze({
-  series: 3,
-  repetitions: 5,
-  time: 10,
+  totalSeries: 3,
+  repetitionsPerSeries: 5,
+  seriesDuration: 10000,
+  repetitionDuration: 900,
 });
 
 export default class ApplicationController extends Controller {
-  @tracked animationControls: AnimationControls | undefined;
   @tracked settings: Settings;
+  @tracked animationControls: AnimationControls | undefined;
   @tracked timerControls: TimerControls | undefined;
-  @tracked timerDuration = 0;
-  @tracked repetitionDuration = 900;
   @tracked isRunning = false;
   @tracked isPaused = false;
 
@@ -98,7 +97,6 @@ export default class ApplicationController extends Controller {
   @action
   handleSettingsChange(settings: Settings) {
     this.settings = cloneDeep(settings);
-    this.timerDuration = settings.time * 1000;
 
     this.saveSettingsToStorage(settings);
 
@@ -123,14 +121,16 @@ export default class ApplicationController extends Controller {
 
       if (
         value &&
-        isNumber(value.series) &&
-        isNumber(value.repetitions) &&
-        isNumber(value.time)
+        isNumber(value.totalSeries) &&
+        isNumber(value.repetitionsPerSeries) &&
+        isNumber(value.seriesDuration) &&
+        isNumber(value.repetitionDuration)
       ) {
         settings = {
-          series: Math.floor(value.series),
-          repetitions: Math.floor(value.repetitions),
-          time: Math.floor(value.time),
+          totalSeries: Math.floor(value.totalSeries),
+          repetitionsPerSeries: Math.floor(value.repetitionsPerSeries),
+          seriesDuration: Math.floor(value.seriesDuration),
+          repetitionDuration: Math.floor(value.repetitionDuration),
         };
       }
     } catch (error) {

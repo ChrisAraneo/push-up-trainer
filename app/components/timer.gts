@@ -9,16 +9,9 @@ import Text from './text';
 interface TimerSignature {
   Args: {
     /**
-     * Settings for series and repetitions
+     * Trainer application settings
      */
     settings?: Settings;
-    /**
-     * Duration of the single push-up repetition in milliseconds
-     *
-     * Examples:
-     * - @repetitionDuration={{900}}
-     */
-    repetitionDuration?: number;
     /**
      * Callback function called when timer completes (each round and when all series complete)
      */
@@ -57,7 +50,7 @@ export default class TimerComponent extends Component<TimerSignature> {
   constructor(owner: unknown, args: TimerSignature['Args']) {
     super(owner, args);
 
-    this.remainingTime = this.duration;
+    this.remainingTime = this.seriesDuration;
     this.currentRepetitions = 0;
     this.currentSeries = 0;
 
@@ -74,16 +67,16 @@ export default class TimerComponent extends Component<TimerSignature> {
     });
   }
 
-  get duration() {
-    return this.args.settings?.time * 1000 || DEFAULT_DURATION_MS;
+  get seriesDuration() {
+    return this.args.settings?.seriesDuration || DEFAULT_DURATION_MS;
   }
 
   get totalSeries() {
-    return this.args.settings?.series || 1;
+    return this.args.settings?.totalSeries || 1;
   }
 
-  get totalRepetitions() {
-    return this.args.settings?.repetitions || 1;
+  get repetitionsPerSeries() {
+    return this.args.settings?.repetitionsPerSeries || 1;
   }
 
   get seconds() {
@@ -95,7 +88,9 @@ export default class TimerComponent extends Component<TimerSignature> {
   }
 
   get progressPercentage() {
-    return ((this.duration - this.remainingTime) / this.duration) * 100;
+    return (
+      ((this.seriesDuration - this.remainingTime) / this.seriesDuration) * 100
+    );
   }
 
   get formattedTime() {
@@ -110,7 +105,7 @@ export default class TimerComponent extends Component<TimerSignature> {
   }
 
   get repetitionsDisplay() {
-    return `${this.currentRepetitions}/${this.totalRepetitions}`;
+    return `${this.currentRepetitions}/${this.repetitionsPerSeries}`;
   }
 
   @action
@@ -125,16 +120,16 @@ export default class TimerComponent extends Component<TimerSignature> {
 
     this.isRunning = true;
     this.isPaused = false;
-    this.startTime = Date.now() - (this.duration - this.remainingTime);
+    this.startTime = Date.now() - (this.seriesDuration - this.remainingTime);
 
     this.intervalId = window.setInterval(() => {
       const elapsed = Date.now() - this.startTime;
-      this.remainingTime = Math.max(0, this.duration - elapsed);
+      this.remainingTime = Math.max(0, this.seriesDuration - elapsed);
 
-      if (this.currentRepetitions < this.totalRepetitions) {
+      if (this.currentRepetitions < this.repetitionsPerSeries) {
         this.currentRepetitions = Math.floor(
-          (this.duration - this.remainingTime) /
-            (this.args.repetitionDuration || 900),
+          (this.seriesDuration - this.remainingTime) /
+            (this.args.settings?.repetitionDuration || 900),
         );
       }
 
@@ -162,7 +157,7 @@ export default class TimerComponent extends Component<TimerSignature> {
   reset() {
     this.isRunning = false;
     this.isPaused = false;
-    this.remainingTime = this.duration;
+    this.remainingTime = this.seriesDuration;
     this.currentSeries = 0;
     this.currentRepetitions = 0;
 
@@ -192,17 +187,17 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.args.onComplete?.(areAllSeriesComplete);
 
     if (this.currentSeries < this.totalSeries) {
-      this.remainingTime = this.duration;
+      this.remainingTime = this.seriesDuration;
       this.startTime = Date.now();
 
       this.intervalId = window.setInterval(() => {
         const elapsed = Date.now() - this.startTime;
-        this.remainingTime = Math.max(0, this.duration - elapsed);
+        this.remainingTime = Math.max(0, this.seriesDuration - elapsed);
 
-        if (this.currentRepetitions < this.totalRepetitions) {
+        if (this.currentRepetitions < this.repetitionsPerSeries) {
           this.currentRepetitions = Math.floor(
-            (this.duration - this.remainingTime) /
-              (this.args.repetitionDuration || 900),
+            (this.seriesDuration - this.remainingTime) /
+              (this.args.settings?.repetitionDuration || 900),
           );
         }
 
