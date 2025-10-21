@@ -12,9 +12,8 @@ $button-height: 40px;
   line-height: 14px;
   letter-spacing: 0.65px;
   white-space: nowrap;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
+  border-radius: 20px;
+  font-size: 16px;
   cursor: pointer;
   width: $button-width;
   height: $button-height;
@@ -22,7 +21,6 @@ $button-height: 40px;
   display: inline-block;
   border: 0;
   text-decoration: none;
-  border-radius: 20px;
   background-color: $button-background-color;
   backdrop-filter: blur(10px);
   color: $button-color;
@@ -34,6 +32,6 @@ $button-height: 40px;
 }
 
 .button:focus {
-  outline: 4px solid $button-background-color;
+  outline: 2px solid $button-background-color;
   outline-offset: 4px;
 }
