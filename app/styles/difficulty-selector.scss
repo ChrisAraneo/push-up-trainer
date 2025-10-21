@@ -1,87 +1,93 @@
 @use './variables.scss' as *;
 
 .difficulty-selector {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%; // TODO Variable? or remove?
-  margin: 0;
-  margin-bottom: 96px;
-  padding: 16px;
-  background-color: $controls-background-color;
-  border-radius: 20px;
+  width: 100%;
+  height: 168px;
+  padding: 0;
+  margin: 0 0 96px 0;
 
-  .difficulty-selector-title {
-    span {
-      font-weight: 500 !important;
-      color: $text-color !important;
-    }
-  }
-
-  .header {
-    margin-bottom: 16px;
-  }
-
-  .row {
-    width: 100%;
-    height: 30px;
+  .difficulty-selector-card {
+    box-sizing: border-box;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    text-align: center;
     justify-content: space-between;
-  }
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 16px;
+    background-color: $controls-background-color;
+    border-radius: 20px;
 
-  .button {
-    width: 86px;
-    padding: 8px;
-  }
-
-  .edit-buttons {
-    display: flex;
-    gap: 8px;
-  }
-
-  .cancel-button {
-    .button {
-      width: 40px;
-      padding: 0;
-
-      svg {
-        margin: 0;
+    .difficulty-selector-title {
+      span {
+        font-weight: 500 !important;
+        color: $text-color !important;
       }
     }
-  }
 
-  .settings-input {
-    width: 56px;
-    padding: 4px 4px;
-    height: 14px;
-    font-size: 16px;
-    font-family: $font-family;
-    text-align: right;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    background-color: white;
-    color: $text-color;
-    outline: none;
-    transition: border-color 0.2s;
-
-    &:focus {
-      border-color: rgba(255, 255, 255, 0.6);
+    .header.expanded {
+      margin-bottom: 16px;
     }
 
-    &::-webkit-inner-spin-button,
-    &::-webkit-outer-spin-button {
-      opacity: 1;
+    .row {
+      width: 100%;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-  }
 
-  .input-with-unit {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    .button {
+      width: 86px;
+      padding: 8px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .circle-button {
+      .button {
+        width: 40px;
+        padding: 0;
+
+        svg {
+          margin: 0;
+        }
+      }
+    }
+
+    .settings-input {
+      width: 56px;
+      padding: 4px 4px;
+      height: 14px;
+      font-size: 16px;
+      font-family: $font-family;
+      text-align: right;
+      border: 1px solid $text-light-color;
+      border-radius: 8px;
+      background-color: white;
+      color: $text-color;
+      outline: none;
+      transition: border-color 0.2s;
+
+      &:focus {
+        border-color: rgba(255, 255, 255, 0.6);
+      }
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        opacity: 1;
+      }
+    }
+
+    .input-with-unit {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
   }
 }

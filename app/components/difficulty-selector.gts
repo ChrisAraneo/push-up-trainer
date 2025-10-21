@@ -4,7 +4,13 @@ import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import Text from './text';
 import Button from './button';
-import { faPen, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPen,
+  faCheck,
+  faTimes,
+  faChevronDown,
+  faChevronUp,
+} from '@fortawesome/free-solid-svg-icons';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 
 interface DifficultySelectorSignature {
@@ -22,6 +28,7 @@ interface DifficultySelectorSignature {
 
 export default class DifficultySelectorComponent extends Component<DifficultySelectorSignature> {
   @tracked private isEditing = false;
+  @tracked private isExpanded = true;
   @tracked private editTotalSeries = 0;
   @tracked private editRepetitionsPerSeries = 0;
   @tracked private editSeriesDuration = 0;
@@ -44,6 +51,11 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
 
   get seriesDurationInSeconds() {
     return Math.floor(this.args.settings.seriesDuration / 1000);
+  }
+
+  @action
+  handleToggleExpand() {
+    this.isExpanded = !this.isExpanded;
   }
 
   @action
@@ -90,76 +102,98 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
 
   <template>
     <div class="difficulty-selector">
-      <div class="row header">
-        <div class="difficulty-selector-title">
-          <Text @light={{true}}>Training plan</Text>
-        </div>
-        {{#if this.isEditing}}
-          <div class="edit-buttons">
-            <div class="cancel-button">
-              <Button @onClick={{this.handleCancel}}><FaIcon
-                  @icon={{faTimes}}
-                /></Button>
+      <div class="difficulty-selector-card">
+        <div class="row header {{if this.isExpanded 'expanded'}}">
+          <div class="difficulty-selector-title">
+            <Text @light={{true}}>Training plan</Text>
+          </div>
+          {{#if this.isEditing}}
+            <div class="buttons">
+              <div class="circle-button">
+                <Button @onClick={{this.handleCancel}}><FaIcon
+                    @icon={{faTimes}}
+                  /></Button>
+              </div>
+              <Button @onClick={{this.handleSave}}><FaIcon
+                  @icon={{faCheck}}
+                />Save</Button>
             </div>
-            <Button @onClick={{this.handleSave}}><FaIcon
-                @icon={{faCheck}}
-              />Save</Button>
+          {{else if this.isExpanded}}
+            <div class="buttons">
+              <Button @onClick={{this.handleEdit}}><FaIcon
+                  @icon={{faPen}}
+                />Edit</Button>
+              <div class="circle-button">
+                <Button @onClick={{this.handleToggleExpand}}><FaIcon
+                    @icon={{faChevronUp}}
+                  /></Button>
+              </div>
+            </div>
+          {{else}}
+            <div class="buttons">
+              <Button @onClick={{this.handleEdit}}><FaIcon
+                  @icon={{faPen}}
+                />Edit</Button>
+              <div class="circle-button">
+                <Button @onClick={{this.handleToggleExpand}}><FaIcon
+                    @icon={{faChevronDown}}
+                  /></Button>
+              </div>
+            </div>
+          {{/if}}
+        </div>
+
+        {{#if this.isExpanded}}
+          <div class="row">
+            <Text @light={{true}}>Series</Text>
+            {{#if this.isEditing}}
+              <input
+                type="number"
+                value={{this.editTotalSeries}}
+                min="1"
+                aria-label="Total series"
+                {{on "input" this.updateTotalSeries}}
+                class="settings-input"
+              />
+            {{else}}
+              <Text>{{@settings.totalSeries}}</Text>
+            {{/if}}
           </div>
-        {{else}}
-          <Button @onClick={{this.handleEdit}}><FaIcon
-              @icon={{faPen}}
-            />Edit</Button>
-        {{/if}}
-      </div>
 
-      <div class="row">
-        <Text @light={{true}}>Series</Text>
-        {{#if this.isEditing}}
-          <input
-            type="number"
-            value={{this.editTotalSeries}}
-            min="1"
-            aria-label="Total series"
-            {{on "input" this.updateTotalSeries}}
-            class="settings-input"
-          />
-        {{else}}
-          <Text>{{@settings.totalSeries}}</Text>
-        {{/if}}
-      </div>
-
-      <div class="row">
-        <Text @light={{true}}>Repetitions per series</Text>
-        {{#if this.isEditing}}
-          <input
-            type="number"
-            value={{this.editRepetitionsPerSeries}}
-            min="1"
-            aria-label="Repetitions per series"
-            {{on "input" this.updateRepetitionsPerSeries}}
-            class="settings-input"
-          />
-        {{else}}
-          <Text>{{@settings.repetitionsPerSeries}}</Text>
-        {{/if}}
-      </div>
-
-      <div class="row">
-        <Text @light={{true}}>Time per series</Text>
-        {{#if this.isEditing}}
-          <div class="input-with-unit">
-            <input
-              type="number"
-              value={{this.editSeriesDuration}}
-              min="1"
-              aria-label="Time per series in seconds"
-              {{on "input" this.updateSeriesDuration}}
-              class="settings-input"
-            />
-            <Text>sec</Text>
+          <div class="row">
+            <Text @light={{true}}>Repetitions per series</Text>
+            {{#if this.isEditing}}
+              <input
+                type="number"
+                value={{this.editRepetitionsPerSeries}}
+                min="1"
+                aria-label="Repetitions per series"
+                {{on "input" this.updateRepetitionsPerSeries}}
+                class="settings-input"
+              />
+            {{else}}
+              <Text>{{@settings.repetitionsPerSeries}}</Text>
+            {{/if}}
           </div>
-        {{else}}
-          <Text>{{this.seriesDurationInSeconds}} sec</Text>
+
+          <div class="row">
+            <Text @light={{true}}>Time per series</Text>
+            {{#if this.isEditing}}
+              <div class="input-with-unit">
+                <input
+                  type="number"
+                  value={{this.editSeriesDuration}}
+                  min="1"
+                  aria-label="Time per series in seconds"
+                  {{on "input" this.updateSeriesDuration}}
+                  class="settings-input"
+                />
+                <Text>sec</Text>
+              </div>
+            {{else}}
+              <Text>{{this.seriesDurationInSeconds}} sec</Text>
+            {{/if}}
+          </div>
         {{/if}}
       </div>
     </div>
