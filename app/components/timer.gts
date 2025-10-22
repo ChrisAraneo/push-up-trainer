@@ -146,7 +146,12 @@ export default class TimerComponent extends Component<TimerSignature> {
       return;
     }
 
-    this.startCountdown();
+    if (this.currentSeries === 0) {
+      this.startCountdown();
+    } else {
+      this.isRunning = true;
+      this.startMainTimer();
+    }
   }
 
   private startCountdown() {
@@ -275,7 +280,7 @@ export default class TimerComponent extends Component<TimerSignature> {
     if (this.currentSeries < this.totalSeries) {
       this.remainingTime = this.seriesDuration;
 
-      this.startCountdown();
+      this.startMainTimer();
     } else {
       this.isRunning = false;
       this.isPaused = false;
