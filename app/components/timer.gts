@@ -21,6 +21,14 @@ interface TimerSignature {
      */
     onTick?: (remainingTime: number) => void;
     /**
+     * Callback function called when countdown starts
+     */
+    onCountdownStart?: () => void;
+    /**
+     * Callback function called when countdown completes and main timer starts
+     */
+    onCountdownComplete?: () => void;
+    /**
      * Callback function called when timer component is ready
      */
     onReady?: (controls: {
@@ -159,6 +167,8 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.countdownRemaining = COUNTDOWN_DURATION_MS;
     this.isRunning = true;
 
+    this.args.onCountdownStart?.();
+
     const countdownStartTime = Date.now();
     let lastSecondPlayed = 6;
 
@@ -189,6 +199,8 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.countdownRemaining = 0;
 
     soundPlayer.play(SOUND_PATH);
+
+    this.args.onCountdownComplete?.();
 
     this.startMainTimer();
   }

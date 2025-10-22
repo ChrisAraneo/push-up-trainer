@@ -46,9 +46,22 @@ export default class ApplicationController extends Controller {
     }
 
     this.timerControls.start();
-    this.animationControls.play();
     this.isRunning = true;
     this.isPaused = false;
+  }
+
+  @action
+  handleCountdownStart() {
+    if (this.animationControls) {
+      this.animationControls.reset();
+    }
+  }
+
+  @action
+  handleCountdownComplete() {
+    if (this.animationControls) {
+      this.animationControls.play();
+    }
   }
 
   @action

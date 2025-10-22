@@ -34,6 +34,8 @@ export default Route(
         @settings={{@controller.settings}}
         @onReady={{@controller.handleTimerReady}}
         @onComplete={{@controller.handleTimerComplete}}
+        @onCountdownStart={{@controller.handleCountdownStart}}
+        @onCountdownComplete={{@controller.handleCountdownComplete}}
       />
 
       <Controls
