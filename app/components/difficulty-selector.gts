@@ -62,6 +62,7 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
   handleEdit() {
     this.initializeEditValues();
     this.isEditing = true;
+    this.isExpanded = true;
   }
 
   @action
