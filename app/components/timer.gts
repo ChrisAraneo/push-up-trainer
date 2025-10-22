@@ -40,6 +40,7 @@ export default class TimerComponent extends Component<TimerSignature> {
   @tracked private remainingTime: number;
   @tracked private isRunning = false;
   @tracked private isPaused = false;
+  @tracked private isBreak = false;
   @tracked private currentSeries = 0;
   @tracked private currentRepetitions = 0;
 
@@ -52,6 +53,7 @@ export default class TimerComponent extends Component<TimerSignature> {
 
     this.remainingTime = this.seriesDuration;
     this.currentRepetitions = 0;
+    this.isBreak = false;
     this.currentSeries = 0;
 
     soundPlayer.load(SOUND_PATH);
@@ -133,6 +135,8 @@ export default class TimerComponent extends Component<TimerSignature> {
         );
       }
 
+      this.isBreak = this.currentRepetitions >= this.repetitionsPerSeries;
+
       this.args.onTick?.(this.remainingTime);
 
       if (this.remainingTime <= 0) {
@@ -160,6 +164,7 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.remainingTime = this.seriesDuration;
     this.currentSeries = 0;
     this.currentRepetitions = 0;
+    this.isBreak = false;
 
     if (this.intervalId) {
       clearInterval(this.intervalId);
@@ -182,6 +187,7 @@ export default class TimerComponent extends Component<TimerSignature> {
 
     if (!areAllSeriesComplete) {
       this.currentRepetitions = 0;
+      this.isBreak = false;
     }
 
     this.args.onComplete?.(areAllSeriesComplete);
@@ -200,6 +206,8 @@ export default class TimerComponent extends Component<TimerSignature> {
               (this.args.settings?.repetitionDuration || 900),
           );
         }
+
+        this.isBreak = this.currentRepetitions >= this.repetitionsPerSeries;
 
         this.args.onTick?.(this.remainingTime);
 
@@ -226,7 +234,7 @@ export default class TimerComponent extends Component<TimerSignature> {
     <div class="timer">
       <CircularProgress @progress={{this.progressPercentage}}>
         <div class="display">
-          <div class="status">
+          <div class="progress">
             <div class="series">
               <Text @monospace={{true}}>Series:</Text>
               <Text @monospace={{true}}>{{this.seriesDisplay}}</Text>
@@ -240,6 +248,13 @@ export default class TimerComponent extends Component<TimerSignature> {
             <Text
               @monospace={{true}}
             >{{this.formattedTime.seconds}}:{{this.formattedTime.milliseconds}}</Text>
+          </div>
+          <div class="status">
+            {{#if this.isPaused}}
+              <Text @monospace={{true}}>Timer paused</Text>
+            {{else if this.isBreak}}
+              <Text @monospace={{true}}>Take a short break</Text>
+            {{/if}}
           </div>
         </div>
       </CircularProgress>
