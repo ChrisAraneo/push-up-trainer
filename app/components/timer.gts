@@ -34,6 +34,7 @@ interface TimerSignature {
 const DEFAULT_DURATION_MS = 30000;
 const INTERVAL_UPDATE_MS = 5;
 const SECOND_MS = 1000;
+const COUNTDOWN_DURATION_MS = 5000;
 const SOUND_PATH = '/sounds/sound.wav';
 
 export default class TimerComponent extends Component<TimerSignature> {
@@ -41,10 +42,13 @@ export default class TimerComponent extends Component<TimerSignature> {
   @tracked private isRunning = false;
   @tracked private isPaused = false;
   @tracked private isBreak = false;
+  @tracked private isCountdown = false;
+  @tracked private countdownRemaining = 0;
   @tracked private currentSeries = 0;
   @tracked private currentRepetitions = 0;
 
   private intervalId: number | null = null;
+  private countdownIntervalId: number | null = null;
   private startTime = 0;
   private pausedTime = 0;
 
@@ -54,6 +58,8 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.remainingTime = this.seriesDuration;
     this.currentRepetitions = 0;
     this.isBreak = false;
+    this.isCountdown = false;
+    this.countdownRemaining = 0;
     this.currentSeries = 0;
 
     soundPlayer.load(SOUND_PATH);
@@ -90,12 +96,26 @@ export default class TimerComponent extends Component<TimerSignature> {
   }
 
   get progressPercentage() {
+    if (this.isCountdown) {
+      return (
+        ((COUNTDOWN_DURATION_MS - this.countdownRemaining) /
+          COUNTDOWN_DURATION_MS) *
+        100
+      );
+    }
     return (
       ((this.seriesDuration - this.remainingTime) / this.seriesDuration) * 100
     );
   }
 
   get formattedTime() {
+    if (this.isCountdown) {
+      const countdownSeconds = Math.ceil(this.countdownRemaining / SECOND_MS);
+      return {
+        seconds: countdownSeconds.toString().padStart(2, '0'),
+        milliseconds: '00',
+      };
+    }
     return {
       seconds: this.seconds.toString().padStart(2, '0'),
       milliseconds: this.milliseconds.toString().padStart(2, '0'),
@@ -120,8 +140,55 @@ export default class TimerComponent extends Component<TimerSignature> {
       this.reset();
     }
 
+    if (this.isPaused) {
+      this.isPaused = false;
+      this.startMainTimer();
+      return;
+    }
+
+    this.startCountdown();
+  }
+
+  private startCountdown() {
+    this.isCountdown = true;
+    this.countdownRemaining = COUNTDOWN_DURATION_MS;
     this.isRunning = true;
-    this.isPaused = false;
+
+    const countdownStartTime = Date.now();
+    let lastSecondPlayed = 6;
+
+    this.countdownIntervalId = window.setInterval(() => {
+      const elapsed = Date.now() - countdownStartTime;
+      this.countdownRemaining = Math.max(0, COUNTDOWN_DURATION_MS - elapsed);
+
+      const currentSecond = Math.ceil(this.countdownRemaining / SECOND_MS);
+
+      if (currentSecond > 0 && currentSecond < lastSecondPlayed) {
+        soundPlayer.play(SOUND_PATH);
+        lastSecondPlayed = currentSecond;
+      }
+
+      if (this.countdownRemaining <= 0) {
+        this.finishCountdown();
+      }
+    }, INTERVAL_UPDATE_MS);
+  }
+
+  private finishCountdown() {
+    if (this.countdownIntervalId) {
+      clearInterval(this.countdownIntervalId);
+      this.countdownIntervalId = null;
+    }
+
+    this.isCountdown = false;
+    this.countdownRemaining = 0;
+
+    soundPlayer.play(SOUND_PATH);
+
+    this.startMainTimer();
+  }
+
+  private startMainTimer() {
     this.startTime = Date.now() - (this.seriesDuration - this.remainingTime);
 
     this.intervalId = window.setInterval(() => {
@@ -147,7 +214,13 @@ export default class TimerComponent extends Component<TimerSignature> {
 
   @action
   pause() {
-    if (!this.isRunning || this.isPaused) return;
+    if (!this.isRunning || this.isPaused) {
+      return;
+    }
+
+    if (this.isCountdown) {
+      return;
+    }
 
     this.isPaused = true;
 
@@ -161,6 +234,8 @@ export default class TimerComponent extends Component<TimerSignature> {
   reset() {
     this.isRunning = false;
     this.isPaused = false;
+    this.isCountdown = false;
+    this.countdownRemaining = 0;
     this.remainingTime = this.seriesDuration;
     this.currentSeries = 0;
     this.currentRepetitions = 0;
@@ -169,6 +244,11 @@ export default class TimerComponent extends Component<TimerSignature> {
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
+    }
+
+    if (this.countdownIntervalId) {
+      clearInterval(this.countdownIntervalId);
+      this.countdownIntervalId = null;
     }
   }
 
@@ -194,27 +274,8 @@ export default class TimerComponent extends Component<TimerSignature> {
 
     if (this.currentSeries < this.totalSeries) {
       this.remainingTime = this.seriesDuration;
-      this.startTime = Date.now();
 
-      this.intervalId = window.setInterval(() => {
-        const elapsed = Date.now() - this.startTime;
-        this.remainingTime = Math.max(0, this.seriesDuration - elapsed);
-
-        if (this.currentRepetitions < this.repetitionsPerSeries) {
-          this.currentRepetitions = Math.floor(
-            (this.seriesDuration - this.remainingTime) /
-              (this.args.settings?.repetitionDuration || 900),
-          );
-        }
-
-        this.isBreak = this.currentRepetitions >= this.repetitionsPerSeries;
-
-        this.args.onTick?.(this.remainingTime);
-
-        if (this.remainingTime <= 0) {
-          this.complete();
-        }
-      }, INTERVAL_UPDATE_MS);
+      this.startCountdown();
     } else {
       this.isRunning = false;
       this.isPaused = false;
@@ -227,6 +288,10 @@ export default class TimerComponent extends Component<TimerSignature> {
 
     if (this.intervalId) {
       clearInterval(this.intervalId);
+    }
+
+    if (this.countdownIntervalId) {
+      clearInterval(this.countdownIntervalId);
     }
   }
 
@@ -250,7 +315,10 @@ export default class TimerComponent extends Component<TimerSignature> {
             >{{this.formattedTime.seconds}}:{{this.formattedTime.milliseconds}}</Text>
           </div>
           <div class="status">
-            {{#if this.isPaused}}
+            {{#if this.isCountdown}}
+              <Text @monospace={{true}}>Get ready...
+                {{this.formattedTime.seconds}}</Text>
+            {{else if this.isPaused}}
               <Text @monospace={{true}}>Timer paused</Text>
             {{else if this.isBreak}}
               <Text @monospace={{true}}>Take a short break</Text>
