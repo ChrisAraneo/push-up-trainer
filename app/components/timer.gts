@@ -120,10 +120,11 @@ export default class TimerComponent extends Component<TimerSignature> {
 
   get formattedTime() {
     if (this.isCountdown) {
-      const countdownSeconds = Math.ceil(this.countdownRemaining / SECOND_MS);
+      const countdownSeconds = Math.floor(this.countdownRemaining / SECOND_MS);
+      const countdownMilliseconds = Math.floor((this.countdownRemaining % SECOND_MS) / 10);
       return {
         seconds: countdownSeconds.toString().padStart(2, '0'),
-        milliseconds: '00',
+        milliseconds: countdownMilliseconds.toString().padStart(2, '0'),
       };
     }
     return {
