@@ -44,6 +44,7 @@ const INTERVAL_UPDATE_MS = 5;
 const SECOND_MS = 1000;
 const COUNTDOWN_DURATION_MS = 5000;
 const SOUND_PATH = '/sounds/sound.wav';
+const COUNTDOWN_SOUND_PATH = '/sounds/countdown.wav';
 
 export default class TimerComponent extends Component<TimerSignature> {
   @tracked private remainingTime: number;
@@ -71,6 +72,7 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.currentSeries = 0;
 
     soundPlayer.load(SOUND_PATH);
+    soundPlayer.load(COUNTDOWN_SOUND_PATH);
 
     if (!this.args.onReady) {
       return;
@@ -169,19 +171,13 @@ export default class TimerComponent extends Component<TimerSignature> {
 
     this.args.onCountdownStart?.();
 
+    soundPlayer.play(COUNTDOWN_SOUND_PATH);
+
     const countdownStartTime = Date.now();
-    let lastSecondPlayed = 6;
 
     this.countdownIntervalId = window.setInterval(() => {
       const elapsed = Date.now() - countdownStartTime;
       this.countdownRemaining = Math.max(0, COUNTDOWN_DURATION_MS - elapsed);
-
-      const currentSecond = Math.ceil(this.countdownRemaining / SECOND_MS);
-
-      if (currentSecond > 0 && currentSecond < lastSecondPlayed) {
-        soundPlayer.play(SOUND_PATH);
-        lastSecondPlayed = currentSecond;
-      }
 
       if (this.countdownRemaining <= 0) {
         this.finishCountdown();
@@ -197,8 +193,6 @@ export default class TimerComponent extends Component<TimerSignature> {
 
     this.isCountdown = false;
     this.countdownRemaining = 0;
-
-    soundPlayer.play(SOUND_PATH);
 
     this.args.onCountdownComplete?.();
 
