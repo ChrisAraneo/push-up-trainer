@@ -43,7 +43,7 @@ const DEFAULT_DURATION_MS = 30000;
 const INTERVAL_UPDATE_MS = 5;
 const SECOND_MS = 1000;
 const COUNTDOWN_DURATION_MS = 5000;
-const SOUND_PATH = '/sounds/sound.wav';
+const START_SOUND_PATH = '/sounds/start.wav';
 const COUNTDOWN_SOUND_PATH = '/sounds/countdown.wav';
 
 export default class TimerComponent extends Component<TimerSignature> {
@@ -71,7 +71,7 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.countdownRemaining = 0;
     this.currentSeries = 0;
 
-    soundPlayer.load(SOUND_PATH);
+    soundPlayer.load(START_SOUND_PATH);
     soundPlayer.load(COUNTDOWN_SOUND_PATH);
 
     if (!this.args.onReady) {
@@ -271,7 +271,7 @@ export default class TimerComponent extends Component<TimerSignature> {
       this.intervalId = null;
     }
 
-    soundPlayer.play(SOUND_PATH);
+    soundPlayer.play(START_SOUND_PATH);
 
     this.currentSeries++;
 
