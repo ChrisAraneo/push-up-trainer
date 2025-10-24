@@ -18,13 +18,15 @@ interface DifficultySelectorSignature {
     /**
      * Trainer application settings
      */
-    settings?: Settings;
+    settings: Settings;
     /**
      * Callback function called when settings changes
      */
-    onSettingsChange?: (settings: Settings) => void;
+    onSettingsChange: (settings: Settings) => void;
   };
 }
+
+const SECOND_MS = 1000;
 
 export default class DifficultySelectorComponent extends Component<DifficultySelectorSignature> {
   @tracked private isEditing = false;
@@ -44,13 +46,13 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
       this.editTotalSeries = this.args.settings.totalSeries;
       this.editRepetitionsPerSeries = this.args.settings.repetitionsPerSeries;
       this.editSeriesDuration = Math.floor(
-        this.args.settings.seriesDuration / 1000,
+        this.args.settings.seriesDuration / SECOND_MS,
       );
     }
   }
 
   get seriesDurationInSeconds() {
-    return Math.floor(this.args.settings.seriesDuration / 1000);
+    return Math.floor(this.args.settings.seriesDuration / SECOND_MS);
   }
 
   @action
@@ -67,14 +69,13 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
 
   @action
   handleSave() {
-    if (this.args.onSettingsChange) {
       this.args.onSettingsChange({
         totalSeries: this.editTotalSeries,
         repetitionsPerSeries: this.editRepetitionsPerSeries,
-        seriesDuration: this.editSeriesDuration * 1000,
-        repetitionDuration: this.args.settings?.repetitionDuration || 900,
+        seriesDuration: this.editSeriesDuration * SECOND_MS,
+        repetitionDuration: this.args.settings.repetitionDuration,
       });
-    }
+
     this.isEditing = false;
   }
 
