@@ -11,27 +11,27 @@ interface TimerSignature {
     /**
      * Trainer application settings
      */
-    settings?: Settings;
+    settings: Settings;
     /**
      * Callback function called when timer completes (each round and when all series complete)
      */
-    onComplete?: (areAllSeriesComplete: boolean) => void;
+    onComplete: (areAllSeriesComplete: boolean) => void;
     /**
      * Callback function called on each tick with remaining time
      */
-    onTick?: (remainingTime: number) => void;
+    onTick: (remainingTime: number) => void;
     /**
      * Callback function called when countdown starts
      */
-    onCountdownStart?: () => void;
+    onCountdownStart: () => void;
     /**
      * Callback function called when countdown completes and main timer starts
      */
-    onCountdownComplete?: () => void;
+    onCountdownComplete: () => void;
     /**
      * Callback function called when timer component is ready
      */
-    onReady?: (controls: {
+    onReady: (controls: {
       start: () => void;
       pause: () => void;
       reset: () => void;
@@ -39,7 +39,6 @@ interface TimerSignature {
   };
 }
 
-const DEFAULT_DURATION_MS = 30000;
 const INTERVAL_UPDATE_MS = 5;
 const SECOND_MS = 1000;
 const COUNTDOWN_DURATION_MS = 5000;
@@ -74,10 +73,6 @@ export default class TimerComponent extends Component<TimerSignature> {
     soundPlayer.load(START_SOUND_PATH);
     soundPlayer.load(COUNTDOWN_SOUND_PATH);
 
-    if (!this.args.onReady) {
-      return;
-    }
-
     this.args.onReady({
       start: this.start.bind(this),
       pause: this.pause.bind(this),
@@ -86,15 +81,15 @@ export default class TimerComponent extends Component<TimerSignature> {
   }
 
   get seriesDuration() {
-    return this.args.settings?.seriesDuration || DEFAULT_DURATION_MS;
+    return this.args.settings.seriesDuration;
   }
 
   get totalSeries() {
-    return this.args.settings?.totalSeries || 1;
+    return this.args.settings.totalSeries;
   }
 
   get repetitionsPerSeries() {
-    return this.args.settings?.repetitionsPerSeries || 1;
+    return this.args.settings.repetitionsPerSeries;
   }
 
   get seconds() {
@@ -113,6 +108,7 @@ export default class TimerComponent extends Component<TimerSignature> {
         100
       );
     }
+
     return (
       ((this.seriesDuration - this.remainingTime) / this.seriesDuration) * 100
     );
@@ -122,11 +118,13 @@ export default class TimerComponent extends Component<TimerSignature> {
     if (this.isCountdown) {
       const countdownSeconds = Math.floor(this.countdownRemaining / SECOND_MS);
       const countdownMilliseconds = Math.floor((this.countdownRemaining % SECOND_MS) / 10);
+      
       return {
         seconds: countdownSeconds.toString().padStart(2, '0'),
         milliseconds: countdownMilliseconds.toString().padStart(2, '0'),
       };
     }
+
     return {
       seconds: this.seconds.toString().padStart(2, '0'),
       milliseconds: this.milliseconds.toString().padStart(2, '0'),
@@ -170,7 +168,7 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.countdownRemaining = COUNTDOWN_DURATION_MS;
     this.isRunning = true;
 
-    this.args.onCountdownStart?.();
+    this.args.onCountdownStart();
 
     soundPlayer.play(COUNTDOWN_SOUND_PATH);
 
@@ -195,7 +193,7 @@ export default class TimerComponent extends Component<TimerSignature> {
     this.isCountdown = false;
     this.countdownRemaining = 0;
 
-    this.args.onCountdownComplete?.();
+    this.args.onCountdownComplete();
 
     this.startMainTimer();
   }
@@ -210,13 +208,13 @@ export default class TimerComponent extends Component<TimerSignature> {
       if (this.currentRepetitions < this.repetitionsPerSeries) {
         this.currentRepetitions = Math.floor(
           (this.seriesDuration - this.remainingTime) /
-            (this.args.settings?.repetitionDuration || 900),
+            (this.args.settings.repetitionDuration),
         );
       }
 
       this.isBreak = this.currentRepetitions >= this.repetitionsPerSeries;
 
-      this.args.onTick?.(this.remainingTime);
+      this.args.onTick(this.remainingTime);
 
       if (this.remainingTime <= 0) {
         this.complete();
@@ -282,7 +280,7 @@ export default class TimerComponent extends Component<TimerSignature> {
       this.isBreak = false;
     }
 
-    this.args.onComplete?.(areAllSeriesComplete);
+    this.args.onComplete(areAllSeriesComplete);
 
     if (this.currentSeries < this.totalSeries) {
       this.remainingTime = this.seriesDuration;
