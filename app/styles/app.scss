@@ -45,11 +45,11 @@ body {
     overflow: hidden;
 
     .background-circle {
-      width: 150vh;
-      height: 150vh;
+      width: 140vh;
+      height: 140vh;
       position: absolute;
-      top: calc(50% - 75vh);
-      left: calc(50% - 75vh);
+      top: calc(50% - 70vh);
+      left: calc(50% - 70vh);
       background-color: white;
       border-radius: 50%;
       z-index: -100;
@@ -78,6 +78,11 @@ body {
     .background-animation {
       top: calc(50vh - 313px);
     }
+  }
+
+  .controls {
+    margin: 0;
+    margin-top: 16px;
   }
 }
 
@@ -145,6 +150,10 @@ body {
         top: calc(50vh - 290px);
         transform: scale(0.75);
       }
+    }
+
+    .controls {
+      margin: 16px;
     }
   }
 }
