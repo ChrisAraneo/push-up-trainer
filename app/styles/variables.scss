@@ -1,13 +1,14 @@
 $font-family: 'Montserrat', sans-serif;
 $font-family-monospace: 'Courier New', monospace;
 
-$color-primary: hsl(199, 100%, 50%);
-$color-light-primary: hsl(199, 100%, 65%);
+$color-primary: #00aeff;
+$color-light-primary: #4dc6ff;
 
 $text-color: #333333;
 $text-light-color: #6d6d6d;
 
 $button-background-color: $color-light-primary;
+$button-background-focus-color: rgba(lighten($color-light-primary, 15%), 0.75);
 $button-background-color-hover: #d3d3d3;
 $button-color: #ffffff;
 
