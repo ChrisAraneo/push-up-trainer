@@ -134,9 +134,10 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
                   @icon={{faPen}}
                 />Edit</Button>
               <div class="circle-button">
-                <Button @onClick={{this.handleToggleExpand}} @variant="ghost"><FaIcon
-                    @icon={{this.chevronIcon}}
-                  /></Button>
+                <Button
+                  @onClick={{this.handleToggleExpand}}
+                  @variant="ghost"
+                ><FaIcon @icon={{this.chevronIcon}} /></Button>
               </div>
             {{/if}}
           </div>
