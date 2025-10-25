@@ -11,7 +11,7 @@ const DEFAULT_SETTINGS: Settings = Object.freeze({
   totalSeries: 3,
   repetitionsPerSeries: 5,
   seriesDuration: 10000,
-  repetitionDuration: 900,
+  repetitionDuration: 1000,
 });
 
 export default class ApplicationController extends Controller {
