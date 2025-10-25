@@ -22,6 +22,10 @@ interface ButtonSignature {
 export default class ButtonComponent extends Component<ButtonSignature> {
   @action
   handleClick(event: MouseEvent) {
+    if (this.args.disabled) {
+      return;
+    }
+
     this.createRipple(event);
 
     if (this.args.onClick) {
