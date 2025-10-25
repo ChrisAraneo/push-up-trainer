@@ -9,6 +9,10 @@ interface ButtonSignature {
      */
     onClick: () => void;
     /**
+     * Button variant
+     */
+    variant?: 'primary' | 'ghost';
+    /**
      * Whether the button is disabled
      */
     disabled?: boolean;
@@ -23,6 +27,10 @@ export default class ButtonComponent extends Component<ButtonSignature> {
     if (this.args.onClick) {
       this.args.onClick();
     }
+  }
+
+  private get variant() {
+    return this.args.variant || 'primary';
   }
 
   private createRipple(event: MouseEvent) {
@@ -49,7 +57,7 @@ export default class ButtonComponent extends Component<ButtonSignature> {
   <template>
     <button
       type="button"
-      class="button"
+      class="button {{this.variant}}"
       disabled={{@disabled}}
       {{on "click" this.handleClick}}
     >

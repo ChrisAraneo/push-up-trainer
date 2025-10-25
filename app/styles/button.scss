@@ -16,23 +16,45 @@ $button-height: 40px;
   cursor: pointer;
   width: $button-width;
   height: $button-height;
-  color: $button-color;
   display: inline-block;
   border: 0;
   text-decoration: none;
-  background-color: $button-background-color;
-  backdrop-filter: blur(10px);
   color: $button-color;
   text-transform: uppercase;
   position: relative;
   overflow: hidden;
 
-  svg {
-    margin-right: 8px;
+  &.primary {
+    color: $button-color;
+    background-color: $button-background-color;
+
+    &:hover {
+      background-color: $button-background-color-hover;
+    }
+
+    &:focus {
+      outline: 4px solid $button-background-focus-color;
+      outline-offset: 0px;
+    }
   }
 
-  &:hover {
-    background-color: $button-background-color-hover;
+  &.ghost {
+    color: $text-light-color;
+    background-color: rgba(255, 255, 255, 0.25);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    &:focus {
+      outline: 4px solid white;
+      outline-offset: 0px;
+      background-color: rgba(255, 255, 255, 0.55);
+    }
+  }
+
+  svg {
+    margin-right: 8px;
   }
 
   &:disabled {
@@ -43,11 +65,6 @@ $button-height: 40px;
       transform: none;
     }
   }
-}
-
-.button:focus {
-  outline: 4px solid $button-background-focus-color;
-  outline-offset: 0px;
 }
 
 .ripple {
