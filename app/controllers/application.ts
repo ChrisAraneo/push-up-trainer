@@ -92,6 +92,9 @@ export default class ApplicationController extends Controller {
   }
 
   @action
+  reset() {}
+
+  @action
   handleTimerComplete(areAllSeriesComplete: boolean) {
     if (this.animationControls) {
       this.animationControls.reset();

@@ -69,12 +69,12 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
 
   @action
   handleSave() {
-      this.args.onSettingsChange({
-        totalSeries: this.editTotalSeries,
-        repetitionsPerSeries: this.editRepetitionsPerSeries,
-        seriesDuration: this.editSeriesDuration * SECOND_MS,
-        repetitionDuration: this.args.settings.repetitionDuration,
-      });
+    this.args.onSettingsChange({
+      totalSeries: this.editTotalSeries,
+      repetitionsPerSeries: this.editRepetitionsPerSeries,
+      seriesDuration: this.editSeriesDuration * SECOND_MS,
+      repetitionDuration: this.args.settings.repetitionDuration,
+    });
 
     this.isEditing = false;
   }

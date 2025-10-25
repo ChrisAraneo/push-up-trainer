@@ -27,6 +27,7 @@ export default Route(
           @duration={{@controller.settings.repetitionDuration}}
           @iterations={{@controller.settings.repetitionsPerSeries}}
           @onReady={{@controller.handleAnimationReady}}
+          @onReset={{@controller.reset}}
         />
       </div>
 

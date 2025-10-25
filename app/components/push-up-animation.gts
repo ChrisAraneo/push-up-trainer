@@ -41,7 +41,7 @@ interface PushUpAnimationSignature {
      */
     onComplete: () => void;
     /**
-     * Callback function called when reset is triggered
+     * Callback function called when reset is triggered TODO Needed?
      */
     onReset: () => void;
   };

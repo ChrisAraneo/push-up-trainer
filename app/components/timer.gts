@@ -17,10 +17,6 @@ interface TimerSignature {
      */
     onComplete: (areAllSeriesComplete: boolean) => void;
     /**
-     * Callback function called on each tick with remaining time
-     */
-    onTick: (remainingTime: number) => void;
-    /**
      * Callback function called when countdown starts
      */
     onCountdownStart: () => void;
@@ -42,6 +38,8 @@ interface TimerSignature {
 const INTERVAL_UPDATE_MS = 5;
 const SECOND_MS = 1000;
 const COUNTDOWN_DURATION_MS = 5000;
+const COLOR_BACKGROUND_STROKE = 'rgba(200,200,200,0.45)';
+const COLOR_PRIMARY = '#00aeff';
 const START_SOUND_PATH = '/sounds/start.wav';
 const COUNTDOWN_SOUND_PATH = '/sounds/countdown.wav';
 
@@ -117,8 +115,10 @@ export default class TimerComponent extends Component<TimerSignature> {
   get formattedTime() {
     if (this.isCountdown) {
       const countdownSeconds = Math.floor(this.countdownRemaining / SECOND_MS);
-      const countdownMilliseconds = Math.floor((this.countdownRemaining % SECOND_MS) / 10);
-      
+      const countdownMilliseconds = Math.floor(
+        (this.countdownRemaining % SECOND_MS) / 10,
+      );
+
       return {
         seconds: countdownSeconds.toString().padStart(2, '0'),
         milliseconds: countdownMilliseconds.toString().padStart(2, '0'),
@@ -208,13 +208,11 @@ export default class TimerComponent extends Component<TimerSignature> {
       if (this.currentRepetitions < this.repetitionsPerSeries) {
         this.currentRepetitions = Math.floor(
           (this.seriesDuration - this.remainingTime) /
-            (this.args.settings.repetitionDuration),
+            this.args.settings.repetitionDuration,
         );
       }
 
       this.isBreak = this.currentRepetitions >= this.repetitionsPerSeries;
-
-      this.args.onTick(this.remainingTime);
 
       if (this.remainingTime <= 0) {
         this.complete();
@@ -307,7 +305,13 @@ export default class TimerComponent extends Component<TimerSignature> {
 
   <template>
     <div class="timer">
-      <CircularProgress @progress={{this.progressPercentage}}>
+      <CircularProgress
+        @progress={{this.progressPercentage}}
+        @size={{300}}
+        @strokeWidth={{10}}
+        @backgroundStroke={{COLOR_BACKGROUND_STROKE}}
+        @progressStroke={{COLOR_PRIMARY}}
+      >
         <div class="display">
           <div class="progress">
             <div class="series">
