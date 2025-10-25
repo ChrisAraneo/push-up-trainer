@@ -121,6 +121,7 @@ export default class TimerComponent extends Component<TimerSignature> {
 
       return {
         seconds: countdownSeconds.toString().padStart(2, '0'),
+        secondsWithoutPadding: countdownSeconds.toString(),
         milliseconds: countdownMilliseconds.toString().padStart(2, '0'),
       };
     }
@@ -326,12 +327,13 @@ export default class TimerComponent extends Component<TimerSignature> {
           <div class="time">
             <Text
               @monospace={{true}}
+              @light={{this.isCountdown}}
             >{{this.formattedTime.seconds}}:{{this.formattedTime.milliseconds}}</Text>
           </div>
           <div class="status">
             {{#if this.isCountdown}}
               <Text @monospace={{true}}>Get ready...
-                {{this.formattedTime.seconds}}</Text>
+                {{this.formattedTime.secondsWithoutPadding}}:{{this.formattedTime.milliseconds}}</Text>
             {{else if this.isPaused}}
               <Text @monospace={{true}}>Timer paused</Text>
             {{else if this.isBreak}}
