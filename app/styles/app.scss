@@ -1,6 +1,7 @@
 @use './variables.scss' as *;
 @use './text.scss';
 @use './title.scss';
+@use './background.scss';
 @use './push-up-animation.scss';
 @use './timer.scss';
 @use './button.scss';
@@ -14,20 +15,18 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
+  background-color: transparent;
 }
 
 body {
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: $background-color;
+  background-color: transparent;
 }
 
-.app-container {
+.application {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,27 +34,6 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   height: fit-content;
-
-  .background {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    z-index: -100;
-
-    .background-circle {
-      width: 140vh;
-      height: 140vh;
-      position: absolute;
-      top: calc(50% - 70vh);
-      left: calc(50% - 70vh);
-      background-color: white;
-      border-radius: 50%;
-      z-index: -100;
-    }
-  }
 
   .title {
     margin-bottom: 8px;
@@ -93,29 +71,9 @@ body {
     height: 100%;
   }
 
-  .app-container {
+  .application {
     height: 100%;
     justify-content: flex-end;
-
-    .background {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-
-      .background-circle {
-        width: 200vh;
-        height: 200vh;
-        position: absolute;
-        top: calc(50% - 100vh);
-        left: calc(50% - 100vh);
-        background-color: white;
-        border-radius: 50%;
-        z-index: -100;
-      }
-    }
 
     .title {
       position: absolute;
