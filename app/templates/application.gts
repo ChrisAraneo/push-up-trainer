@@ -14,7 +14,14 @@ export default Route(
 
     {{outlet}}
 
-    <div class="app-container {{if @controller.isDifficultySelectorExpanded 'expanded'}}">
+    <div
+      class="app-container
+        {{if @controller.isDifficultySelectorExpanded 'expanded'}}"
+    >
+      <div class="background">
+        <div class="background-circle"></div>
+      </div>
+
       <Title>{{TITLE}}</Title>
 
       <DifficultySelector

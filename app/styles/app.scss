@@ -34,6 +34,26 @@ body {
   background-color: $background-color;
 }
 
+.background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  .background-circle {
+    width: 150vh;
+    height: 150vh;
+    position: absolute;
+    top: calc(50% - 75vh);
+    left: calc(50% - 75vh);
+    background-color: white;
+    border-radius: 50%;
+    z-index: -100;
+  }
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
@@ -53,13 +73,13 @@ body {
   }
 
   .background-animation {
-  position: absolute;
-  top: calc(50vh - 366px);
-  z-index: -1;
-  transform: scale(1);
-  transform-origin: center center;
-  overflow: hidden;
-}
+    position: absolute;
+    top: calc(50vh - 366px);
+    z-index: -1;
+    transform: scale(1);
+    transform-origin: center center;
+    overflow: hidden;
+  }
 
   &.expanded {
     .background-animation {
@@ -74,8 +94,6 @@ body {
     justify-content: flex-end;
   }
 }
-
-
 
 @media (max-width: 640px) {
   .background-animation {
