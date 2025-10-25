@@ -23,6 +23,10 @@ interface DifficultySelectorSignature {
      * Callback function called when settings changes
      */
     onSettingsChange: (settings: Settings) => void;
+    /**
+     * Callback function called when card is expanded/collapsed
+     */
+    onToggleExpand: (expanded: boolean) => void;
   };
 }
 
@@ -58,6 +62,8 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
   @action
   handleToggleExpand() {
     this.isExpanded = !this.isExpanded;
+
+    this.args.onToggleExpand(this.isExpanded);
   }
 
   @action
@@ -103,7 +109,7 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
   }
 
   <template>
-    <div class="difficulty-selector">
+    <div class="difficulty-selector {{if this.isExpanded 'expanded'}}">
       <div class="difficulty-selector-card">
         <div class="row header {{if this.isExpanded 'expanded'}}">
           <div class="difficulty-selector-title">

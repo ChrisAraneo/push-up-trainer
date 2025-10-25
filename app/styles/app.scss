@@ -42,6 +42,30 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   height: fit-content;
+
+  .title {
+    margin-bottom: 8px;
+  }
+
+  .timer {
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+
+  .background-animation {
+  position: absolute;
+  top: calc(50vh - 366px);
+  z-index: -1;
+  transform: scale(1);
+  transform-origin: center center;
+  overflow: hidden;
+}
+
+  &.expanded {
+    .background-animation {
+      top: calc(50vh - 313px);
+    }
+  }
 }
 
 @media (max-width: 640px) {
@@ -51,14 +75,7 @@ body {
   }
 }
 
-.background-animation {
-  position: absolute;
-  top: calc(50vh - 296px);
-  z-index: -1;
-  transform: scale(1);
-  transform-origin: center center;
-  overflow: hidden;
-}
+
 
 @media (max-width: 640px) {
   .background-animation {

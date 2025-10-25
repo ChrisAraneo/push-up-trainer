@@ -1,6 +1,6 @@
 @use './variables.scss' as *;
 
-$button-width: 126px;
+$button-width: 128px;
 $button-height: 40px;
 
 .button {
@@ -10,10 +10,9 @@ $button-height: 40px;
   font-style: normal;
   font-size: 14px !important;
   line-height: 14px;
-  letter-spacing: 0.65px;
+  letter-spacing: 0.75px;
   white-space: nowrap;
   border-radius: 20px;
-  font-size: 16px;
   cursor: pointer;
   width: $button-width;
   height: $button-height;
@@ -30,6 +29,10 @@ $button-height: 40px;
 
   svg {
     margin-right: 8px;
+  }
+
+  &:hover {
+    background-color: $button-background-color-hover;
   }
 
   &:disabled {

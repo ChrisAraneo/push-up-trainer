@@ -20,6 +20,7 @@ export default class ApplicationController extends Controller {
   @tracked timerControls: TimerControls | undefined;
   @tracked isRunning = false;
   @tracked isPaused = false;
+  @tracked isDifficultySelectorExpanded = true;
 
   constructor() {
     // eslint-disable-next-line prefer-rest-params
@@ -125,6 +126,11 @@ export default class ApplicationController extends Controller {
       this.isRunning = false;
       this.isPaused = false;
     }
+  }
+
+  @action
+  handleToggleExpand(expanded: boolean) {
+    this.isDifficultySelectorExpanded = expanded;
   }
 
   private loadSettingsFromStorage(): Settings {

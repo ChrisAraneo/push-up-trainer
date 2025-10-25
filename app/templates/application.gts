@@ -14,12 +14,13 @@ export default Route(
 
     {{outlet}}
 
-    <div class="app-container">
+    <div class="app-container {{if @controller.isDifficultySelectorExpanded 'expanded'}}">
       <Title>{{TITLE}}</Title>
 
       <DifficultySelector
         @settings={{@controller.settings}}
         @onSettingsChange={{@controller.handleSettingsChange}}
+        @onToggleExpand={{@controller.handleToggleExpand}}
       />
 
       <div class="background-animation">
