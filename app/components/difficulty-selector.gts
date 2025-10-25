@@ -55,6 +55,10 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
     }
   }
 
+  get chevronIcon() {
+    return this.isExpanded ? faChevronUp : faChevronDown;
+  }
+
   get seriesDurationInSeconds() {
     return Math.floor(this.args.settings.seriesDuration / SECOND_MS);
   }
@@ -115,8 +119,8 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
           <div class="difficulty-selector-title">
             <Text @light={{true}}>Training plan</Text>
           </div>
-          {{#if this.isEditing}}
-            <div class="buttons">
+          <div class="buttons">
+            {{#if this.isEditing}}
               <div class="circle-button">
                 <Button @onClick={{this.handleCancel}}><FaIcon
                     @icon={{faTimes}}
@@ -125,30 +129,17 @@ export default class DifficultySelectorComponent extends Component<DifficultySel
               <Button @onClick={{this.handleSave}}><FaIcon
                   @icon={{faCheck}}
                 />Save</Button>
-            </div>
-          {{else if this.isExpanded}}
-            <div class="buttons">
+            {{else}}
               <Button @onClick={{this.handleEdit}}><FaIcon
                   @icon={{faPen}}
                 />Edit</Button>
               <div class="circle-button">
                 <Button @onClick={{this.handleToggleExpand}}><FaIcon
-                    @icon={{faChevronUp}}
+                    @icon={{this.chevronIcon}}
                   /></Button>
               </div>
-            </div>
-          {{else}}
-            <div class="buttons">
-              <Button @onClick={{this.handleEdit}}><FaIcon
-                  @icon={{faPen}}
-                />Edit</Button>
-              <div class="circle-button">
-                <Button @onClick={{this.handleToggleExpand}}><FaIcon
-                    @icon={{faChevronDown}}
-                  /></Button>
-              </div>
-            </div>
-          {{/if}}
+            {{/if}}
+          </div>
         </div>
 
         {{#if this.isExpanded}}
