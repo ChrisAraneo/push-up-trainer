@@ -25,13 +25,40 @@ $button-height: 40px;
   backdrop-filter: blur(10px);
   color: $button-color;
   text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
 
   svg {
     margin-right: 8px;
   }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    &:active {
+      transform: none;
+    }
+  }
 }
 
 .button:focus {
-  outline: 2px solid $button-background-color;
-  outline-offset: 4px;
+  outline: 4px solid $button-background-focus-color;
+  outline-offset: 0px;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 600ms linear;
+  background-color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
