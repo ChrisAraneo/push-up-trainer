@@ -96,9 +96,28 @@ body {
 }
 
 @media (max-width: 640px) {
-  .background-animation {
-    top: calc(50vh - 300px);
-    transform: scale(0.5);
+  .app-container {
+    .timer {
+      position: absolute;
+      top: calc(50vh - 150px);
+    }
+
+    .background-animation {
+      top: calc(50vh - 280px);
+      transform: scale(0.75);
+    }
+
+    &.expanded {
+      .timer {
+        position: absolute;
+        top: calc(50vh - 110px);
+      }
+
+      .background-animation {
+        top: calc(50vh - 304px);
+        transform: scale(0.75);
+      }
+    }
   }
 }
 

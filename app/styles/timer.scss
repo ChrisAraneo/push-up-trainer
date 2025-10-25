@@ -7,13 +7,6 @@
   gap: 2rem;
 }
 
-@media (max-width: 640px) {
-  .timer {
-    position: absolute;
-    top: calc(50vh - 100px);
-  }
-}
-
 .display {
   text-align: center;
   pointer-events: none;
