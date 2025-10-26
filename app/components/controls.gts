@@ -12,13 +12,17 @@ import { action } from '@ember/object';
 interface ControlsSignature {
   Args: {
     /**
-     * Whether the timer is running
+     * Whether the main timer is running
      */
     isRunning: boolean;
     /**
-     * Whether the timer is paused
+     * Whether the main timer is paused
      */
     isPaused: boolean;
+    /**
+     * Whether the countdown timer is running
+     */
+    isCountdownRunning: boolean;
     /**
      * Callback function called when start/resume is clicked
      */
@@ -58,11 +62,11 @@ export default class ControlsComponent extends Component<ControlsSignature> {
 
   <template>
     <div class="controls">
-      <Button @onClick={{this.handleClick}}>
+      <Button @onClick={{this.handleClick}} @disabled={{@isCountdownRunning}}>
         <FaIcon @icon={{this.icon}} />
         {{this.text}}
       </Button>
-      <Button @onClick={{@onStop}}>
+      <Button @onClick={{@onStop}} @disabled={{@isCountdownRunning}}>
         <FaIcon @icon={{faStop}} />
         Stop
       </Button>

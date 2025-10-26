@@ -48,6 +48,7 @@ export default Route(
         <Controls
           @isRunning={{@controller.isRunning}}
           @isPaused={{@controller.isPaused}}
+          @isCountdownRunning={{@controller.isCountdownRunning}}
           @onStart={{@controller.start}}
           @onPause={{@controller.pause}}
           @onStop={{@controller.stop}}

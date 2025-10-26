@@ -18,6 +18,7 @@ export default class ApplicationController extends Controller {
   @tracked settings: Settings;
   @tracked animationControls: AnimationControls | undefined;
   @tracked timerControls: TimerControls | undefined;
+  @tracked isCountdownRunning = false;
   @tracked isRunning = false;
   @tracked isPaused = false;
   @tracked isDifficultySelectorExpanded = true;
@@ -56,6 +57,8 @@ export default class ApplicationController extends Controller {
     if (this.animationControls) {
       this.animationControls.reset();
     }
+
+    this.isCountdownRunning = true;
   }
 
   @action
@@ -63,6 +66,8 @@ export default class ApplicationController extends Controller {
     if (this.animationControls) {
       this.animationControls.play();
     }
+
+    this.isCountdownRunning = false;
   }
 
   @action
