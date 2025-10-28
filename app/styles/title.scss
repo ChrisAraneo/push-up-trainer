@@ -10,7 +10,18 @@
   white-space: nowrap;
   text-align: center;
   text-transform: uppercase;
-  color: $text-color;
   margin: 0;
   padding: 0;
+}
+
+body {
+  .title {
+    color: $text-color;
+  }
+}
+
+body.dark-mode {
+  .title {
+    color: $text-dark-color;
+  }
 }
