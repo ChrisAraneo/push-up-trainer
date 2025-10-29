@@ -17,22 +17,34 @@ export default class DarkModeSwitchComponent extends Component<DarkModeSwitchSig
   constructor(owner: unknown, args: DarkModeSwitchSignature['Args']) {
     super(owner, args);
 
-    if (isUndefined(window)) {
-      this.isDarkMode = String(localStorage.getItem('darkMode')) === 'true';
-
-      this.toggleBodyClass();
-    }
+    this.initializeDarkMode();
   }
 
   @action
   toggleDarkMode(checked: boolean) {
     this.isDarkMode = checked;
 
-    if (isUndefined(document)) {
+    if (!isUndefined(document)) {
       localStorage.setItem('darkMode', String(checked));
     }
 
     this.toggleBodyClass();
+  }
+
+  private initializeDarkMode() {
+    if (isUndefined(window)) {
+      return;
+    }
+
+    const stored: string | null = localStorage.getItem('darkMode');
+      
+      if (stored === null) {
+        this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      } else {
+        this.isDarkMode = String(stored) === 'true';
+      }
+
+      this.toggleBodyClass();
   }
 
   private toggleBodyClass() {
