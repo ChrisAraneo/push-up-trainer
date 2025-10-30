@@ -5,6 +5,8 @@
 @use './push-up-animation.scss';
 @use './timer.scss';
 @use './button.scss';
+@use './switch.scss';
+@use './dark-mode-switch.scss';
 @use './difficulty-selector.scss';
 @use './circular-progress.scss';
 @use './controls.scss';
@@ -115,4 +117,24 @@ body {
       margin: 16px;
     }
   }
+}
+
+@media (max-width: 450px) {
+  .application {
+    .background-animation {
+      top: calc(50vh - 315px);
+      transform: scale(0.5);
+    }
+
+    &.expanded {
+      .background-animation {
+        top: calc(50vh - 275px);
+        transform: scale(0.5);
+      }
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  // TODO
 }
