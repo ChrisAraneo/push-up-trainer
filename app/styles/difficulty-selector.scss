@@ -16,13 +16,11 @@
     width: 100%;
     margin: 0;
     padding: 16px;
-    background-color: $card-background-color;
     border-radius: 20px;
 
     .difficulty-selector-title {
       span {
         font-weight: 500 !important;
-        color: $text-color !important;
       }
     }
 
@@ -66,16 +64,9 @@
       font-size: 16px;
       font-family: $font-family;
       text-align: right;
-      border: 1px solid $text-light-color;
       border-radius: 8px;
-      background-color: white;
-      color: $text-color;
       outline: none;
       transition: border-color 0.2s;
-
-      &:focus {
-        border-color: rgba(255, 255, 255, 0.6);
-      }
 
       &::-webkit-inner-spin-button,
       &::-webkit-outer-spin-button {
@@ -87,6 +78,54 @@
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+  }
+}
+
+body {
+  .difficulty-selector {
+    .difficulty-selector-card {
+      background-color: $card-background-color;
+
+      .difficulty-selector-title {
+        span {
+          color: $text-color !important;
+        }
+      }
+
+      .settings-input {
+        border: 1px solid $text-light-color;
+        background-color: white;
+        color: $text-color;
+
+        &:focus {
+          border-color: rgba(255, 255, 255, 0.6);
+        }
+      }
+    }
+  }
+}
+
+body.dark-mode {
+    .difficulty-selector {
+    .difficulty-selector-card {
+      background-color: $card-background-color--dark-mode;
+
+      .difficulty-selector-title {
+        span {
+          color: $text-color--dark-mode !important;
+        }
+      }
+
+      .settings-input {
+        border: 1px solid $text-light-color--dark-mode;
+        background-color: white;
+        color: $text-color--dark-mode;
+
+        &:focus {
+          border-color: rgba(255, 255, 255, 0.6);
+        }
+      }
     }
   }
 }
