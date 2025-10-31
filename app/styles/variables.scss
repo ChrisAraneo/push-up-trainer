@@ -6,9 +6,10 @@ $color-light-primary: #4dc6ff;
 $color-lighter-primary: #99dfff;
 
 $text-color: #333333;
-$text-dark-color: #dddddd;
 $text-light-color: #666666;
-$text-dark-light-color: #999999;
+
+$text-color--dark-mode: #dddddd;
+$text-light-color--dark-mode: #999999;
 
 $button-background-color: $color-light-primary;
 $button-background-focus-color: rgba($color-lighter-primary, 0.8);
@@ -16,9 +17,9 @@ $button-background-color-hover: #66cfff;
 $button-color: #ffffff;
 
 $card-background-color: #e5f8ff;
-$card-dark-background-color: hsl(0, 0%, 17%);
+$card-background-color--dark-mode: hsl(0, 0%, 17%);
 
 $background-color: $card-background-color;
-$background-dark-color: $card-dark-background-color;
+$background-color--dark-mode: $card-background-color--dark-mode;
 $background-circle-color: #ffffff;
-$background-dark-circle-color: hsl(0, 0%, 20%);
+$background-circle-color--dark-mode: hsl(0, 0%, 20%);

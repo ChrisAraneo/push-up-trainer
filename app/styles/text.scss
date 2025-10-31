@@ -28,10 +28,10 @@ body {
 
 body.dark-mode {
   .text--light {
-    color: $text-dark-light-color;
+    color: $text-light-color--dark-mode;
   }
 
   .text--normal {
-    color: $text-dark-color;
+    color: $text-color--dark-mode;
   }
 }

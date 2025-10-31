@@ -38,10 +38,10 @@ body {
 
 body.dark-mode {
   .background {
-    background-color: $background-dark-color;
+    background-color: $background-color--dark-mode;
   }
 
   .background-circle {
-    background-color: $background-dark-circle-color;
+    background-color: $background-circle-color--dark-mode;
   }
 }
