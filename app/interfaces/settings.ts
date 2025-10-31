@@ -1,5 +1,6 @@
 export interface Settings {
-  series: number;
-  repetitions: number;
-  time: number;
+  totalSeries: number;
+  repetitionsPerSeries: number;
+  seriesDuration: number;
+  repetitionDuration: number;
 }

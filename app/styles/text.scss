@@ -3,7 +3,7 @@
 .text {
   font-family: $font-family;
   font-optical-sizing: auto;
-  font-weight: 400 !important;
+  font-weight: 400;
   font-style: normal;
   font-size: 16px;
   white-space: nowrap;
@@ -12,14 +12,26 @@
   padding: 0;
 }
 
-.text--light {
-  color: $text-light-color;
-}
-
-.text--normal {
-  color: $text-color;
-}
-
 .text--monospace {
   font-family: $font-family-monospace !important;
+}
+
+body {
+  .text--light {
+    color: $text-light-color;
+  }
+
+  .text--normal {
+    color: $text-color;
+  }
+}
+
+body.dark-mode {
+  .text--light {
+    color: $text-light-color--dark-mode;
+  }
+
+  .text--normal {
+    color: $text-color--dark-mode;
+  }
 }

@@ -5,16 +5,20 @@
   gap: 16px;
   align-items: center;
   justify-content: center;
-  margin: 48px 0 0 0;
-  background-color: $controls-background-color;
   padding: 16px;
   border-radius: 20px;
   width: fit-content;
+  margin: 0;
 }
 
-@media (max-width: 640px) {
+body {
   .controls {
-    margin-bottom: 16px;
-    width: 100%;
+    background-color: $card-background-color;
+  }
+}
+
+body.dark-mode {
+  .controls {
+    background-color: $card-background-color--dark-mode;
   }
 }

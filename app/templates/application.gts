@@ -1,6 +1,7 @@
 import pageTitle from 'ember-page-title/helpers/page-title';
 import Route from 'ember-route-template';
 import { Title } from '../components/title';
+import Background from '../components/background';
 import PushUpAnimation from '../components/push-up-animation';
 import Timer from '../components/timer';
 import DifficultySelector from '../components/difficulty-selector';
@@ -14,38 +15,45 @@ export default Route(
 
     {{outlet}}
 
-    <div class="app-container">
-      <Title>{{TITLE}}</Title>
+    <div
+      class="application
+        {{if @controller.isDifficultySelectorExpanded 'expanded'}}"
+    >
+      <Background>
+        <Title>{{TITLE}}</Title>
 
-      <DifficultySelector
-        @series={{@controller.settings.series}}
-        @repetitions={{@controller.settings.repetitions}}
-        @time={{@controller.settings.time}}
-        @onSettingsChange={{@controller.handleSettingsChange}}
-      />
-
-      <div class="background-animation">
-        <PushUpAnimation
-          @duration={{850}}
-          @iterations={{@controller.settings.repetitions}}
-          @onReady={{@controller.handleAnimationReady}}
+        <DifficultySelector
+          @settings={{@controller.settings}}
+          @onSettingsChange={{@controller.handleSettingsChange}}
+          @onToggleExpand={{@controller.handleToggleExpand}}
         />
-      </div>
 
-      <Timer
-        @duration={{@controller.timerDuration}}
-        @series={{@controller.settings.series}}
-        @onReady={{@controller.handleTimerReady}}
-        @onComplete={{@controller.handleTimerComplete}}
-      />
+        <div class="background-animation">
+          <PushUpAnimation
+            @duration={{@controller.settings.repetitionDuration}}
+            @iterations={{@controller.settings.repetitionsPerSeries}}
+            @onReady={{@controller.handleAnimationReady}}
+            @onReset={{@controller.reset}}
+          />
+        </div>
 
-      <Controls
-        @isRunning={{@controller.isRunning}}
-        @isPaused={{@controller.isPaused}}
-        @onStart={{@controller.start}}
-        @onPause={{@controller.pause}}
-        @onStop={{@controller.stop}}
-      />
+        <Timer
+          @settings={{@controller.settings}}
+          @onReady={{@controller.handleTimerReady}}
+          @onComplete={{@controller.handleTimerComplete}}
+          @onCountdownStart={{@controller.handleCountdownStart}}
+          @onCountdownComplete={{@controller.handleCountdownComplete}}
+        />
+
+        <Controls
+          @isRunning={{@controller.isRunning}}
+          @isPaused={{@controller.isPaused}}
+          @isCountdownRunning={{@controller.isCountdownRunning}}
+          @onStart={{@controller.start}}
+          @onPause={{@controller.pause}}
+          @onStop={{@controller.stop}}
+        />
+      </Background>
     </div>
   </template>,
 );

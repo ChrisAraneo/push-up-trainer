@@ -17,7 +17,7 @@ interface PushUpAnimationSignature {
      * - @duration={{1500}} // Fast (1.5 seconds)
      * - @duration={{4000}} // Slow (4 seconds)
      */
-    duration?: number;
+    duration: number;
     /**
      * Number of iterations/repetitions of the animation
      * When set, animation will stop after this many cycles
@@ -26,11 +26,11 @@ interface PushUpAnimationSignature {
      * - @iterations={{10}} // Repeat 10 times
      * - @iterations={{undefined}} // Loop infinitely
      */
-    iterations?: number;
+    iterations: number;
     /**
      * Callback function called when animation component is ready
      */
-    onReady?: (controls: {
+    onReady: (controls: {
       play: () => void;
       pause: () => void;
       stop: () => void;
@@ -39,11 +39,11 @@ interface PushUpAnimationSignature {
     /**
      * Callback function called when all iterations are complete
      */
-    onComplete?: () => void;
+    onComplete: () => void;
     /**
-     * Callback function called when reset is triggered
+     * Callback function called when reset is triggered TODO Needed?
      */
-    onReset?: () => void;
+    onReset: () => void;
   };
 }
 
@@ -134,7 +134,7 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
         if (this.animation) {
           this.animation.stop();
         }
-        this.args.onComplete?.();
+        this.args.onComplete();
       } else {
         this.startIterationTimer();
       }
@@ -208,7 +208,7 @@ export default class PushUpAnimationComponent extends Component<PushUpAnimationS
       this.isPlaying = false;
     }
 
-    this.args.onReset?.();
+    this.args.onReset();
   }
 
   willDestroy() {

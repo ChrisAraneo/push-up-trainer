@@ -7,17 +7,22 @@ import {
   faPlay,
   faCog,
 } from '@fortawesome/free-solid-svg-icons';
+import { action } from '@ember/object';
 
 interface ControlsSignature {
   Args: {
     /**
-     * Whether the timer is running
+     * Whether the main timer is running
      */
     isRunning: boolean;
     /**
-     * Whether the timer is paused
+     * Whether the main timer is paused
      */
     isPaused: boolean;
+    /**
+     * Whether the countdown timer is running
+     */
+    isCountdownRunning: boolean;
     /**
      * Callback function called when start/resume is clicked
      */
@@ -34,28 +39,34 @@ interface ControlsSignature {
 }
 
 export default class ControlsComponent extends Component<ControlsSignature> {
+  get icon() {
+    return !this.args.isRunning || this.args.isPaused ? faPlay : faPause;
+  }
+
+  get text() {
+    return this.args.isRunning && this.args.isPaused
+      ? 'Resume'
+      : this.args.isRunning
+        ? 'Pause'
+        : 'Start';
+  }
+
+  @action
+  handleClick(event: MouseEvent) {
+    if (!this.args.isRunning || this.args.isPaused) {
+      this.args.onStart();
+    } else {
+      this.args.onPause();
+    }
+  }
+
   <template>
     <div class="controls">
-      {{#if @isRunning}}
-        {{#if @isPaused}}
-          <Button @onClick={{@onStart}}>
-            <FaIcon @icon={{faPlay}} />
-            Resume
-          </Button>
-        {{else}}
-          <Button @onClick={{@onPause}}>
-            <FaIcon @icon={{faPause}} />
-            Pause
-          </Button>
-        {{/if}}
-      {{else}}
-        <Button @onClick={{@onStart}}>
-          <FaIcon @icon={{faPlay}} />
-          Start
-        </Button>
-      {{/if}}
-
-      <Button @onClick={{@onStop}}>
+      <Button @onClick={{this.handleClick}} @disabled={{@isCountdownRunning}}>
+        <FaIcon @icon={{this.icon}} />
+        {{this.text}}
+      </Button>
+      <Button @onClick={{@onStop}} @disabled={{@isCountdownRunning}}>
         <FaIcon @icon={{faStop}} />
         Stop
       </Button>

@@ -1,6 +1,6 @@
 @use './variables.scss' as *;
 
-$button-width: 126px;
+$button-width: 128px;
 $button-height: 40px;
 
 .button {
@@ -10,31 +10,75 @@ $button-height: 40px;
   font-style: normal;
   font-size: 14px !important;
   line-height: 14px;
-  letter-spacing: 0.65px;
+  letter-spacing: 0.75px;
   white-space: nowrap;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 20px;
   cursor: pointer;
   width: $button-width;
   height: $button-height;
-  color: $button-color;
   display: inline-block;
   border: 0;
   text-decoration: none;
-  border-radius: 20px;
-  background-color: $button-background-color;
-  backdrop-filter: blur(10px);
   color: $button-color;
   text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+
+  &.primary {
+    color: $button-color;
+    background-color: $button-background-color;
+
+    &:hover {
+      background-color: $button-background-color-hover;
+    }
+
+    &:focus {
+      outline: 4px solid $button-background-focus-color;
+      outline-offset: 0px;
+    }
+  }
+
+  &.ghost {
+    color: $text-light-color;
+    background-color: rgba(255, 255, 255, 0.25);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.75);
+    }
+
+    &:focus {
+      outline: 4px solid rgba(255, 255, 255, 0.35);
+      outline-offset: 0px;
+      background-color: rgba(255, 255, 255, 0.85);
+    }
+  }
 
   svg {
     margin-right: 8px;
   }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    &:active {
+      transform: none;
+    }
+  }
 }
 
-.button:focus {
-  outline: 4px solid $button-background-color;
-  outline-offset: 4px;
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 600ms linear;
+  background-color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
 }

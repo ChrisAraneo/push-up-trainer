@@ -8,18 +8,20 @@ import { cloneDeep, isNumber } from 'lodash';
 
 const STORAGE_KEY = 'push-up-trainer';
 const DEFAULT_SETTINGS: Settings = Object.freeze({
-  series: 3,
-  repetitions: 5,
-  time: 10,
+  totalSeries: 3,
+  repetitionsPerSeries: 5,
+  seriesDuration: 10000,
+  repetitionDuration: 1000,
 });
 
 export default class ApplicationController extends Controller {
-  @tracked animationControls: AnimationControls | undefined;
   @tracked settings: Settings;
+  @tracked animationControls: AnimationControls | undefined;
   @tracked timerControls: TimerControls | undefined;
-  @tracked timerDuration = 0;
+  @tracked isCountdownRunning = false;
   @tracked isRunning = false;
   @tracked isPaused = false;
+  @tracked isDifficultySelectorExpanded = true;
 
   constructor() {
     // eslint-disable-next-line prefer-rest-params
@@ -46,9 +48,26 @@ export default class ApplicationController extends Controller {
     }
 
     this.timerControls.start();
-    this.animationControls.play();
     this.isRunning = true;
     this.isPaused = false;
+  }
+
+  @action
+  handleCountdownStart() {
+    if (this.animationControls) {
+      this.animationControls.reset();
+    }
+
+    this.isCountdownRunning = true;
+  }
+
+  @action
+  handleCountdownComplete() {
+    if (this.animationControls) {
+      this.animationControls.play();
+    }
+
+    this.isCountdownRunning = false;
   }
 
   @action
@@ -79,6 +98,9 @@ export default class ApplicationController extends Controller {
   }
 
   @action
+  reset() {}
+
+  @action
   handleTimerComplete(areAllSeriesComplete: boolean) {
     if (this.animationControls) {
       this.animationControls.reset();
@@ -97,7 +119,6 @@ export default class ApplicationController extends Controller {
   @action
   handleSettingsChange(settings: Settings) {
     this.settings = cloneDeep(settings);
-    this.timerDuration = settings.time * 1000;
 
     this.saveSettingsToStorage(settings);
 
@@ -112,6 +133,11 @@ export default class ApplicationController extends Controller {
     }
   }
 
+  @action
+  handleToggleExpand(expanded: boolean) {
+    this.isDifficultySelectorExpanded = expanded;
+  }
+
   private loadSettingsFromStorage(): Settings {
     let settings: Settings | null = null;
 
@@ -122,14 +148,16 @@ export default class ApplicationController extends Controller {
 
       if (
         value &&
-        isNumber(value.series) &&
-        isNumber(value.repetitions) &&
-        isNumber(value.time)
+        isNumber(value.totalSeries) &&
+        isNumber(value.repetitionsPerSeries) &&
+        isNumber(value.seriesDuration) &&
+        isNumber(value.repetitionDuration)
       ) {
         settings = {
-          series: Math.floor(value.series),
-          repetitions: Math.floor(value.repetitions),
-          time: Math.floor(value.time),
+          totalSeries: Math.floor(value.totalSeries),
+          repetitionsPerSeries: Math.floor(value.repetitionsPerSeries),
+          seriesDuration: Math.floor(value.seriesDuration),
+          repetitionDuration: Math.floor(value.repetitionDuration),
         };
       }
     } catch (error) {

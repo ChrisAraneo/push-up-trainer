@@ -4,37 +4,30 @@ import { action } from '@ember/object';
 import Button from './button';
 import CircularProgress from './circular-progress';
 import { soundPlayer } from '../utils/sound-player';
+import Text from './text';
 
 interface TimerSignature {
   Args: {
     /**
-     * Total duration of the timer in milliseconds
-     *
-     * Examples:
-     * - @duration={{30000}}
-     * - @duration={{60000}}
+     * Trainer application settings
      */
-    duration?: number;
-    /**
-     * Number of series/rounds to complete
-     *
-     * Examples:
-     * - @series={{5}} // 5 rounds
-     * - @series={{undefined}} // Single timer (no series)
-     */
-    series?: number;
+    settings: Settings;
     /**
      * Callback function called when timer completes (each round and when all series complete)
      */
-    onComplete?: (areAllSeriesComplete: boolean) => void;
+    onComplete: (areAllSeriesComplete: boolean) => void;
     /**
-     * Callback function called on each tick with remaining time
+     * Callback function called when countdown starts
      */
-    onTick?: (remainingTime: number) => void;
+    onCountdownStart: () => void;
+    /**
+     * Callback function called when countdown completes and main timer starts
+     */
+    onCountdownComplete: () => void;
     /**
      * Callback function called when timer component is ready
      */
-    onReady?: (controls: {
+    onReady: (controls: {
       start: () => void;
       pause: () => void;
       reset: () => void;
@@ -42,32 +35,41 @@ interface TimerSignature {
   };
 }
 
-const DEFAULT_DURATION_MS = 30000;
 const INTERVAL_UPDATE_MS = 5;
 const SECOND_MS = 1000;
-const SOUND_PATH = '/sounds/sound.wav';
+const COUNTDOWN_DURATION_MS = 5000;
+const COLOR_BACKGROUND_STROKE = 'rgba(200,200,200,0.45)';
+const COLOR_PRIMARY = '#00aeff';
+const START_SOUND_PATH = '/sounds/start.wav';
+const COUNTDOWN_SOUND_PATH = '/sounds/countdown.wav';
 
 export default class TimerComponent extends Component<TimerSignature> {
   @tracked private remainingTime: number;
   @tracked private isRunning = false;
   @tracked private isPaused = false;
+  @tracked private isBreak = false;
+  @tracked private isCountdown = false;
+  @tracked private countdownRemaining = 0;
   @tracked private currentSeries = 0;
+  @tracked private currentRepetitions = 0;
 
   private intervalId: number | null = null;
+  private countdownIntervalId: number | null = null;
   private startTime = 0;
   private pausedTime = 0;
 
   constructor(owner: unknown, args: TimerSignature['Args']) {
     super(owner, args);
 
-    this.remainingTime = this.duration;
+    this.remainingTime = this.seriesDuration;
+    this.currentRepetitions = 0;
+    this.isBreak = false;
+    this.isCountdown = false;
+    this.countdownRemaining = 0;
     this.currentSeries = 0;
 
-    soundPlayer.load(SOUND_PATH);
-
-    if (!this.args.onReady) {
-      return;
-    }
+    soundPlayer.load(START_SOUND_PATH);
+    soundPlayer.load(COUNTDOWN_SOUND_PATH);
 
     this.args.onReady({
       start: this.start.bind(this),
@@ -76,12 +78,16 @@ export default class TimerComponent extends Component<TimerSignature> {
     });
   }
 
-  get duration() {
-    return this.args.duration || DEFAULT_DURATION_MS;
+  get seriesDuration() {
+    return this.args.settings.seriesDuration;
   }
 
   get totalSeries() {
-    return this.args.series || 1;
+    return this.args.settings.totalSeries;
+  }
+
+  get repetitionsPerSeries() {
+    return this.args.settings.repetitionsPerSeries;
   }
 
   get seconds() {
@@ -93,10 +99,33 @@ export default class TimerComponent extends Component<TimerSignature> {
   }
 
   get progressPercentage() {
-    return ((this.duration - this.remainingTime) / this.duration) * 100;
+    if (this.isCountdown) {
+      return (
+        ((COUNTDOWN_DURATION_MS - this.countdownRemaining) /
+          COUNTDOWN_DURATION_MS) *
+        100
+      );
+    }
+
+    return (
+      ((this.seriesDuration - this.remainingTime) / this.seriesDuration) * 100
+    );
   }
 
   get formattedTime() {
+    if (this.isCountdown) {
+      const countdownSeconds = Math.floor(this.countdownRemaining / SECOND_MS);
+      const countdownMilliseconds = Math.floor(
+        (this.countdownRemaining % SECOND_MS) / 10,
+      );
+
+      return {
+        seconds: countdownSeconds.toString().padStart(2, '0'),
+        secondsWithoutPadding: countdownSeconds.toString(),
+        milliseconds: countdownMilliseconds.toString().padStart(2, '0'),
+      };
+    }
+
     return {
       seconds: this.seconds.toString().padStart(2, '0'),
       milliseconds: this.milliseconds.toString().padStart(2, '0'),
@@ -107,8 +136,8 @@ export default class TimerComponent extends Component<TimerSignature> {
     return `${this.currentSeries}/${this.totalSeries}`;
   }
 
-  get showSeries() {
-    return this.totalSeries > 1;
+  get repetitionsDisplay() {
+    return `${this.currentRepetitions}/${this.repetitionsPerSeries}`;
   }
 
   @action
@@ -121,15 +150,70 @@ export default class TimerComponent extends Component<TimerSignature> {
       this.reset();
     }
 
+    if (this.isPaused) {
+      this.isPaused = false;
+      this.startMainTimer();
+      return;
+    }
+
+    if (this.currentSeries === 0) {
+      this.startCountdown();
+    } else {
+      this.isRunning = true;
+      this.startMainTimer();
+    }
+  }
+
+  private startCountdown() {
+    this.isCountdown = true;
+    this.countdownRemaining = COUNTDOWN_DURATION_MS;
     this.isRunning = true;
-    this.isPaused = false;
-    this.startTime = Date.now() - (this.duration - this.remainingTime);
+
+    this.args.onCountdownStart();
+
+    soundPlayer.play(COUNTDOWN_SOUND_PATH);
+
+    const countdownStartTime = Date.now();
+
+    this.countdownIntervalId = window.setInterval(() => {
+      const elapsed = Date.now() - countdownStartTime;
+      this.countdownRemaining = Math.max(0, COUNTDOWN_DURATION_MS - elapsed);
+
+      if (this.countdownRemaining <= 0) {
+        this.finishCountdown();
+      }
+    }, INTERVAL_UPDATE_MS);
+  }
+
+  private finishCountdown() {
+    if (this.countdownIntervalId) {
+      clearInterval(this.countdownIntervalId);
+      this.countdownIntervalId = null;
+    }
+
+    this.isCountdown = false;
+    this.countdownRemaining = 0;
+
+    this.args.onCountdownComplete();
+
+    this.startMainTimer();
+  }
+
+  private startMainTimer() {
+    this.startTime = Date.now() - (this.seriesDuration - this.remainingTime);
 
     this.intervalId = window.setInterval(() => {
       const elapsed = Date.now() - this.startTime;
-      this.remainingTime = Math.max(0, this.duration - elapsed);
+      this.remainingTime = Math.max(0, this.seriesDuration - elapsed);
 
-      this.args.onTick?.(this.remainingTime);
+      if (this.currentRepetitions < this.repetitionsPerSeries) {
+        this.currentRepetitions = Math.floor(
+          (this.seriesDuration - this.remainingTime) /
+            this.args.settings.repetitionDuration,
+        );
+      }
+
+      this.isBreak = this.currentRepetitions >= this.repetitionsPerSeries;
 
       if (this.remainingTime <= 0) {
         this.complete();
@@ -139,7 +223,13 @@ export default class TimerComponent extends Component<TimerSignature> {
 
   @action
   pause() {
-    if (!this.isRunning || this.isPaused) return;
+    if (!this.isRunning || this.isPaused) {
+      return;
+    }
+
+    if (this.isCountdown) {
+      return;
+    }
 
     this.isPaused = true;
 
@@ -153,12 +243,21 @@ export default class TimerComponent extends Component<TimerSignature> {
   reset() {
     this.isRunning = false;
     this.isPaused = false;
-    this.remainingTime = this.duration;
+    this.isCountdown = false;
+    this.countdownRemaining = 0;
+    this.remainingTime = this.seriesDuration;
     this.currentSeries = 0;
+    this.currentRepetitions = 0;
+    this.isBreak = false;
 
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
+    }
+
+    if (this.countdownIntervalId) {
+      clearInterval(this.countdownIntervalId);
+      this.countdownIntervalId = null;
     }
   }
 
@@ -169,28 +268,23 @@ export default class TimerComponent extends Component<TimerSignature> {
       this.intervalId = null;
     }
 
-    soundPlayer.play(SOUND_PATH);
+    soundPlayer.play(START_SOUND_PATH);
 
     this.currentSeries++;
 
     const areAllSeriesComplete = this.currentSeries >= this.totalSeries;
 
-    this.args.onComplete?.(areAllSeriesComplete);
+    if (!areAllSeriesComplete) {
+      this.currentRepetitions = 0;
+      this.isBreak = false;
+    }
+
+    this.args.onComplete(areAllSeriesComplete);
 
     if (this.currentSeries < this.totalSeries) {
-      this.remainingTime = this.duration;
-      this.startTime = Date.now();
+      this.remainingTime = this.seriesDuration;
 
-      this.intervalId = window.setInterval(() => {
-        const elapsed = Date.now() - this.startTime;
-        this.remainingTime = Math.max(0, this.duration - elapsed);
-
-        this.args.onTick?.(this.remainingTime);
-
-        if (this.remainingTime <= 0) {
-          this.complete();
-        }
-      }, INTERVAL_UPDATE_MS);
+      this.startMainTimer();
     } else {
       this.isRunning = false;
       this.isPaused = false;
@@ -204,19 +298,47 @@ export default class TimerComponent extends Component<TimerSignature> {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+
+    if (this.countdownIntervalId) {
+      clearInterval(this.countdownIntervalId);
+    }
   }
 
   <template>
-    <div class="timer-component">
-      <CircularProgress @progress={{this.progressPercentage}}>
-        <div class="timer-display">
-          {{#if this.showSeries}}
-            <div class="series-counter">{{this.seriesDisplay}}</div>
-          {{/if}}
-          <div class="time-container">
-            <span
-              class="seconds"
-            >{{this.formattedTime.seconds}}:{{this.formattedTime.milliseconds}}</span>
+    <div class="timer">
+      <CircularProgress
+        @progress={{this.progressPercentage}}
+        @size={{300}}
+        @strokeWidth={{10}}
+        @backgroundStroke={{COLOR_BACKGROUND_STROKE}}
+        @progressStroke={{COLOR_PRIMARY}}
+      >
+        <div class="display">
+          <div class="progress">
+            <div class="series">
+              <Text @monospace={{true}}>Series:</Text>
+              <Text @monospace={{true}}>{{this.seriesDisplay}}</Text>
+            </div>
+            <div class="repetitions">
+              <Text @monospace={{true}}>Repetitions:</Text>
+              <Text @monospace={{true}}>{{this.repetitionsDisplay}}</Text>
+            </div>
+          </div>
+          <div class="time">
+            <Text
+              @monospace={{true}}
+              @light={{this.isCountdown}}
+            >{{this.formattedTime.seconds}}:{{this.formattedTime.milliseconds}}</Text>
+          </div>
+          <div class="status">
+            {{#if this.isCountdown}}
+              <Text @monospace={{true}}>Get ready...
+                {{this.formattedTime.secondsWithoutPadding}}:{{this.formattedTime.milliseconds}}</Text>
+            {{else if this.isPaused}}
+              <Text @monospace={{true}}>Timer paused</Text>
+            {{else if this.isBreak}}
+              <Text @monospace={{true}}>Take a short break</Text>
+            {{/if}}
           </div>
         </div>
       </CircularProgress>
