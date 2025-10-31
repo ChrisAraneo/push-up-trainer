@@ -37,14 +37,16 @@ export default class DarkModeSwitchComponent extends Component<DarkModeSwitchSig
     }
 
     const stored: string | null = localStorage.getItem('darkMode');
-      
-      if (stored === null) {
-        this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      } else {
-        this.isDarkMode = String(stored) === 'true';
-      }
 
-      this.toggleBodyClass();
+    if (stored === null) {
+      this.isDarkMode = window.matchMedia(
+        '(prefers-color-scheme: dark)',
+      ).matches;
+    } else {
+      this.isDarkMode = String(stored) === 'true';
+    }
+
+    this.toggleBodyClass();
   }
 
   private toggleBodyClass() {
