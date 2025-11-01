@@ -6,6 +6,7 @@ import PushUpAnimation from '../components/push-up-animation';
 import Timer from '../components/timer';
 import DifficultySelector from '../components/difficulty-selector';
 import Controls from '../components/controls';
+import DarkModeSwitch from '../components/dark-mode-switch';
 
 const TITLE = 'Push Up Trainer';
 
@@ -20,6 +21,7 @@ export default Route(
         {{if @controller.isDifficultySelectorExpanded 'expanded'}}"
     >
       <Background>
+        <DarkModeSwitch />
         <Title>{{TITLE}}</Title>
 
         <DifficultySelector
