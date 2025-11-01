@@ -26,18 +26,18 @@ $button-ghost-background-color-hover: rgba(255, 255, 255, 0.75);
 
 $button-background-color--dark-mode: $color-light-primary--dark-mode;
 $button-background-focus-color--dark-mode: rgba(
-  $color-lighter-primary--dark-mode,
-  0.8
+  $color-primary,
+  0.375
 );
 $button-background-color-hover--dark-mode: hsl(199, 100%, 45%);
 $button-color--dark-mode: #eeeeee;
 
-$button-ghost-background-color--dark-mode: rgba(255, 255, 255, 0.2);
-$button-ghost-background-focus-color--dark-mode: rgba(255, 255, 255, 0.45);
-$button-ghost-background-color-hover--dark-mode: rgba(255, 255, 255, 0.35);
+$button-ghost-background-color--dark-mode: rgba(255, 255, 255, 0.125);
+$button-ghost-background-focus-color--dark-mode: rgba(255, 255, 255, 0.08);
+$button-ghost-background-color-hover--dark-mode: rgba(255, 255, 255, 0.25);
 
 $card-background-color: #e5f8ff;
-$card-background-color--dark-mode: hsl(0, 0%, 14%);
+$card-background-color--dark-mode: #242424;
 
 $background-color: $card-background-color;
 $background-color--dark-mode: $card-background-color--dark-mode;
