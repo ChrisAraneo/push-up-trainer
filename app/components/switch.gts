@@ -42,7 +42,7 @@ export default class SwitchComponent extends Component<SwitchSignature> {
       {{/if}}
       <button
         type="button"
-        class="switch {{if @checked 'checked'}}"
+        class="switch-button {{if @checked 'checked'}}"
         disabled={{@disabled}}
         aria-checked={{@checked}}
         role="switch"

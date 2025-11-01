@@ -12,13 +12,12 @@ $switch-thumb-size: 18px;
   font-family: $font-family;
   font-weight: 400;
   font-size: 14px;
-  color: $text-color;
 
   .switch-label {
     user-select: none;
   }
 
-  .switch {
+  .switch-button {
     position: relative;
     background: none;
     border: none;
@@ -27,14 +26,12 @@ $switch-thumb-size: 18px;
     outline: none;
 
     &:focus {
-      outline: 2px solid $color-light-primary;
       outline-offset: 0px;
     }
 
     .switch-track {
       width: $switch-track-width;
       height: $switch-track-height;
-      background-color: #ccc;
       border-radius: 50px;
       position: relative;
     }
@@ -45,39 +42,107 @@ $switch-thumb-size: 18px;
       transform: translateY(-50%);
       width: $switch-thumb-size;
       height: $switch-thumb-size;
-      background-color: white;
       border-radius: 50%;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       left: 2px;
     }
 
     &.checked {
-      .switch-track {
-        background-color: $color-light-primary;
-      }
-
       .switch-thumb {
         left: calc($switch-track-width - $switch-thumb-size - 2px);
-      }
-    }
-
-    &:hover:not(:disabled) {
-      .switch-track {
-        background-color: #b3b3b3;
-      }
-
-      &.checked .switch-track {
-        background-color: $color-primary;
       }
     }
   }
 
   &.disabled {
-    opacity: 0.5;
     cursor: not-allowed;
 
-    .switch {
+    .switch-button {
       cursor: not-allowed;
+    }
+  }
+}
+
+body {
+  .switch {
+    color: $text-color;
+
+    .switch-button {
+      &:focus {
+        outline: 2px solid $button-background-focus-color;
+        outline-offset: 2px;
+      }
+
+      .switch-track {
+        background-color: $switch-track-color;
+      }
+
+      .switch-thumb {
+        background-color: $switch-thumb-color;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      &.checked {
+        .switch-track {
+          background-color: $color-light-primary;
+        }
+      }
+
+      &:hover:not(:disabled) {
+        .switch-track {
+          background-color: $switch-track-color-hover;
+        }
+
+        &.checked .switch-track {
+          background-color: $color-primary;
+        }
+      }
+    }
+
+    &.disabled {
+      opacity: 0.5;
+    }
+  }
+}
+
+
+body.dark-mode {
+  .switch {
+    color: $text-color--dark-mode;
+
+    .switch-button {
+      &:focus {
+        outline: 2px solid $button-background-focus-color--dark-mode;
+        outline-offset: 2px;
+      }
+
+      .switch-track {
+        background-color: $switch-track-color--dark-mode;
+      }
+
+      .switch-thumb {
+        background-color: $switch-thumb-color--dark-mode;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      &.checked {
+        .switch-track {
+          background-color: $color-light-primary--dark-mode;
+        }
+      }
+
+      &:hover:not(:disabled) {
+        .switch-track {
+          background-color: $switch-track-color-hover--dark-mode;
+        }
+
+        &.checked .switch-track {
+          background-color: $color-primary--dark-mode;
+        }
+      }
+    }
+
+    &.disabled {
+      opacity: 0.5;
     }
   }
 }
