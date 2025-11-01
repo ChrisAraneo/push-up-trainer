@@ -26,7 +26,7 @@ $button-ghost-background-color-hover: rgba(255, 255, 255, 0.75);
 
 $button-background-color--dark-mode: $color-light-primary--dark-mode;
 $button-background-focus-color--dark-mode: rgba(
-  $color-primary,
+  $color-light-primary,
   0.375
 );
 $button-background-color-hover--dark-mode: hsl(199, 100%, 45%);
@@ -43,3 +43,11 @@ $background-color: $card-background-color;
 $background-color--dark-mode: $card-background-color--dark-mode;
 $background-circle-color: #ffffff;
 $background-circle-color--dark-mode: hsl(0, 0%, 17%);
+
+$switch-track-color: #cccccc;
+$switch-track-color-hover: #aaaaaa;
+$switch-thumb-color: #ffffff;
+
+$switch-track-color--dark-mode: #cccccc;
+$switch-track-color-hover--dark-mode: #aaaaaa;
+$switch-thumb-color--dark-mode: #ffffff;
