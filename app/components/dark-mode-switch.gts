@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import Switch from './switch';
+import Text from './text';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { isUndefined } from 'lodash';
@@ -65,9 +66,9 @@ export default class DarkModeSwitchComponent extends Component<DarkModeSwitchSig
 
   <template>
     <div class="dark-mode-switch">
-      <FaIcon @icon={{faSun}} />
+      <Text><FaIcon @icon={{faSun}} /></Text>
       <Switch @checked={{this.isDarkMode}} @onChange={{this.toggleDarkMode}} />
-      <FaIcon @icon={{faMoon}} />
+      <Text><FaIcon @icon={{faMoon}} /></Text>
     </div>
   </template>
 }
