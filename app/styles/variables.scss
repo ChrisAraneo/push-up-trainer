@@ -25,11 +25,14 @@ $button-ghost-background-focus-color: rgba(255, 255, 255, 0.85);
 $button-ghost-background-color-hover: rgba(255, 255, 255, 0.75);
 
 $button-background-color--dark-mode: $color-light-primary--dark-mode;
-$button-background-focus-color--dark-mode: rgba($color-lighter-primary--dark-mode, 0.8);
+$button-background-focus-color--dark-mode: rgba(
+  $color-lighter-primary--dark-mode,
+  0.8
+);
 $button-background-color-hover--dark-mode: hsl(199, 100%, 45%);
 $button-color--dark-mode: #eeeeee;
 
-$button-ghost-background-color--dark-mode: rgba(255, 255, 255, 0.20);
+$button-ghost-background-color--dark-mode: rgba(255, 255, 255, 0.2);
 $button-ghost-background-focus-color--dark-mode: rgba(255, 255, 255, 0.45);
 $button-ghost-background-color-hover--dark-mode: rgba(255, 255, 255, 0.35);
 
