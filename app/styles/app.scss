@@ -70,6 +70,7 @@ body {
     position: absolute;
     top: 16px;
     right: 16px;
+    max-height: 24px;
   }
 }
 
@@ -85,7 +86,7 @@ body {
 
     .title {
       position: absolute;
-      top: calc(16px);
+      top: 16px;
       margin: 0 !important;
     }
 
@@ -121,6 +122,18 @@ body {
 
     .controls {
       margin: 16px;
+    }
+
+    .dark-mode-switch {
+      top: 12px;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .application {
+    .dark-mode-switch {
+      display: none;
     }
   }
 }
