@@ -20,15 +20,23 @@ $button-background-focus-color: rgba($color-lighter-primary, 0.8);
 $button-background-color-hover: hsl(199, 100%, 70%);
 $button-color: #ffffff;
 
+$button-ghost-background-color: rgba(255, 255, 255, 0.25);
+$button-ghost-background-focus-color: rgba(255, 255, 255, 0.85);
+$button-ghost-background-color-hover: rgba(255, 255, 255, 0.75);
+
 $button-background-color--dark-mode: $color-light-primary--dark-mode;
 $button-background-focus-color--dark-mode: rgba($color-lighter-primary--dark-mode, 0.8);
 $button-background-color-hover--dark-mode: hsl(199, 100%, 45%);
 $button-color--dark-mode: #eeeeee;
 
+$button-ghost-background-color--dark-mode: rgba(255, 255, 255, 0.20);
+$button-ghost-background-focus-color--dark-mode: rgba(255, 255, 255, 0.45);
+$button-ghost-background-color-hover--dark-mode: rgba(255, 255, 255, 0.35);
+
 $card-background-color: #e5f8ff;
-$card-background-color--dark-mode: hsl(0, 0%, 18%);
+$card-background-color--dark-mode: hsl(0, 0%, 14%);
 
 $background-color: $card-background-color;
 $background-color--dark-mode: $card-background-color--dark-mode;
 $background-circle-color: #ffffff;
-$background-circle-color--dark-mode: hsl(0, 0%, 21%);
+$background-circle-color--dark-mode: hsl(0, 0%, 17%);
