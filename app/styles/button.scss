@@ -19,37 +19,19 @@ $button-height: 40px;
   display: inline-block;
   border: 0;
   text-decoration: none;
-  color: $button-color;
   text-transform: uppercase;
   position: relative;
   overflow: hidden;
 
   &.primary {
-    color: $button-color;
-    background-color: $button-background-color;
-
-    &:hover {
-      background-color: $button-background-color-hover;
-    }
-
     &:focus {
-      outline: 4px solid $button-background-focus-color;
       outline-offset: 0px;
     }
   }
 
   &.ghost {
-    color: $text-light-color;
-    background-color: rgba(255, 255, 255, 0.25);
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.75);
-    }
-
     &:focus {
-      outline: 4px solid rgba(255, 255, 255, 0.35);
       outline-offset: 0px;
-      background-color: rgba(255, 255, 255, 0.85);
     }
   }
 
@@ -58,7 +40,6 @@ $button-height: 40px;
   }
 
   &:disabled {
-    opacity: 0.5;
     cursor: not-allowed;
 
     &:active {
@@ -80,5 +61,85 @@ $button-height: 40px;
   to {
     transform: scale(4);
     opacity: 0;
+  }
+}
+
+body {
+  .button {
+    color: $button-color;
+
+    &.primary {
+      color: $button-color;
+      background-color: $button-background-color;
+
+      &:hover {
+        background-color: $button-background-color-hover;
+      }
+
+      &:focus {
+        outline: 4px solid $button-background-focus-color;
+      }
+    }
+
+    &.ghost {
+      color: $text-light-color;
+      background-color: $button-ghost-background-color;
+
+      &:hover {
+        background-color: $button-ghost-background-color-hover;
+      }
+
+      &:focus {
+        outline: 4px solid $button-ghost-background-focus-color;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+
+      &:active {
+        transform: none;
+      }
+    }
+  }
+}
+
+body.dark-mode {
+    .button {
+    color: $button-color--dark-mode;
+
+    &.primary {
+      color: $button-color--dark-mode;
+      background-color: $button-background-color--dark-mode;
+
+      &:hover {
+        background-color: $button-background-color-hover--dark-mode;
+      }
+
+      &:focus {
+        outline: 4px solid $button-background-focus-color--dark-mode;
+      }
+    }
+
+    &.ghost {
+      color: $text-light-color--dark-mode;
+      background-color: $button-ghost-background-color--dark-mode;
+
+      &:hover {
+        background-color: $button-ghost-background-color-hover--dark-mode;
+      }
+
+      &:focus {
+        outline: 4px solid $button-ghost-background-focus-color--dark-mode;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+
+      &:active {
+        transform: none;
+      }
+    }
   }
 }
