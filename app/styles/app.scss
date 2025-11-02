@@ -104,26 +104,26 @@ body {
 
     .timer {
       position: absolute;
-      top: calc(126px + (100vh - 88px - 126px) * 0.5 - 150px);
+      top: calc(126px + (100% - 88px - 126px) * 0.5 - 150px);
       margin-top: 0;
       margin-bottom: 0;
     }
 
     .background-animation {
-      top: calc(126px + (100vh - 88px - 126px) * 0.5 - 360px);
+      top: calc(126px + (100% - 88px - 126px) * 0.5 - 360px);
       transform: scale(0.75);
     }
 
     &.expanded {
       .timer {
         position: absolute;
-        top: calc(232px + (100vh - 88px - 232px) * 0.5 - 150px);
+        top: calc(232px + (100% - 88px - 232px) * 0.5 - 150px);
         margin-top: 0;
         margin-bottom: 0;
       }
 
       .background-animation {
-        top: calc(232px + (100vh - 88px - 232px) * 0.5 - 360px);
+        top: calc(232px + (100% - 88px - 232px) * 0.5 - 360px);
         transform: scale(0.75);
       }
     }
@@ -149,13 +149,13 @@ body {
 @media (max-width: 450px) {
   .application {
     .background-animation {
-      top: calc(126px + (100vh - 88px - 126px) * 0.5 - 335px);
+      top: calc(126px + (100% - 88px - 126px) * 0.5 - 335px);
       transform: scale(0.5);
     }
 
     &.expanded {
       .background-animation {
-        top: calc(232px + (100vh - 88px - 232px) * 0.5 - 335px);
+        top: calc(232px + (100% - 88px - 232px) * 0.5 - 335px);
         transform: scale(0.5);
       }
     }
@@ -169,7 +169,33 @@ body {
 
   body.dark-mode {
     background-color: $background-circle-color--dark-mode !important;
+  }
 
+  .unsupported {
+    display: block !important;
+    max-width: 100%;
+    padding: 8px;
+
+    .text {
+      display: block;
+      word-wrap: normal;
+      white-space: normal !important;
+      text-align: center;
+    }
+  }
+
+  .application {
+    display: none !important;
+  }
+}
+
+@media (max-height: 620px) {
+  body {
+    background-color: $background-circle-color !important;
+  }
+
+  body.dark-mode {
+    background-color: $background-circle-color--dark-mode !important;
   }
 
   .unsupported {
