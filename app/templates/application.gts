@@ -7,6 +7,7 @@ import Timer from '../components/timer';
 import DifficultySelector from '../components/difficulty-selector';
 import Controls from '../components/controls';
 import DarkModeSwitch from '../components/dark-mode-switch';
+import Text from '../components/text';
 
 const TITLE = 'Push Up Trainer';
 
@@ -15,6 +16,8 @@ export default Route(
     {{pageTitle TITLE}}
 
     {{outlet}}
+
+    <div class="unsupported"><Text>Your device is not supported.</Text></div>
 
     <div
       class="application

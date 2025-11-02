@@ -28,6 +28,10 @@ body {
   background-color: transparent !important;
 }
 
+.unsupported {
+  display: none !important;
+}
+
 .application {
   display: flex;
   flex-direction: column;
@@ -106,7 +110,7 @@ body {
     }
 
     .background-animation {
-      top: calc(50vh - 330px);
+      top: calc(126px + (100vh - 88px - 126px) * 0.5 - 360px);
       transform: scale(0.75);
     }
 
@@ -119,7 +123,7 @@ body {
       }
 
       .background-animation {
-        top: calc(50vh - 290px);
+        top: calc(232px + (100vh - 88px - 232px) * 0.5 - 360px);
         transform: scale(0.75);
       }
     }
@@ -145,19 +149,43 @@ body {
 @media (max-width: 450px) {
   .application {
     .background-animation {
-      top: calc(50vh - 315px);
+      top: calc(126px + (100vh - 88px - 126px) * 0.5 - 335px);
       transform: scale(0.5);
     }
 
     &.expanded {
       .background-animation {
-        top: calc(50vh - 275px);
+        top: calc(232px + (100vh - 88px - 232px) * 0.5 - 335px);
         transform: scale(0.5);
       }
     }
   }
 }
 
-@media (max-width: 350px) {
-  // TODO
+@media (max-width: 332px) {
+  body {
+    background-color: $background-circle-color !important;
+  }
+
+  body.dark-mode {
+    background-color: $background-circle-color--dark-mode !important;
+
+  }
+
+  .unsupported {
+    display: block !important;
+    max-width: 100%;
+    padding: 8px;
+
+    .text {
+      display: block;
+      word-wrap: normal;
+      white-space: normal !important;
+      text-align: center;
+    }
+  }
+
+  .application {
+    display: none !important;
+  }
 }
