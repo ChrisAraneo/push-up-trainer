@@ -100,7 +100,9 @@ body {
 
     .timer {
       position: absolute;
-      top: calc(50vh - 150px);
+      top: calc(126px + (100vh - 88px - 126px) * 0.5 - 150px);
+      margin-top: 0;
+      margin-bottom: 0;
     }
 
     .background-animation {
@@ -111,7 +113,9 @@ body {
     &.expanded {
       .timer {
         position: absolute;
-        top: calc(50vh - 110px);
+        top: calc(232px + (100vh - 88px - 232px) * 0.5 - 150px);
+        margin-top: 0;
+        margin-bottom: 0;
       }
 
       .background-animation {
