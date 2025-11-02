@@ -1,7 +1,7 @@
 $font-family: 'Montserrat', sans-serif;
 $font-family-monospace: 'Courier New', monospace;
 
-$color-primary: hsl(199, 100%, 50%);
+$color-primary: #00aeff;
 $color-light-primary: hsl(199, 100%, 65%);
 $color-lighter-primary: hsl(199, 100%, 80%);
 
@@ -25,10 +25,7 @@ $button-ghost-background-focus-color: rgba(255, 255, 255, 0.85);
 $button-ghost-background-color-hover: rgba(255, 255, 255, 0.75);
 
 $button-background-color--dark-mode: $color-light-primary--dark-mode;
-$button-background-focus-color--dark-mode: rgba(
-  $color-light-primary,
-  0.375
-);
+$button-background-focus-color--dark-mode: rgba($color-light-primary, 0.375);
 $button-background-color-hover--dark-mode: hsl(199, 100%, 45%);
 $button-color--dark-mode: #eeeeee;
 
