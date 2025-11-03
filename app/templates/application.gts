@@ -24,7 +24,11 @@ export default Route(
         {{if @controller.isDifficultySelectorExpanded 'expanded'}}"
     >
       <Background>
-        <DarkModeSwitch />
+        <DarkModeSwitch
+          @settings={{@controller.settings}}
+          @onSettingsChange={{@controller.handleSettingsChange}}
+        />
+
         <Title>{{TITLE}}</Title>
 
         <DifficultySelector

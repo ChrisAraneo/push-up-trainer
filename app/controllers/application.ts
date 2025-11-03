@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import type { AnimationControls } from 'push-up-trainer/interfaces/animation-controls';
 import type { TimerControls } from 'push-up-trainer/interfaces/timer-controls';
 import type { Settings } from 'push-up-trainer/interfaces/settings';
-import { cloneDeep, isNumber } from 'lodash';
+import { cloneDeep, isBoolean, isNumber } from 'lodash';
 
 const STORAGE_KEY = 'push-up-trainer';
 const DEFAULT_SETTINGS: Settings = Object.freeze({
@@ -12,6 +12,7 @@ const DEFAULT_SETTINGS: Settings = Object.freeze({
   repetitionsPerSeries: 5,
   seriesDuration: 10000,
   repetitionDuration: 1000,
+  darkMode: false,
 });
 
 export default class ApplicationController extends Controller {
@@ -158,6 +159,7 @@ export default class ApplicationController extends Controller {
           repetitionsPerSeries: Math.floor(value.repetitionsPerSeries),
           seriesDuration: Math.floor(value.seriesDuration),
           repetitionDuration: Math.floor(value.repetitionDuration),
+          darkMode: isBoolean(value.darkMode) ? value.darkMode : false,
         };
       }
     } catch (error) {

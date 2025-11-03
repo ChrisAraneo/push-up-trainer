@@ -3,4 +3,5 @@ export interface Settings {
   repetitionsPerSeries: number;
   seriesDuration: number;
   repetitionDuration: number;
+  darkMode: boolean;
 }
