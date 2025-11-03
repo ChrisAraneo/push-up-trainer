@@ -35,6 +35,8 @@ export default class SwitchComponent extends Component<SwitchSignature> {
     }
   }
 
+  // TODO Use text for switch label
+
   <template>
     <label class="switch {{if @disabled 'disabled'}}">
       {{#if @label}}
