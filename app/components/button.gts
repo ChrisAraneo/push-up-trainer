@@ -19,12 +19,24 @@ interface ButtonSignature {
   };
 }
 
+const THROTTLE_DELAY_MS = 100;
+
 export default class ButtonComponent extends Component<ButtonSignature> {
+  private lastClickTime = 0;
+
   @action
   handleClick(event: MouseEvent) {
     if (this.args.disabled) {
       return;
     }
+
+    const now = Date.now();
+
+    if (now - this.lastClickTime < THROTTLE_DELAY_MS) {
+      return;
+    }
+
+    this.lastClickTime = now;
 
     this.createRipple(event);
 
