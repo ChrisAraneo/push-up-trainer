@@ -9,13 +9,6 @@ $switch-thumb-size: 18px;
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  font-family: $font-family;
-  font-weight: 400;
-  font-size: 14px;
-
-  .switch-label {
-    user-select: none;
-  }
 
   .switch-button {
     position: relative;

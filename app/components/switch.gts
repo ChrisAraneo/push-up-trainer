@@ -13,10 +13,6 @@ interface SwitchSignature {
      */
     disabled?: boolean;
     /**
-     * Optional label for the switch
-     */
-    label?: string;
-    /**
      * Change handler function
      */
     onChange: (checked: boolean) => void;
@@ -35,13 +31,8 @@ export default class SwitchComponent extends Component<SwitchSignature> {
     }
   }
 
-  // TODO Use text for switch label
-
   <template>
     <label class="switch {{if @disabled 'disabled'}}">
-      {{#if @label}}
-        <span class="switch-label">{{@label}}</span>
-      {{/if}}
       <button
         type="button"
         class="switch-button {{if @checked 'checked'}}"
