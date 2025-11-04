@@ -95,7 +95,7 @@ body {
 
       .settings-input {
         border: 1px solid $text-light-color;
-        background-color: white;
+        background-color: $background-circle-color;
         color: $text-color;
 
         &:focus {
@@ -119,7 +119,7 @@ body.dark-mode {
 
       .settings-input {
         border: 1px solid $text-light-color--dark-mode;
-        background-color: white;
+        background-color: $background-circle-color--dark-mode;
         color: $text-color--dark-mode;
 
         &:focus {
