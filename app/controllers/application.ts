@@ -49,6 +49,11 @@ export default class ApplicationController extends Controller {
     }
 
     this.timerControls.start();
+
+    if (this.isPaused) {
+      this.animationControls.play();
+    }
+    
     this.isRunning = true;
     this.isPaused = false;
   }
