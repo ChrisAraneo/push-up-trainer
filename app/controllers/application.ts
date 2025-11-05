@@ -53,7 +53,7 @@ export default class ApplicationController extends Controller {
     if (this.isPaused) {
       this.animationControls.play();
     }
-    
+
     this.isRunning = true;
     this.isPaused = false;
   }
@@ -164,14 +164,22 @@ export default class ApplicationController extends Controller {
           repetitionsPerSeries: Math.floor(value.repetitionsPerSeries),
           seriesDuration: Math.floor(value.seriesDuration),
           repetitionDuration: Math.floor(value.repetitionDuration),
-          darkMode: !!(value?.darkMode),
+          darkMode: !!value.darkMode,
         };
       }
     } catch (error) {
       console.error('Failed to load settings from local storage', error);
     }
 
-    return settings ?? DEFAULT_SETTINGS;
+    if (!settings) {
+      settings = { ...DEFAULT_SETTINGS };
+
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        settings.darkMode = true;
+      }
+    }
+
+    return settings;
   }
 
   private saveSettingsToStorage(settings: Settings): void {
