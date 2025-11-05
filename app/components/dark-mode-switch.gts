@@ -40,7 +40,7 @@ export default class DarkModeSwitchComponent extends Component<DarkModeSwitchSig
   }
 
   private updateBodyClass() {
-    const body = document?.body;
+    const body = document && document.body;
 
     if (isUndefined(body)) {
       return;
