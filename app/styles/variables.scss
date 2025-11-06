@@ -2,12 +2,12 @@ $font-family: 'Montserrat', sans-serif;
 $font-family-monospace: 'Courier New', monospace;
 
 $color-primary: #00aeff;
-$color-light-primary: hsl(199, 100%, 65%);
-$color-lighter-primary: hsl(199, 100%, 80%);
+$color-light-primary: #4dc6ff;
+$color-lighter-primary: #99dfff;
 
-$color-primary--dark-mode: hsl(199, 100%, 27%);
-$color-light-primary--dark-mode: hsl(199, 100%, 42%);
-$color-lighter-primary--dark-mode: hsl(199, 100%, 58%);
+$color-primary--dark-mode: #005780;
+$color-light-primary--dark-mode: #008bcc;
+$color-lighter-primary--dark-mode: #1ab6ff;
 
 $text-color: #333333;
 $text-light-color: #666666;
@@ -17,7 +17,7 @@ $text-light-color--dark-mode: #999999;
 
 $button-background-color: $color-light-primary;
 $button-background-focus-color: rgba($color-lighter-primary, 0.8);
-$button-background-color-hover: hsl(199, 100%, 70%);
+$button-background-color-hover: #66cfff;
 $button-color: #ffffff;
 
 $button-ghost-background-color: rgba(255, 255, 255, 0.25);
@@ -25,8 +25,8 @@ $button-ghost-background-focus-color: rgba(255, 255, 255, 0.85);
 $button-ghost-background-color-hover: rgba(255, 255, 255, 0.75);
 
 $button-background-color--dark-mode: $color-light-primary--dark-mode;
-$button-background-focus-color--dark-mode: rgba($color-light-primary, 0.375);
-$button-background-color-hover--dark-mode: hsl(199, 100%, 45%);
+$button-background-focus-color--dark-mode: rgba($color-light-primary--dark-mode, 0.45);
+$button-background-color-hover--dark-mode: #009de6;
 $button-color--dark-mode: #eeeeee;
 
 $button-ghost-background-color--dark-mode: rgba(255, 255, 255, 0.125);
@@ -39,7 +39,7 @@ $card-background-color--dark-mode: #242424;
 $background-color: $card-background-color;
 $background-color--dark-mode: $card-background-color--dark-mode;
 $background-circle-color: #ffffff;
-$background-circle-color--dark-mode: hsl(0, 0%, 17%);
+$background-circle-color--dark-mode: #2b2b2b;
 
 $switch-track-color: #cccccc;
 $switch-track-color-hover: #aaaaaa;
