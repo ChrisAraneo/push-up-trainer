@@ -25,7 +25,10 @@ $button-ghost-background-focus-color: rgba(255, 255, 255, 0.85);
 $button-ghost-background-color-hover: rgba(255, 255, 255, 0.75);
 
 $button-background-color--dark-mode: $color-light-primary--dark-mode;
-$button-background-focus-color--dark-mode: rgba($color-light-primary--dark-mode, 0.45);
+$button-background-focus-color--dark-mode: rgba(
+  $color-light-primary--dark-mode,
+  0.45
+);
 $button-background-color-hover--dark-mode: #009de6;
 $button-color--dark-mode: #eeeeee;
 
