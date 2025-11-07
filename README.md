@@ -11,7 +11,17 @@
   <br>
 </p>
 
+## Introduction
+
+**Have you ever been training and asked yourself:**
+
+**"<em>Why do I have to count all my repetitions, and how can I better manage my rest time between sets?</em>"**
+
+Push Up Trainer is designed to help you track repetitions and maintain proper timing between series during your push-up workouts. The web application features a countdown timer with customizable settings, making it perfect for extended training sessions by eliminating the need to manually count repetitions and manage rest time periods.
+
 ## Work in progress
+
+WIP
 
 ## License
 
