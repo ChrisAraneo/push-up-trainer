@@ -42,6 +42,7 @@ const COLOR_BACKGROUND_STROKE = 'rgba(200,200,200,0.45)';
 const COLOR_PRIMARY = '#00aeff';
 const START_SOUND_PATH = '/sounds/start.wav';
 const COUNTDOWN_SOUND_PATH = '/sounds/countdown.wav';
+const LAST_SERIES_SOUND_PATH = '/sounds/last-series.wav';
 
 export default class TimerComponent extends Component<TimerSignature> {
   @tracked private remainingTime: number;
@@ -268,13 +269,17 @@ export default class TimerComponent extends Component<TimerSignature> {
       this.intervalId = null;
     }
 
-    soundPlayer.play(START_SOUND_PATH);
-
     this.currentSeries++;
 
     const areAllSeriesComplete = this.currentSeries >= this.totalSeries;
 
     if (!areAllSeriesComplete) {
+      if (this.currentSeries === this.totalSeries - 1) {
+        soundPlayer.play(LAST_SERIES_SOUND_PATH);
+      } else {
+        soundPlayer.play(START_SOUND_PATH);
+      }
+
       this.currentRepetitions = 0;
       this.isBreak = false;
     }
